@@ -294,6 +294,16 @@ const burst = (out: Stage, key: string, draw: (p: Pen) => void, tt: number, x: n
     out.fx.push({ key, cw: 64, ch: 64, draw, x: px, y: py, z: pz, w: s2, h: s2 });
   }
 };
+/** a soft lit cloud puff: overlapping circles, light from the upper left, dark underside */
+const smokeDraw = (v: number, al: number, rgb: [number, number, number]) => (p: Pen) => {
+  const n = 9;
+  for (let i = 0; i < n; i++) {
+    const a = (i / n) * 6.28 + v, d = 40 + 18 * Math.sin(i * 2.3 + v), x = 128 + d * Math.cos(a), y = 128 + d * 0.8 * Math.sin(a), r = 46 + 14 * Math.sin(i * 1.7 + v * 2);
+    const lift = 1.15 - 0.35 * ((y - 80) / 100);
+    p.ell(x, y, r, r, `rgba(${Math.round(rgb[0] * lift)},${Math.round(rgb[1] * lift)},${Math.round(rgb[2] * lift)},${(al * 0.75).toFixed(2)})`, 0);
+  }
+  p.ell(110, 110, 60, 52, `rgba(${Math.min(255, rgb[0] + 50)},${Math.min(255, rgb[1] + 50)},${Math.min(255, rgb[2] + 50)},${(al * 0.35).toFixed(2)})`, 0);
+};
 const batida = (cam: CamInfo, out: Stage, t: number) => {
   const f = t * FPS, cp = carPose(t), tc = t - T_CRASH, R = cam.right;
   // ---- the driver ----
@@ -339,10 +349,19 @@ const batida = (cam: CamInfo, out: Stage, t: number) => {
     burst(out, "deb", dot("#c8ccd4", "#ffffff"), tc, front[0], front[1], front[2], 16, 51, [Math.PI * 0.6, 2.2], [3, 6], 0.9, 0.09);
     burst(out, "debR", dot("#d23c2c", "#ff8a70"), tc, front[0], front[1], front[2], 8, 61, [Math.PI * 0.55, 2.0], [2.5, 5], 2.5, 0.1, true);
     if (tc < 0.25) { const u = q(tc / 0.25, 8); out.fx.push({ key: `hitc${u}`, cw: 500, ch: 500, draw: (p) => fxBurst(p, u, "#fff3b0", 12, 34, 220), x: front[0], y: front[1] + 0.2, z: front[2], w: 2.2, h: 2.2 }); }
-    for (let k = 0; k < 10; k++) {         // smoke: a puff every 0.3 s, rising and growing over 1.4 s
-      const age = tc - 0.3 - k * 0.3; if (age < 0 || age > 1.4) continue;
-      const uu = q(age / 1.4, 14);
-      out.fx.push({ key: `puff${uu}`, cw: 300, ch: 300, draw: (p) => fxPuff(p, uu), x: front[0] - 0.1 + 0.3 * age, y: front[1] + 0.2 + 0.7 * age, z: front[2] - 0.3, w: 0.8 + 0.9 * age, h: 0.8 + 0.9 * age, soft: true });
+    // dense dust cloud at the impact: 28 lit puffs expanding and drifting, fading over ~2.5 s
+    for (let i = 0; i < 28; i++) {
+      const age = tc - 0.02 * i; if (age < 0 || age > 2.6) continue;
+      const a = hh(i, 140) * 6.28, d = (0.4 + 1.6 * hh(i, 141)) * (1 - Math.exp(-2.2 * age));
+      const r = (0.5 + 0.5 * hh(i, 142)) * (0.7 + 1.6 * (1 - Math.exp(-1.6 * age)));
+      const al = q(Math.min(1, 1.25 * (1 - age / 2.6) ** 1.2), 10), v = i % 3;
+      out.fx.push({ key: `dust${v}_${al}`, cw: 256, ch: 256, draw: smokeDraw(v, al, [176, 158, 132]), x: front[0] + Math.cos(a) * d - 0.4, y: D0 + 0.35 + r * 0.45 + 0.25 * age, z: front[2] + Math.sin(a) * d * 0.7, w: 2 * r, h: 2 * r, soft: true, rot: hh(i, 143) * 6 });
+    }
+    // grey smoke pouring from the hood: a puff every 0.15 s, rising, growing, darker core
+    for (let k = 0; k < 44; k++) {
+      const age = tc - 0.25 - k * 0.15; if (age < 0 || age > 2.2) continue;
+      const al = q(0.75 * (1 - age / 2.2), 10), v = k % 3, r = 0.35 + 0.75 * age;
+      out.fx.push({ key: `smk${v}_${al}`, cw: 256, ch: 256, draw: smokeDraw(v, al, [120, 120, 126]), x: front[0] - 0.15 + 0.35 * age + 0.1 * Math.sin(k), y: front[1] + 0.15 + 0.9 * age, z: front[2] - 0.35, w: 2 * r, h: 2 * r, soft: true, rot: k * 0.7 });
     }
   }
   // leaves: shaken loose by the crash (24) and by every shot (6), fluttering down

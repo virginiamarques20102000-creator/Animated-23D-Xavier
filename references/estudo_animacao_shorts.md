@@ -182,3 +182,33 @@ Analisei os dois vídeos em folhas a 2 quadros por segundo e em trechos a 20–3
   - `tyrePose`: o pneu solto;
   - `burst`: partículas balísticas que podem ficar paradas no chão;
   - prop `["pistol", v]` no toon.ts: v < 0 é sacando, v ≥ 0 é o coice.
+
+## 11. Gráfico "ultra-realista" dos vídeos de referência, e como chegar perto aqui
+Analisei recortes em HD (540 px) do vídeo da batida. O que dá o ar realista:
+- **Grama de verdade:** milhares de folhas de grama altas na frente da câmera, com tons verde-limão e verde-escuro, luz de recorte e flores amarelas soltas. O chão nunca é uma cor lisa.
+- **Asfalto com textura** (grãos e rachaduras), acostamento de cascalho, faixas brancas nas bordas e amarelas no centro.
+- **Árvore:**
+  - tronco grosso com casca texturizada e base alargada, galhos curvos;
+  - copa feita de muitos tufos de folhas soltas, em verde claro no alto e escuro embaixo (oclusão), com folhas recortadas na silhueta;
+  - a copa projeta sombra no chão.
+- **Carro:** cantos arredondados, para-lamas redondos, rodas com pneu e calota com raios, para-choque cromado, faróis que brilham, vidro claro. Nada de caixa quadrada.
+- **Detalhes de ambiente:** cerca de postes de madeira com arame, plantação ao fundo, nuvens grandes e macias, névoa leve no horizonte.
+- **Fumaça e poeira da batida:**
+  - nuvem densa e opaca, marrom-acinzentada, com luz no topo e sombra embaixo, que cresce rápido e se dissipa em ~2–3 s;
+  - fumaça cinza contínua saindo do capô, subindo e alargando;
+  - borrão de movimento no carro em alta velocidade.
+- **Luz:** sol forte com sombras nítidas de tudo (personagens, carro, árvore), luz do céu azulada nas sombras, brilho (bloom) em faróis e flashes.
+- **Personagens:** continuam 2D com contorno grosso, mas projetam sombra e recebem a cor da luz da cena.
+
+### Como fazemos no three.js (src/videos/batida/world.ts)
+| Elemento | Como é feito |
+|---|---|
+| Grama | `InstancedMesh` com ~36 mil folhas cônicas, cor por instância e tom emissivo para não ficar preta contra a luz. Camada NOINK (sem contorno de tinta). |
+| Chão | Textura de grama pintada por código (manchas, risquinhos, flores) e repetida. |
+| Estrada | Asfalto e cascalho pintados por código, faixas em tiras finas. |
+| Árvore | Tronco em `LatheGeometry` com textura de casca e raízes; galhos em `TubeGeometry` sobre curvas. A copa tem um volume interno escuro (projeta a sombra) e ~2600 cartões de folhas com transparência recortada (alphaTest), claros em cima e escuros embaixo. A copa toda balança com mola nos impactos. |
+| Carro | `RoundedBoxGeometry` (cantos arredondados), arcos de roda abertos, pneu em toro, calota com 5 raios, cromados, faróis emissivos (pegam bloom) e volante. |
+| Fumaça e poeira | Sprites suaves desenhados como nuvem iluminada (círculos sobrepostos, claro no topo), 28 de poeira expandindo mais 1 de fumaça a cada 0,15 s, com opacidade alta no início. |
+| Sombras | `actorShadow: true` também de dia. |
+
+**Limite honesto:** os vídeos de referência foram feitos num motor de jogo com modelos 3D profissionais e fumaça volumétrica. Aqui tudo é gerado por código, então o resultado fica próximo, mas não idêntico. Para ficar idêntico seria preciso importar modelos prontos (.glb), e a rede deste ambiente bloqueia os sites de modelos.

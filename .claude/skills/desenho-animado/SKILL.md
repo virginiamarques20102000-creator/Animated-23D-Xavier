@@ -128,6 +128,12 @@ Regras padrão (o usuário pode mudar):
   - o motorista vai para frente por inércia e volta como mola, sai pulando e aterrissa agachado;
   - a pistola saca em 8 quadros; no tiro, coice de 2 quadros, clarão de 3, cápsula, lascas e um furo que fica;
   - exemplo pronto em src/videos/batida.
+- **Gráfico realista (seção 11 do estudo):**
+  - chão nunca liso: grama instanciada, asfalto e cascalho com textura;
+  - árvore com tronco de casca, galhos curvos e copa de milhares de folhas recortadas;
+  - carro com cantos arredondados, rodas com calota e faróis brilhando;
+  - fumaça e poeira densas e iluminadas, sombras de tudo, bloom;
+  - nada de objetos quadrados.
 
 ## Consertos (o que deu errado no vídeo da Torre de Pisa e como resolver)
 - **Vídeo todo em branco, só o céu.** Com React 19 + @react-three/fiber 9, o `<EffectComposer>` do
