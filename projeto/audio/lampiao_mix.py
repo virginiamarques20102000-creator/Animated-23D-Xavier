@@ -28,8 +28,8 @@ def place(dst, x, at, gain=1.0):
 DAY = [(0, 7.9), (13.3, 27.2), (56.3, 63.4)]
 NIGHT = (27.2, 52.6)
 RIVER = [(19.5, 24.5), (63.4, DUR)]
-GUNSHOTS = [41.2, 41.45, 41.6, 41.95, 42.25, 42.4, 42.8, 43.15, 43.35, 43.9, 44.3, 44.7, 45.05, 45.6, 46.3, 46.95, 47.55,
-            48.3, 49.0, 49.55, 50.3, 50.95, 51.6, 52.1]
+GUNSHOTS = [41.2, 41.45, 41.6, 41.95, 42.25, 42.4, 42.8, 43.15, 43.35, 43.9, 44.3, 44.7, 45.05, 45.6, 46.3, 46.85, 47.2,
+            48.3, 49.0, 49.55, 50.1, 50.95, 51.6, 52.1]
 
 amb = np.zeros(N); sfx = np.zeros(N); mus = np.zeros(N)
 # ---- wind of the sertão: brown noise, slowly breathing ----
@@ -89,7 +89,7 @@ def whoosh(len_s=0.8):
     x = bp(rng.standard_normal(n), 400, 3000) * e
     return x / np.abs(x).max()
 place(sfx, whoosh(), 12.08 - 0.8, db(-12)); place(sfx, boom(), 12.08, db(-6))
-place(sfx, boom(2.5, 45), 47.55, db(-5)); place(sfx, boom(2.5, 42), 50.3, db(-7))
+place(sfx, boom(2.5, 45), 47.2, db(-5)); place(sfx, boom(2.5, 42), 50.1, db(-7))
 place(sfx, whoosh(0.6), 56.3 - 0.5, db(-16)); place(sfx, boom(3.0, 38), 56.31, db(-9))
 # ---- original score: a dark sertão drone (D minor), a tension pulse, a quiet ending ----
 def pad(freqs, a, b, gain):

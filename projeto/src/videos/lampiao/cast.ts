@@ -351,6 +351,23 @@ export const stage = (id: number, t: number, cam: CamInfo): Stage => {
       });
       break;
     }
+    case "surround": {
+      campfire(out, t);
+      CAMP.forEach(([x, z, o, okey], i) => front(cam, out, { i: 20 + i, o, okey }, x, z, { mode: "sit", expr: t > T_FIRE ? "shock" : "neutral", blink: lidAt(t, 20 + i) }));
+      const k = smooth((t - 38.3) / 2.6), N = 12;
+      for (let i = 0; i < N; i++) {
+        const a = (i / N) * Math.PI * 2 + 0.2, r = 11 - 4.2 * k + (i % 2) * 0.6, x = Math.sin(a) * r, z = 0.4 + Math.cos(a) * r;
+        const walking = k < 0.98, ph = ((t * 0.9 + i * 0.17) % 1 + 1) % 1;
+        front(cam, out, { i: 50 + i, o: SOLDIER(i), okey: `s${i % 4}` }, x, z, { mode: walking ? "stroll" : "stand", phase: ph, expr: "stern", blink: lidAt(t, 50 + i) });
+        GUNSHOTS.forEach((g, n) => {
+          const d = t - g; if (n % 4 !== i % 4 || d < 0 || d >= 0.1) return;
+          const u = q(d / 0.1, 3);
+          out.fx.push({ key: `muzzle${u}`, cw: 500, ch: 500, draw: (p) => fxBurst(p, u, "#ffd27a", 9, 30, 200), x: x * 0.93, y: D0 + 1.15, z: 0.4 + (z - 0.4) * 0.93, w: 0.9, h: 0.9 });
+        });
+      }
+      dust(out, t, [[-1.4, -0.8], [1.8, -0.5], [-3.0, 0.2], [0.4, 1.6], [2.8, -1.4]]);
+      break;
+    }
     case "surprise": {
       campfire(out, t);
       CAMP.forEach(([x, z, o, okey], i) => {

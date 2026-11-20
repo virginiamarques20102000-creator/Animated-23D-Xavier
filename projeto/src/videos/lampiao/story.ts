@@ -15,15 +15,15 @@ export const easeOut = (u: number) => 1 - (1 - clamp01(u)) ** 4;
 /** narration beats (s) */
 export const T_FIRE = 41.2;   // "disparar"
 export const T_SHOCK = 43.0;  // "surpreendidos"
-export const T_HIT = 47.55;   // "atingido"
-export const T_MARIA = 50.3;  // "morta"
+export const T_HIT = 47.2;   // "atingido"
+export const T_MARIA = 50.1;  // "morta"
 /** every gunshot (s): flashes in the picture and shots in the sound */
-export const GUNSHOTS = [41.2, 41.45, 41.6, 41.95, 42.25, 42.4, 42.8, 43.15, 43.35, 43.9, 44.3, 44.7, 45.05, 45.6, 46.3, 46.95, 47.55,
-  48.3, 49.0, 49.55, 50.3, 50.95, 51.6, 52.1];
+export const GUNSHOTS = [41.2, 41.45, 41.6, 41.95, 42.25, 42.4, 42.8, 43.15, 43.35, 43.9, 44.3, 44.7, 45.05, 45.6, 46.3, 46.85, 47.2,
+  48.3, 49.0, 49.55, 50.1, 50.95, 51.6, 52.1];
 
 // ---------------- shots ----------------
 export type Light = "day" | "golden" | "night";
-export type Crowd = "intro" | "walk" | "dawn" | "river" | "none" | "rest" | "watch" | "creep" | "aim" | "surprise" | "lampiao" | "maria" | "hats" | "town" | "end";
+export type Crowd = "intro" | "walk" | "dawn" | "river" | "none" | "rest" | "surround" | "watch" | "creep" | "aim" | "surprise" | "lampiao" | "maria" | "hats" | "town" | "end";
 export type ShotDef = { id: number; a: number; b: number; light: Light; crowd: Crowd };
 // cuts land ~2 frames before each sentence starts (silence detection of the narration)
 export const SHOTS: ShotDef[] = [
@@ -31,12 +31,12 @@ export const SHOTS: ShotDef[] = [
   { id: 2, a: 108, b: 238, light: "day", crowd: "walk" },       // Durante quase vinte anos…
   { id: 3, a: 238, b: 360, light: "golden", crowd: "dawn" },    // Mas, em uma manhã de julho de 1938,
   { id: 4, a: 360, b: 399, light: "golden", crowd: "dawn" },    // tudo mudou (crash zoom)
-  { id: 5, a: 399, b: 586, light: "day", crowd: "none" },       // Ele estava escondido… Grota do Angico
+  { id: 5, a: 399, b: 586, light: "day", crowd: "rest" },       // Ele estava escondido… Grota do Angico
   { id: 6, a: 586, b: 736, light: "day", crowd: "river" },      // às margens do Rio São Francisco
   { id: 7, a: 736, b: 816, light: "day", crowd: "rest" },       // cercado pela vegetação…
   { id: 8, a: 816, b: 1002, light: "night", crowd: "watch" },   // Mas alguém descobriu…
   { id: 9, a: 1002, b: 1148, light: "night", crowd: "creep" },  // se aproximaram silenciosamente
-  { id: 10, a: 1148, b: 1263, light: "night", crowd: "aim" },   // Antes do amanhecer… disparar
+  { id: 10, a: 1148, b: 1263, light: "night", crowd: "surround" },   // Antes do amanhecer… disparar
   { id: 11, a: 1263, b: 1364, light: "night", crowd: "surprise" },
   { id: 12, a: 1364, b: 1458, light: "night", crowd: "lampiao" },
   { id: 13, a: 1458, b: 1579, light: "night", crowd: "maria" },
@@ -92,10 +92,10 @@ const orbit = (cx: number, cz: number, R: number, h: number, a: number, ly: numb
   dolly([cx + R * Math.sin(a), h, cz - R * Math.cos(a)], [cx, ly, cz], f, f0, rate, rest);
 const lin = (f: number, f0: number, f1: number) => clamp01((f - f0) / (f1 - f0));
 const CAMS: Record<number, Key[]> = {
-  1: [{ f: 0, s: (f) => orbit(0, IZ, 3.4 - lin(f, 0, 108) * 0.9, 1.45, -0.35 + lin(f, 0, 108) * 0.5, 1.45, f, 0, 0.002, { fov: 42, roll: 0.02 }) }],
-  2: [{ f: 108, s: (f) => { const lx = -3 + (f - 108) / FPS * 1.3; return { pos: [lx - 1.2, 1.6, IZ + 3.5], look: [lx + 0.4, 1.15, IZ + 9.4], fov: 46, roll: -0.02 }; } }],
-  3: [{ f: 238, s: (f) => orbit(0.9, 0.2, 3.6 - lin(f, 238, 360) * 1.2, 1.5, -0.7 + lin(f, 238, 360) * 1.0, 1.25, f, 238, 0.002, { fov: 42 }) }],
-  4: [{ f: 360, s: (f) => { const u = easeOut(lin(f, 360, 372)); return { pos: [0.9 - 0.35, 1.55, 0.2 - 3.4 + u * 1.9], look: [0.9, 1.5, 0.2], fov: 40 - u * 6, roll: -0.05 * u }; } }],
+  1: [{ f: 0, s: (f) => orbit(1.0, IZ + 2.4, 12 - lin(f, 0, 108) * 1.2, 1.9, -0.25 + lin(f, 0, 108) * 0.4, 1.2, f, 0, 0.001, { fov: 44, roll: 0.02 }) }],
+  2: [{ f: 108, s: (f) => { const lx = -3 + (f - 108) / FPS * 1.3; return { pos: [lx + 3.5, 2.4, IZ + 1.5], look: [lx - 4.5, 1.0, IZ + 9.6], fov: 50, roll: -0.02 }; } }],
+  3: [{ f: 238, s: (f) => orbit(0.2, 0.8, 10.5 - lin(f, 238, 360) * 1.5, 2.4, -0.5 + lin(f, 238, 360) * 0.7, 0.9, f, 238, 0.001, { fov: 46 }) }],
+  4: [{ f: 360, s: (f) => { const u = easeOut(lin(f, 360, 372)); return { pos: [0.6, 2.0, 0.2 - 9 + u * 3.5], look: [0.4, 1.0, 0.6], fov: 46 - u * 4, roll: -0.04 * u }; } }],
   5: [
     { f: 395, s: (f) => dolly([-12, 30, -50], [0, 0, 2], f, 395, 0.002, { fov: 46 }) },
     { f: 410, dur: 170, s: (f) => dolly([-2, 9, -22], [0, 0.6, 2], f, 410, 0.002, { fov: 44, roll: 0.03 }) },
@@ -110,15 +110,15 @@ const CAMS: Record<number, Key[]> = {
     { f: 905, dur: 60, s: (f) => dolly([-6.0, 1.5, -18.8], [-0.4, 0.9, 0.4], f, 905, 0.003, { fov: 36, roll: 0.02 }) },
   ],
   9: [{ f: 1002, s: (f) => { const lx = -8.5 + (f - 1002) / FPS * 0.9; return { pos: [lx + 0.6, 1.25, -33.2], look: [lx - 0.2, 1.0, -25.6], fov: 46, roll: 0.02 }; } }],
-  10: [{ f: 1148, s: (f) => dolly([-11.2 + lin(f, 1148, 1263) * 0.6, 1.6, -13.5], [-10.1, 1.15, 0], f, 1148, 0.003, { fov: 44 }) }],
-  11: [{ f: 1263, s: (f) => dolly([0.3, 1.2, -5.2], [0.3, 0.8, 0.3], f, 1263, 0.004, { fov: 42 }) }],
+  10: [{ f: 1148, s: (f) => orbit(0, 0.3, 15 - lin(f, 1148, 1263) * 3, 11 - lin(f, 1148, 1263) * 4, -0.4 + lin(f, 1148, 1263) * 0.6, 0.4, f, 1148, 0.001, { fov: 50 }) }],
+  11: [{ f: 1263, s: (f) => dolly([0.2, 1.8, -9.5], [0.2, 0.9, 0.8], f, 1263, 0.002, { fov: 46 }) }],
   12: [
-    { f: 1364, s: (f) => dolly([0.5, 1.45, -3.4], [0.35, 1.3, 0.4], f, 1364, 0.004, { fov: 40 }) },
-    { f: fh(T_HIT) + 4, dur: 14, s: (f) => dolly([1.35, 1.45, -3.3], [1.35, 0.3, 0.4], f, fh(T_HIT) + 4, 0.003, { fov: 48 }) },
+    { f: 1364, s: (f) => dolly([-0.75, 1.6, -7.0], [-0.75, 1.0, 0.8], f, 1364, 0.002, { fov: 46 }) },
+    { f: fh(T_HIT) + 4, dur: 14, s: (f) => dolly([0.2, 1.7, -5.4], [0.2, 0.5, 0.8], f, fh(T_HIT) + 4, 0.002, { fov: 48 }) },
   ],
   13: [
-    { f: 1458, s: (f) => dolly([-0.6, 1.4, -3.0], [-0.6, 1.25, 0.6], f, 1458, 0.004, { fov: 40, roll: -0.02 }) },
-    { f: fh(T_MARIA) + 4, dur: 14, s: (f) => dolly([0.4, 1.45, -3.0], [0.4, 0.3, 0.6], f, fh(T_MARIA) + 4, 0.003, { fov: 48 }) },
+    { f: 1458, s: (f) => dolly([-0.2, 1.5, -5.4], [-0.2, 1.0, 0.8], f, 1458, 0.002, { fov: 44, roll: -0.02 }) },
+    { f: fh(T_MARIA) + 4, dur: 14, s: (f) => dolly([0.1, 1.7, -5.2], [0.1, 0.5, 0.8], f, fh(T_MARIA) + 4, 0.002, { fov: 48 }) },
   ],
   14: [{ f: 1572, s: (f) => ({ pos: [-5.5 + (f - 1572) * 0.05, 1.5 - (f - 1572) * 0.003, -7.4], look: [-4.5 + (f - 1572) * 0.05, 0.2, -3], fov: 42, roll: 0.02 }) }],
   15: [
@@ -156,10 +156,10 @@ export const DOF: Dof[] = [
   { f: 736, cInf: 8, focus: () => [0.2, 0.9, 0.5] },
   { f: 816, cInf: 9, focus: () => [-5.3, 1.2, -16.5] },
   { f: 1002, cInf: 8 },
-  { f: 1148, cInf: 9 },
+  { f: 1148, cInf: 0 },
   { f: 1263, cInf: 12, focus: () => [0.3, 0.8, 0.3] },
-  { f: 1364, cInf: 14 },
-  { f: 1458, cInf: 14 },
+  { f: 1364, cInf: 10 },
+  { f: 1458, cInf: 10 },
   { f: 1579, cInf: 10, focus: () => [0, 0.25, -3] },
   { f: 1688, cInf: 7 },
   { f: 1900, cInf: 12, focus: () => [0, 0.95, VIEW_Z] },
