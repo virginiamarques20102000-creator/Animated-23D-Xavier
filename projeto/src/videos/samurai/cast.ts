@@ -295,22 +295,29 @@ const samurai = (cam: CamInfo, out: Stage, t: number, crowd: string) => {
     else { expr = "stern"; look = -1; facing = -1; headTilt = -3; }
     blinkSw = [T_NOISE + 0.5];
   }
+  let sx = SX;
   if (crowd === "charge" || crowd === "strike") {
     facing = -1; look = -1; expr = "stern";
-    const r0 = T_RAISE * FPS;               // anticipation: blade up, lean back (12 frames)
-    const ua = ease((f - r0) / 12), us = ease((f - 190) / 2), uf = ease((f - 192) / 22);
-    k = 0.55 - 0.55 * ua; tilt += 9 * ua;
-    if (f >= 190) { k = us; tilt = 9 - 31 * us; expr = "shock"; headTilt = 6; }        // strike: 2 frames, whole body folds
-    if (f >= 192) { k = 1 - 0.15 * uf; tilt = -22 + 17 * uf + 0.8 * breathe; expr = f < 200 ? "shock" : "stern"; }  // follow-through
+    // measured on the reference swing (30 fps): wind-up 10 f ease-in, tense hold 6 f, strike 2 f, impact, hold ~10 f with a
+    // damped settle, slow recovery 12 f
+    const ua = ease((f - 172) / 10), us = clamp01((f - 188) / 2), ur = ease((f - 202) / 12);
+    k = 0.55 - 0.55 * ua; tilt += 10 * ua;
+    if (f >= 182 && f < 188) { tilt += 0.6 * Math.sin(f * 2.1); k = 0.02 * Math.sin(f * 1.7); expr = "pained"; }   // tension tremble
+    if (f >= 188) { k = us; tilt = 10 - 34 * us; sx = SX - 0.28 * us; expr = "shock"; headTilt = 6; }              // strike, step in
+    if (f >= 190) {
+      const n = f - 190, settle = Math.exp(-0.35 * n) * Math.cos(0.9 * n);                                           // damped spring
+      k = 1 - 0.06 * settle - 0.25 * ur; tilt = -24 + 4 * settle + 16 * ur + 0.8 * breathe; sx = SX - 0.28 + 0.1 * ur;
+      expr = n < 10 ? "shock" : "stern"; headTilt = 6 - 4 * ur;
+    }
     prop = ["katana", Math.round(k * 40) / 40];
   }
   if (crowd === "after") {
     prop = null; facing = 0; look = 0; headTilt = 4 + 2 * Math.sin(t * 1.6);
     expr = f < 262 ? "smile_closed" : "grin"; tilt = 1.2 * breathe;
   }
-  out.places.push(person(cam, { i: 1, o: SAMURAI, okey: "sam" }, SX, y, SZ,
+  out.places.push(person(cam, { i: 1, o: SAMURAI, okey: "sam" }, sx, y, SZ,
     { side: false, mirror: false }, { mode: "stand", expr, blink: lidAt(t, 1, blinkSw), look, facing, tilt: Math.round(tilt * 4) / 4, headTilt: Math.round(headTilt * 2) / 2, prop }, {}));
-  blob(out, SX, D0, SZ);
+  blob(out, sx, D0, SZ);
   // ---- the bandit: charges in yelling (mouth flaps every 3 frames), is knocked out on the strike ----
   if (crowd === "charge" || crowd === "strike") {
     const bz = SZ + 0.15, hit = T_HIT;
@@ -321,11 +328,34 @@ const samurai = (cam: CamInfo, out: Stage, t: number, crowd: string) => {
         { mode: u < 1 ? "march" : "stand", phase: ph, expr: yell, blink: 0, facing: 1, look: 1, tilt: u < 1 ? 6 : 0, prop: ["katana", 0.1] }, {}));
       blob(out, bx, D0, bz);
     } else {
-      const n = (t - hit) * FPS, bx = -1.3;
-      if (n < 5) { const uu = q(n / 5, 5); out.fx.push({ key: `spark${uu}`, cw: 500, ch: 500, draw: (p) => fxBurst(p, uu, "#fff3b0", 12, 34, 220), x: SX - 0.75, y: D0 + 1.25, z: SZ - 0.1, w: 1.5, h: 1.5 }); }
-      if (n < 8) out.places.push(person(cam, { i: 2, o: BANDIT, okey: "ban" }, bx - 0.05 * n, D0 + 0.03 * n, bz, { side: false, mirror: false }, { mode: "fall", expr: "pained", blink: 0, tilt: 5 * n }, {}));
-      else { const pl = person(cam, { i: 2, o: BANDIT, okey: "ban" }, bx - 0.45, D0 + 0.2, bz, { side: false, mirror: false }, { mode: "stand", expr: "dazed", blink: 0 }, {}); out.places.push({ ...pl, roll: Math.PI / 2 - 0.06 }); }
-      blob(out, bx - 0.6, D0, bz, 1.3, 0.7);
+      // knocked back as a projectile: v0 = (-3.2, 3.2) m/s, g = 9.8, one small bounce (restitution 0.25), then lies still
+      const tt = t - hit, x0 = -1.3, vx = -2.0, vy = 3.2, g = 9.8, tl = (2 * vy) / g, vb = vy * 0.25, tb = (2 * vb) / g;
+      let bx: number, by: number, roll: number;
+      if (tt < tl) { bx = x0 + vx * tt; by = vy * tt - 0.5 * g * tt * tt; roll = (Math.PI / 2) * (tt / tl) * 1.15; }
+      else if (tt < tl + tb) { const u2 = tt - tl; bx = x0 + vx * tl + vx * 0.3 * u2; by = vb * u2 - 0.5 * g * u2 * u2; roll = (Math.PI / 2) * (1.15 - 0.15 * (u2 / tb)); }
+      else { const u3 = tt - tl - tb; bx = x0 + vx * tl + vx * 0.3 * tb; by = 0; roll = Math.PI / 2 + 0.08 * Math.exp(-6 * u3) * Math.cos(20 * u3); }
+      const lying = tt >= tl;
+      const pl = person(cam, { i: 2, o: BANDIT, okey: "ban" }, bx, D0 + by + (lying ? 0.2 : 0.35), bz, { side: false, mirror: false },
+        lying ? { mode: "stand", expr: "dazed", blink: 0 } : { mode: "fall", expr: "pained", blink: 0 }, {});
+      out.places.push({ ...pl, roll: Math.round((roll - 0.06) * 60) / 60 });
+      blob(out, bx + (lying ? 0.9 : 0), D0, bz, lying ? 1.3 : 0.8, lying ? 0.7 : 0.5);
+      // landing dust
+      const dl = tt - tl;
+      if (dl >= 0 && dl < 0.5) { const uu = q(dl / 0.5, 15); out.fx.push({ key: `puff${uu}`, cw: 300, ch: 300, draw: (p) => fxPuff(p, uu), x: bx, y: D0 + 0.3, z: bz, w: 1.4, h: 1.4, soft: true }); }
+    }
+    // sparks on the clash: 26 particles, ballistic under gravity, shrinking; plus a hot glow on the ground that cools
+    const ts = t - T_HIT;
+    if (ts >= 0) {
+      const ox = SX - 0.85, oy = D0 + 1.2, oz = SZ - 0.1;
+      for (let i = 0; i < 26; i++) {
+        const life = 0.25 + 0.4 * hh(i, 41); if (ts > life) continue;
+        const a = Math.PI * (0.05 + 0.9 * hh(i, 42)), sp = 2.5 + 3.5 * hh(i, 43), dz = (hh(i, 44) - 0.5) * 2;
+        const px = ox - Math.cos(a) * sp * ts * 0.9, py = oy + Math.sin(a) * sp * ts - 4.9 * ts * ts, pz = oz + dz * ts;
+        if (py < D0) continue;
+        const s = 0.07 * (1 - ts / life) + 0.02;
+        out.fx.push({ key: "spk", cw: 64, ch: 64, draw: (p) => { p.ell(32, 32, 30, 30, "#ffb347", 0); p.ell(32, 32, 16, 16, "#fff6c8", 0); }, x: px, y: py, z: pz, w: s, h: s });
+      }
+      if (ts < 0.7) { const uu = q(1 - ts / 0.7, 10); out.fx.push({ key: `glow${uu}`, cw: 200, ch: 200, draw: (p) => p.ell(100, 100, 95, 95, `rgba(255,140,40,${(0.35 * uu).toFixed(2)})`, 0), x: ox - 0.2, y: D0 + 0.02, z: oz, w: 0.8, h: 0.8, flat: true, soft: true }); }
     }
   }
   if (crowd === "after") {
