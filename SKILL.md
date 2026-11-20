@@ -106,6 +106,11 @@ Regras padrão (o usuário pode mudar):
   - extras de emoção: gota de suor, veia e linhas de susto.
 - Todos olham para quem fala ou para o objeto da ação. Os personagens se deslocam pelo cenário.
 - Luz: sempre uma fonte visível (fogueira, tocha, lua ou janela). À noite, céu frio com chão quente. Fundo desfocado, bonecos nítidos.
+- **Física (detalhes na seção 7 de references/estudo_animacao_shorts.md):**
+  - golpe: antecipação de 8–10 quadros, tensão de 3–6, golpe de 2, impacto (flash, tremor, câmera aproximando), segurar 6–12 com mola amortecida e recuperação de 10–12;
+  - faíscas e corpos arremessados seguem trajetória balística com gravidade de 9,8 m/s², quique pequeno e poeira;
+  - ao correr, o tronco inclina para frente; ao andar, o corpo sobe e desce;
+  - exemplo pronto em src/videos/samurai (função `samurai` em cast.ts).
 
 ## Consertos (o que deu errado no vídeo da Torre de Pisa e como resolver)
 - **Vídeo todo em branco, só o céu.** Com React 19 + @react-three/fiber 9, o `<EffectComposer>` do

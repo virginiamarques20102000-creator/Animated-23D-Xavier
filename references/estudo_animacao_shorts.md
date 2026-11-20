@@ -65,3 +65,29 @@ Estudado em folhas de quadros: 2 quadros por segundo no vídeo inteiro e 15 quad
 - Boca falando: ciclo de 3 formas a cada 2–3 quadros só no trecho em que aquele personagem fala.
 - Respiração e piscar em todos os personagens o tempo todo.
 - Pelo menos um plano de inserto de objeto a cada 10–15 s.
+
+## 7. Física medida quadro a quadro (30 fps)
+### Golpe pesado (espada ou porrete)
+| Fase | Quadros | Como se move |
+|---|---|---|
+| Antecipação | 8–10 | Arma sobe por trás da cabeça, corpo inclina ~10° para trás, base alarga. Começa devagar e acelera (ease-in). |
+| Tensão | 3–6 | Quase parado, com um tremor pequeno e o rosto fazendo força (dentes, olhos "><"). |
+| Golpe | 2 | Movimento linear e rapidíssimo. O tronco dobra ~30–35° para frente e o corpo dá meio passo à frente. |
+| Impacto | 1 | Faíscas, flash (2–4 quadros, ~50% de intensidade), tremor de câmera (4–6 quadros decaindo) e câmera aproximando ~10% em 2–3 quadros. |
+| Segurar | 6–12 | Pose congelada no fim do golpe, com uma acomodação de mola amortecida: `exp(-0.35n)·cos(0.9n)`. O rosto muda de "esforço" para "o". |
+| Recuperação | 10–12 | Volta devagar à guarda, com ease-out. Às vezes a arma dá um leve tranco para cima (recuo). |
+
+### Objetos e partículas
+- **Faíscas:** 20–30 partículas saindo do ponto de contato em leque para cima, a 2,5–6 m/s. Seguem trajetória balística (gravidade 9,8 m/s²), vivem 0,25–0,65 s, encolhem enquanto caem e somem ao tocar o chão. Deixam no chão um brilho laranja que esfria em ~0,7 s.
+- **Corpo arremessado:** é um projétil. Velocidade inicial ~(2–3 m/s para trás, 3 m/s para cima), com uma parábola de ~0,65 s. O corpo gira ~90° no ar e passa um pouco do ponto. No chão, quica uma vez pequeno (restituição ~0,25), solta poeira e balança 2–3 vezes até parar.
+- **Bola rolando:** a rotação é igual à distância dividida pelo raio. A bola perde velocidade aos poucos, quica de leve em desníveis e tem sombra de contato.
+- **Objeto na mão:** segue a mão rigidamente. Ao sacudir, oscila ±3–5 px a cada 2–3 quadros. Ao entregar, o braço estende em 3–4 quadros com ease-out e passa do ponto antes de assentar.
+
+### Andar e correr
+- **Andar:** o corpo sobe e desce 3–5% da altura duas vezes por ciclo; o ponto mais baixo é quando o pé toca o chão. Os braços balançam opostos às pernas e o tronco gira 1–2°.
+- **Correr:** o tronco inclina 6–10° para frente, os passos são mais longos, o corpo sobe e desce mais (~5%) e os braços dobram.
+- **Andar escondido:** passos curtos e altos e o corpo agachado (ver seção 3).
+
+### Câmera em ação
+- A câmera acompanha o objeto que se move: no voo do corpo ela recua e alarga para mostrar a queda.
+- Corte ou aproximação forte exatamente no quadro do impacto, nunca antes.
