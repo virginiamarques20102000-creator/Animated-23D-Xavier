@@ -125,3 +125,60 @@ Medi o movimento da câmera quadro a quadro com correlação de fase (deslocamen
 - **Respirar:** o peito sobe e desce num ciclo de ~2 s, mesmo em pausa.
 - **Chiburi** (sacudir a lâmina depois do golpe): um estalo rápido de 4 quadros para baixo, volta em 6 quadros e o corpo se acomoda.
 - **Implementação:** o boneco frontal (toon.ts) aceita `hip` (deslocamento do quadril), `crouch` (dobra dos joelhos), `stance` (abertura dos pés), `armB` (braço livre de equilíbrio), `tilt` (peito) e `headTilt`. Exemplo completo na função `lutador` em src/videos/lutador/cast.ts.
+
+## 10. Estudo 2: batida na árvore (42 s) e ferrovia (43 s)
+Analisei os dois vídeos em folhas a 2 quadros por segundo e em trechos a 20–30 quadros por segundo: a batida, o carro capotando, o xerife saindo do carro e pisando forte, o agachado serrando o trilho. Também medi a câmera quadro a quadro.
+
+### Câmera medida
+- Movimento em 43–53% dos quadros. Zoom-in em 19–30% dos quadros e zoom-out em 21–22%.
+- Cortes secos são poucos. A maior parte da diferença entre quadros vem de **voos rápidos de câmera de 10–15 quadros** (0,3–0,5 s), a cada 3–5 s. A câmera "voa" de um enquadramento para o outro em vez de cortar.
+- **Acompanhar o veículo:** câmera ao lado ou atrás, na altura do carro, andando junto. O veículo fica parado na tela e o fundo corre.
+- **Câmera parada esperando a ação:** num plano aberto perto do alvo (a árvore), o carro entra no quadro. No impacto: tremor, crash-zoom e às vezes uma câmera lenta curta.
+- **Plano baixo, no chão:** perto da grama ou do asfalto, com objetos rolando em direção à lente (o pneu) e "limpando" a tela.
+- **Dentro do carro:** close do motorista pela janela, com o volante e o painel em primeiro plano.
+- **Transição por dissolve com o mesmo enquadramento:** sobrepõe 4–8 quadros (o letreiro antes e depois; a estação).
+- **Grua lateral subindo** para revelar o lugar (a cidade, o cânion).
+
+### Física de veículos
+- **Antes da batida:** o carro desvia em curva suave (curva em S), com rolagem lateral leve (~2°) e poeira saindo das rodas.
+- **Impacto:**
+  - o carro para quase de uma vez (em ~0,1 s), a frente amassa (o capô encurta ~45%) e a traseira levanta (rotação sobre o eixo da frente) até ~18° em 5 quadros;
+  - cai de volta em ~6 quadros, quica 1–2 vezes pequeno e balança de lado;
+  - um pneu se solta e voa em arco, depois rola e perde velocidade;
+  - pedaços voam em leque e caem por gravidade, e sai fumaça do capô, subindo e crescendo;
+  - a copa da árvore treme numa mola amortecida (~1,5 Hz) e soltam-se folhas que caem balançando, devagar (~1,2 m/s).
+- **Capotar:** o carro sobe de frente contra o toco até ficar em pé (~90°), fica ali 6–10 quadros e cai de volta, com poeira.
+- **Rodas:** a rotação é igual à distância dividida pelo raio. Após a batida as rodas giram mais um pouco e param.
+
+### Personagem e veículo
+- **Sentado no carro:** o boneco fica no banco e o carro esconde as pernas. Na batida o corpo continua indo para frente por inércia (~0,4 m) e volta como mola. A cabeça chicoteia.
+- **Saindo, furioso:**
+  - abre a porta e sai de lado, ou pula por cima (conversível), em arco de ~0,45 s;
+  - aterrissa agachado (agachamento 0,7 que volta em ~10 quadros);
+  - depois anda pisando forte, com a câmera tremendo a cada passo e rachaduras e pedaços do chão saltando;
+  - rosto: olhos vermelhos brilhando, sobrancelhas em V, dentes à mostra, linhas de raiva e vapor saindo da cabeça.
+- **Agachado trabalhando (serrar):** joelhos dobrados, peito inclinado ~30°, braços para frente em vai-e-vem de 6–8 quadros, faíscas pequenas no contato e a cabeça balançando um pouco no ritmo.
+- **Pegar uma ferramenta e girar** (machado): pega em 3–4 quadros e gira por cima da cabeça, com rastro (smear) e faíscas ou raios.
+
+### Arma (tiro)
+- **Sacar:** 8 quadros com ease-out, do quadril até o braço estendido na altura do ombro.
+- **Mirar:** 6–20 quadros parado, rosto sério e olhos semicerrados.
+- **Tiro:**
+  - o coice levanta a mão ~25° em 2 quadros e volta em ~6;
+  - o corpo balança para trás ~4° e o quadril recua;
+  - clarão na boca do cano por 3 quadros, cápsula ejetada em arco, que cai e fica no chão;
+  - no alvo, lascas em leque com gravidade e um furo que fica, mais tremor da câmera e folhas caindo a cada tiro.
+
+### Cor, luz e contorno nesses vídeos
+- Dia muito claro: céu azul saturado com nuvens volumosas brancas, grama verde-limão com luz de recorte e sombras azuladas.
+- Cores primárias fortes (carro azul ou vermelho, letreiro vermelho) contra o fundo verde e azul. Um objeto-herói por cena tem a cor mais saturada.
+- Contorno preto grosso só nos bonecos. O cenário 3D tem contorno fino ou nenhum, com bastante textura (casca, folhas).
+- Luz quente na hora dourada, pôr do sol rosa-laranja, interior iluminado por lâmpadas quentes.
+- Leve névoa ao fundo para dar profundidade, com fundo desfocado.
+
+### Implementação no nosso projeto
+- Exemplo completo em src/videos/batida:
+  - `carPose` e `carPoint`: pose do carro, pivô no eixo da frente e pontos presos à carroceria;
+  - `tyrePose`: o pneu solto;
+  - `burst`: partículas balísticas que podem ficar paradas no chão;
+  - prop `["pistol", v]` no toon.ts: v < 0 é sacando, v ≥ 0 é o coice.

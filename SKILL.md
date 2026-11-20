@@ -122,6 +122,12 @@ Regras padrão (o usuário pode mudar):
   - depois, cada parte se acomoda em mola com tempo próprio;
   - a ginga brasileira usa quadril, peito em contra-giro e braço oposto;
   - parâmetros `hip`, `crouch`, `stance`, `armB` no toon.ts, com exemplo em src/videos/lutador.
+- **Veículos, batidas e armas (seção 10 do estudo):**
+  - a câmera voa entre enquadramentos em 10–15 quadros em vez de cortar, e acompanha o veículo de lado;
+  - na batida, o carro para em ~0,1 s, o capô amassa, a traseira levanta sobre o eixo da frente e cai com quiques; o pneu voa e rola, sai fumaça do capô, a árvore treme e caem folhas;
+  - o motorista vai para frente por inércia e volta como mola, sai pulando e aterrissa agachado;
+  - a pistola saca em 8 quadros; no tiro, coice de 2 quadros, clarão de 3, cápsula, lascas e um furo que fica;
+  - exemplo pronto em src/videos/batida.
 
 ## Consertos (o que deu errado no vídeo da Torre de Pisa e como resolver)
 - **Vídeo todo em branco, só o céu.** Com React 19 + @react-three/fiber 9, o `<EffectComposer>` do
