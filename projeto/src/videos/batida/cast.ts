@@ -8,7 +8,7 @@ import {
   Pen, bodyFront, bodySide, fxBurst, fxPuff, fxShadow, fxContact, fxFlame, fxHat,
   Outfit, Expr, FrontOpts, SideOpts,
 } from "./toon";
-import { FPS, D0, SHOTS, V3, smooth, clamp01, T_FIRE, T_SHOCK, T_HIT, T_MARIA, GUNSHOTS, SX, SZ, banditX, physT, TX, TZ, carPose, carPoint, T_CRASH, T_EXIT, T_DRAW, SHOTS_AT, INTRO_Z, TOWN_X, VIEW_Z } from "./story";
+import { FPS, D0, SHOTS, V3, smooth, clamp01, T_FIRE, T_SHOCK, T_HIT, T_MARIA, GUNSHOTS, SX, SZ, banditX, physT, TX, TZ, carPose, carPoint, T_CRASH, T_EXIT, T_DRAW, SHOTS_AT, driverBody, walkAt, SPOT, MUZZLE, HIT, T_LAND, T_UP, T_WALK, T_WALK_END, T_IMPACT, T_CRACK, treeFall, fallDir, T_TREE_DOWN, sideN, INTRO_Z, TOWN_X, VIEW_Z } from "./story";
 import { LIGHTS } from "./lights";
 import { NOINK } from "./ink";
 import { cardShade, blobMaterial, CARD_K } from "./cardshade";
@@ -87,7 +87,7 @@ export class Fx {
   constructor(parent: THREE.Object3D) {
     this.mat = new THREE.MeshBasicMaterial({ map: blank, alphaTest: 0.5, side: THREE.DoubleSide });
     this.mat.alphaToCoverage = false; // A2C + MSAA left 1 px sky-depth seams on blurred far cards (POST)
-    this.soft = new THREE.MeshBasicMaterial({ map: blank, transparent: true, depthWrite: false, side: THREE.DoubleSide });
+    this.soft = new THREE.MeshBasicMaterial({ map: blank, transparent: true, depthWrite: true, alphaTest: 0.3, side: THREE.DoubleSide }); // dense core writes depth: hides the ink lines behind smoke
     this.blob = blobMaterial(blank);
     this.mesh = new THREE.Mesh(CARD, this.mat);
     this.mesh.visible = false; this.mesh.layers.set(NOINK);
@@ -304,88 +304,154 @@ const smokeDraw = (v: number, al: number, rgb: [number, number, number]) => (p: 
   }
   p.ell(110, 110, 60, 52, `rgba(${Math.min(255, rgb[0] + 50)},${Math.min(255, rgb[1] + 50)},${Math.min(255, rgb[2] + 50)},${(al * 0.35).toFixed(2)})`, 0);
 };
+const pistolDraw = (p: Pen) => { p.poly([[10, 26], [52, 26], [52, 34], [24, 34], [20, 50], [10, 50]], "#2c2f36", 3); };
 const batida = (cam: CamInfo, out: Stage, t: number) => {
-  const f = t * FPS, cp = carPose(t), tc = t - T_CRASH, R = cam.right;
-  // ---- the driver ----
-  let fo: FrontOpts, px: number, py: number, pz: number;
-  if (t < T_EXIT) {
-    // sits in the convertible; on impact the body keeps going (inertia), slams forward and springs back
-    const lurch = tc > 0 ? 0.42 * Math.exp(-7 * tc) * Math.sin(Math.min(tc * 11, Math.PI * 1.5) + 0.0) : 0;
-    [px, py, pz] = carPoint(cp, 0.4, 0.66, -0.25 + lurch);
-    const expr: Expr = t < 1.5 ? (Math.floor(f / 4) % 2 ? "whistle" : "smile") : t < T_CRASH ? "shock" : tc < 0.2 ? "pained" : t < 3.9 ? "dazed" : "stern";
-    const crouchUp = ease((t - 4.05) / 0.25);
-    fo = { mode: "sit", expr, blink: lidAt(t, 1), tilt: Math.round((-30 * Math.max(0, lurch) / 0.42 + 4 * crouchUp) * 2) / 2, headTilt: Math.round(10 * sett(tc, 12, 4)), facing: 0 };
-    void crouchUp;
-  } else {
-    const [sx0, sy0, sz0] = carPoint(carPose(T_EXIT), 0.4, 0.66, -0.25);
-    const lx = TX - 2.3, lz = sz0, tj = t - T_EXIT, J = 0.45;
-    if (tj < J) {
-      // the jump out: a projectile arc, arms up, legs tucked
-      const u = tj / J; px = sx0 + (lx - sx0) * u; pz = sz0 + (lz - sz0) * u; py = sy0 * (1 - u) + 4 * 0.8 * u * (1 - u);
-      fo = { mode: "stand", expr: "stern", blink: 0, crouch: 0.25, stance: 0.4, armB: 0.9, tilt: -8, headTilt: -4 };
+  const f = t * FPS, cp = carPose(t), tc = t - T_CRASH, R = cam.right, B = driverBody(t);
+  const blink = lidAt(t, 1), front = { side: false, mirror: false };
+  const lookTo = (x: number, z: number, tx: number, tz: number) => ((tx - x) * R.x + (tz - z) * R.z > 0 ? -1 : 1) as -1 | 1;
+  let x = B.x, y = B.y, z = B.z;
+  // ---------- the driver ----------
+  if (B.ph === "seat") {
+    const expr: Expr = t < T_CRASH - 0.45 ? (Math.floor(f / 4) % 2 ? "whistle" : "smile") : "shock";
+    out.places.push(person(cam, { i: 1, o: FIGHTER, okey: "lut" }, x, y, z, front, { mode: "sit", expr, blink, headTilt: t > T_CRASH - 0.45 ? -6 : 0 }, {}));
+  } else if (B.ph === "fly" || B.ph === "slide" || B.ph === "lie" || B.ph === "up") {
+    // the body turns about its own centre (not about the feet): place the card so its centre C stays where physics puts it
+    const H = 0.85, th = Math.round(B.roll * 30) / 30;
+    const put = (cx: number, cy: number, cz: number, fo: FrontOpts) => {
+      const pl = person(cam, { i: 1, o: FIGHTER, okey: "lut" }, cx + R.x * H * Math.sin(th), cy - H * Math.cos(th), cz + R.z * H * Math.sin(th), front, fo, {});
+      out.places.push({ ...pl, roll: th });
+    };
+    if (B.ph === "fly") {
+      // thrown by inertia: limp tumbling body, face in shock, mouth flapping
+      const u = clamp01((t - T_CRASH) / (T_LAND - T_CRASH));
+      put(x, y + 0.7 * (1 - u) + 0.25 * u, z, { mode: "fall", expr: Math.floor(f / 3) % 2 ? "shock" : "pained", blink: 0 });
+      blob(out, x, D0, z, 0.8, Math.max(0.2, 1 - y / 3));
+    } else if (B.ph !== "up") {
+      // face down in the dirt, dazed: eyes spiral, a slow head wobble; comes to (blinks, grimace) before getting up
+      put(x, 0.25 + y, z, { mode: "stand", expr: t < T_UP - 0.35 ? "dazed" : "pained", blink: t < T_UP - 0.35 ? 0 : blink, headTilt: Math.round(4 * Math.sin(t * 5)) });
+      blob(out, x, D0, z, 1.4, 0.7);
     } else {
-      const tl = tj - J;                  // landed: squash into a deep crouch, spring up over ~10 frames
-      const walk = clamp01((t - 5.1) / 0.9);
-      px = lx + (SX - lx) * ease(walk); pz = lz + (SZ - lz) * ease(walk); py = D0;
-      const crouch = tl < 0.4 ? 0.7 * Math.exp(-6 * tl) + 0.1 : 0.15;
-      if (t < 5.1) fo = { mode: "stand", expr: "stern", blink: lidAt(t, 1), crouch, stance: 0.7, armB: 0.5 * Math.exp(-5 * tl), tilt: Math.round(6 * sett(tl, 14, 5) * 2) / 2 };
-      else if (t < 6.0) fo = { mode: walk < 1 ? "march" : "stand", phase: ((t * 2.2) % 1 + 1) % 1, lift: 90, expr: "pained", blink: 0, tilt: -3, facing: -1, look: -1 };
-      else {
+      // pushes himself up: the body swings upright about its centre while the knees straighten
+      const u = clamp01((t - T_UP) / 0.5);
+      put(x, 0.25 + (H - 0.25) * u * u * (3 - 2 * u), z, { mode: "stand", expr: "pained", blink, crouch: Math.round((0.75 - 0.6 * u) * 20) / 20, stance: 0.5, armB: 0.6 * (1 - u) });
+      blob(out, x, D0, z);
+    }
+  } else {
+    let fo: FrontOpts | null = null;
+    if (t < T_WALK) {
+      // standing: shakes his head clear (decaying), then the anger sets in
+      const k = t - T_UP - 0.5;
+      fo = { mode: "stand", expr: k < 0.3 ? "dazed" : "stern", blink, headTilt: Math.round(12 * Math.exp(-4 * k) * Math.sin(k * 26)), crouch: 0.15, stance: 0.4 };
+    } else if (t < T_WALK_END) {
+      // a real walk: one foot always on the ground, the body moves exactly one stride per step (no skating, no hopping)
+      const [wx, wz] = walkAt(t), [px2, pz2] = walkAt(t - 0.02), dx = wx - px2, dz = wz - pz2, sp = Math.hypot(dx, dz) || 1e-6;
+      x = wx; z = wz;
+      let dist = 0; for (let tt = T_WALK; tt < t; tt += 0.02) { const a2 = walkAt(tt), b2 = walkAt(tt + 0.02); dist += Math.hypot(b2[0] - a2[0], b2[1] - a2[1]); }
+      const view = viewOf(cam, x, z, dx / sp, dz / sp), ph = (dist / 1.6) % 1;
+      out.places.push(person(cam, { i: 1, o: FIGHTER, okey: "lut" }, x, 0, z, view, { mode: "stroll", phase: ph, lift: 28, expr: "stern", blink },
+        { mode: "march", phase: ph, stride: Math.max(0.3, view.fs), stomp: 0.12, expr: "stern", blink }));
+      blob(out, x, D0, z);
+    } else {
+      x = SPOT[0]; z = SPOT[1];
+      const startle = T_CRACK + 0.15, sitAt = T_CRACK + 0.45;
+      if (t < startle) {
         // draw (8 f, ease-out), aim, three shots: recoil snaps the hand up in 2 f and settles over ~6 f; the body rocks back
         let v = -1 + eo((t - T_DRAW) / 0.27), rock = 0;
+        if (t < T_DRAW) v = -1;
         for (const g of SHOTS_AT) { const n = (t - g) * FPS; if (n >= 0 && n < 14) { v = n < 2 ? n / 2 : Math.exp(-(n - 2) / 3); rock = 4 * (n < 2 ? n / 2 : Math.exp(-(n - 2) / 3)); } }
-        const end = t > 8.6;
-        const expr: Expr = end ? (t > 9.1 ? "grin" : "whistle") : t < 6.9 ? "stern" : "pained";
-        fo = { mode: "stand", expr, blink: lidAt(t, 1), facing: -1, look: -1, prop: ["pistol", end ? -0.35 : Math.round(v * 20) / 20], stance: 0.65, crouch: 0.2,
-          tilt: Math.round((-4 + rock + (end ? 4 : 0)) * 2) / 2, hip: Math.round(-4 * rock) / 2 * 1, headTilt: end ? 6 : -2 };
+        const expr: Expr = t < SHOTS_AT[0] - 0.2 ? "stern" : t < T_CRACK ? "pained" : "neutral";
+        fo = { mode: "stand", expr, blink, facing: -1, look: -1, prop: ["pistol", Math.round(v * 20) / 20], stance: 0.65, crouch: 0.2,
+          tilt: Math.round((-4 + rock) * 2) / 2, hip: Math.round(-4 * rock) / 2, headTilt: -2 + (t > T_CRACK ? 4 : 0) };
+      } else if (t < sitAt) {
+        // the startle: a jump of 4-5 frames, arms fly up, the pistol drops; then the legs give way into a squat
+        const u = (t - startle) / (sitAt - startle);
+        y = u < 0.45 ? 0.24 * Math.sin((u / 0.45) * Math.PI) : 0;
+        fo = { mode: "stand", expr: "shock", blink: 0, armB: 1, look: lookTo(x, z, TX, TZ), crouch: u < 0.45 ? 0.1 : Math.round(((u - 0.45) / 0.55) * 18) / 20, stance: 0.6 };
+      } else {
+        // on his seat with a small bounce, then scoots back in pushes (fast push ~4 f, rest ~7 f), always staring at the tree
+        const sn = sideN(), away = [sn[0] + 0.35 * (x - TX) / 3.2, sn[1] + 0.35 * (z - TZ) / 3.2], h = Math.hypot(away[0], away[1]); away[0] /= h; away[1] /= h;   // away from the fall line
+        const ts = t - sitAt - 0.15, NP = 5, per = 0.36;
+        let d = 0, lean = 0;
+        for (let k = 0; k < NP; k++) { const u = (ts - k * per) / 0.13; d += 0.32 * clamp01(u) ** 0.7; if (u > 0 && u < 1.6) lean = -8 * Math.sin(Math.min(1, u) * Math.PI); }
+        x += away[0] * d; z += away[1] * d;
+        const bounce = t - sitAt < 0.2 ? 0.06 * Math.sin(((t - sitAt) / 0.2) * Math.PI) : 0;
+        y = bounce;
+        const pant = Math.floor(f / 5) % 2;
+        const expr: Expr = t < T_TREE_DOWN + 0.6 ? (pant ? "shock" : "nervous") : pant ? "nervous" : "whistle";
+        fo = { mode: "sit", expr, blink: t > T_TREE_DOWN + 0.8 ? blink : 0, look: lookTo(x, z, TX + fallDir[0] * 3, TZ + fallDir[1] * 3), tilt: Math.round(lean * 2) / 2,
+          headTilt: Math.round(3 * Math.sin(t * 7)) };
       }
     }
+    if (fo) { out.places.push(person(cam, { i: 1, o: FIGHTER, okey: "lut" }, x, y, z, front, fo, {})); blob(out, x, D0, z, 1.1); }
   }
-  out.places.push(person(cam, { i: 1, o: FIGHTER, okey: "lut" }, px, py, pz, { side: false, mirror: false }, fo, {}));
-  if (t >= T_EXIT + 0.45) blob(out, px, D0, pz);
-  // ---- crash: debris, smoke from the hood, falling leaves, landing dust ----
-  const front = carPoint(carPose(Math.max(t, T_CRASH)), 0, 0.85, 1.6);
+  // ---------- crash: debris, dense dust, black smoke pouring from the hood ----------
+  const fr = carPoint(carPose(Math.max(t, T_CRASH)), 0, 0.85, 1.6);
   if (tc >= 0) {
-    burst(out, "deb", dot("#c8ccd4", "#ffffff"), tc, front[0], front[1], front[2], 16, 51, [Math.PI * 0.6, 2.2], [3, 6], 0.9, 0.09);
-    burst(out, "debR", dot("#d23c2c", "#ff8a70"), tc, front[0], front[1], front[2], 8, 61, [Math.PI * 0.55, 2.0], [2.5, 5], 2.5, 0.1, true);
-    if (tc < 0.25) { const u = q(tc / 0.25, 8); out.fx.push({ key: `hitc${u}`, cw: 500, ch: 500, draw: (p) => fxBurst(p, u, "#fff3b0", 12, 34, 220), x: front[0], y: front[1] + 0.2, z: front[2], w: 2.2, h: 2.2 }); }
-    // dense dust cloud at the impact: 28 lit puffs expanding and drifting, fading over ~2.5 s
-    for (let i = 0; i < 28; i++) {
-      const age = tc - 0.02 * i; if (age < 0 || age > 2.6) continue;
-      const a = hh(i, 140) * 6.28, d = (0.4 + 1.6 * hh(i, 141)) * (1 - Math.exp(-2.2 * age));
-      const r = (0.5 + 0.5 * hh(i, 142)) * (0.7 + 1.6 * (1 - Math.exp(-1.6 * age)));
-      const al = q(Math.min(1, 1.25 * (1 - age / 2.6) ** 1.2), 10), v = i % 3;
-      out.fx.push({ key: `dust${v}_${al}`, cw: 256, ch: 256, draw: smokeDraw(v, al, [176, 158, 132]), x: front[0] + Math.cos(a) * d - 0.4, y: D0 + 0.35 + r * 0.45 + 0.25 * age, z: front[2] + Math.sin(a) * d * 0.7, w: 2 * r, h: 2 * r, soft: true, rot: hh(i, 143) * 6 });
+    burst(out, "deb", dot("#c8ccd4", "#ffffff"), tc, fr[0], fr[1], fr[2], 16, 51, [Math.PI * 0.6, 2.2], [3, 6], 0.9, 0.09);
+    burst(out, "debR", dot("#d23c2c", "#ff8a70"), tc, fr[0], fr[1], fr[2], 8, 61, [Math.PI * 0.55, 2.0], [2.5, 5], 2.5, 0.1, true);
+    if (tc < 0.25) { const u = q(tc / 0.25, 8); out.fx.push({ key: `hitc${u}`, cw: 500, ch: 500, draw: (p) => fxBurst(p, u, "#fff3b0", 12, 34, 220), x: fr[0], y: fr[1] + 0.2, z: fr[2], w: 2.4, h: 2.4 }); }
+    for (let i = 0; i < 26; i++) {           // dust: brown, dense, rolling out low and settling
+      const age = tc - 0.02 * i; if (age < 0 || age > 3.0) continue;
+      const a = hh(i, 140) * 6.28, d = (0.4 + 1.4 * hh(i, 141)) * (1 - Math.exp(-2.2 * age)), r = (0.45 + 0.4 * hh(i, 142)) * (0.8 + 1.2 * (1 - Math.exp(-1.6 * age)));
+      const al = q(Math.min(1, 1.3 * (1 - age / 3.0) ** 1.1), 10), v = i % 3;
+      out.fx.push({ key: `dust${v}_${al}`, cw: 256, ch: 256, draw: smokeDraw(v, al, [150, 126, 96]), x: fr[0] + Math.cos(a) * d - 0.4, y: D0 + 0.3 + r * 0.4 + 0.2 * age, z: fr[2] + Math.sin(a) * d * 0.7, w: 2 * r, h: 2 * r, soft: true, rot: hh(i, 143) * 6 });
     }
-    // grey smoke pouring from the hood: a puff every 0.15 s, rising, growing, darker core
-    for (let k = 0; k < 44; k++) {
-      const age = tc - 0.25 - k * 0.15; if (age < 0 || age > 2.2) continue;
-      const al = q(0.75 * (1 - age / 2.2), 10), v = k % 3, r = 0.35 + 0.75 * age;
-      out.fx.push({ key: `smk${v}_${al}`, cw: 256, ch: 256, draw: smokeDraw(v, al, [120, 120, 126]), x: front[0] - 0.15 + 0.35 * age + 0.1 * Math.sin(k), y: front[1] + 0.15 + 0.9 * age, z: front[2] - 0.35, w: 2 * r, h: 2 * r, soft: true, rot: k * 0.7 });
+    for (let k = 0; k < 90; k++) {           // smoke: near-black, opaque, a puff every 0.11 s, billowing up for the rest of the film
+      const age = tc - 0.15 - k * 0.11; if (age < 0 || age > 2.6) continue;
+      const al = q(Math.min(1, 1.2 * (1 - age / 2.6)), 10), v = k % 3, r = 0.4 + 0.85 * age;
+      out.fx.push({ key: `smk${v}_${al}`, cw: 256, ch: 256, draw: smokeDraw(v, al, [46, 44, 50]), x: fr[0] - 0.15 + 0.4 * age + 0.12 * Math.sin(k), y: fr[1] + 0.1 + 1.0 * age, z: fr[2] - 0.35, w: 2 * r, h: 2 * r, soft: true, rot: k * 0.7 });
     }
   }
-  // leaves: shaken loose by the crash (24) and by every shot (6), fluttering down
+  // ---------- the driver lands: dust and pebbles from the contact ----------
+  const tl = t - T_LAND;
+  if (tl >= 0) {
+    const L = driverBody(T_LAND);
+    for (let i = 0; i < 12; i++) {
+      const age = tl - 0.03 * i; if (age < 0 || age > 0.7) continue;
+      const a = hh(i, 150) * 6.28, d = (0.3 + 0.9 * hh(i, 151)) * (1 - Math.exp(-3 * age)), r = (0.25 + 0.2 * hh(i, 152)) * (0.8 + 1.0 * (1 - Math.exp(-2 * age)));
+      const al = q(Math.min(0.85, 1.1 * (1 - age / 0.7)), 10), v = i % 3;
+      out.fx.push({ key: `dust${v}_${al}`, cw: 256, ch: 256, draw: smokeDraw(v, al, [150, 126, 96]), x: L.x + Math.cos(a) * d + 0.6, y: D0 + 0.2 + r * 0.4, z: L.z + Math.sin(a) * d * 0.7 + 0.3, w: 2 * r, h: 2 * r, soft: true });
+    }
+    burst(out, "peb", dot("#8a7a62", "#b8a888"), tl, L.x, 0.1, L.z, 14, 160, [Math.PI * 0.5, 2.4], [1.5, 3.5], 1.5, 0.05, true);
+  }
+  // ---------- leaves ----------
   const leaf = dot("#6fae44", "#9ad468");
-  const leaves = (t0: number, n: number, seed: number) => {
+  const leaves = (t0: number, n: number, seed: number, cx: number, cy: number, cz: number, spread: number) => {
     for (let i = 0; i < n; i++) {
-      const tt = t - t0 - 0.05 * i; if (tt < 0 || tt > 3.2) continue;
-      const x0 = TX + (hh(i, seed) - 0.5) * 3.5, z0 = TZ + (hh(i, seed + 1) - 0.5) * 3.5, y = D0 + 3.6 + hh(i, seed + 2) * 1.5 - 1.25 * tt;
-      if (y < D0 + 0.05) continue;
-      out.fx.push({ key: "leaf", cw: 64, ch: 64, draw: leaf, x: x0 + 0.35 * Math.sin(3 * tt + i), y, z: z0 + 0.2 * Math.cos(2.5 * tt + i), w: 0.13, h: 0.09, rot: Math.sin(4 * tt + i) });
+      const tt = t - t0 - 0.04 * i; if (tt < 0 || tt > 3.2) continue;
+      const x0 = cx + (hh(i, seed) - 0.5) * spread, z0 = cz + (hh(i, seed + 1) - 0.5) * spread, yy = cy + hh(i, seed + 2) * 1.5 - 1.2 * tt;
+      if (yy < D0 + 0.05) continue;
+      out.fx.push({ key: "leaf", cw: 64, ch: 64, draw: leaf, x: x0 + 0.35 * Math.sin(3 * tt + i), y: yy, z: z0 + 0.2 * Math.cos(2.5 * tt + i), w: 0.13, h: 0.09, rot: Math.sin(4 * tt + i) });
     }
   };
-  leaves(T_CRASH, 24, 70);
-  SHOTS_AT.forEach((g, k) => leaves(g + 0.05, 6, 80 + k * 7));
-  // ---- the shots: muzzle flash, bark chips flying off the trunk, a bullet hole that stays, shell casings ----
+  leaves(T_CRASH, 24, 70, TX, D0 + 3.6, TZ, 3.5);
+  [T_IMPACT, SHOTS_AT[1], SHOTS_AT[2]].forEach((g, k) => leaves(g + 0.05, 6, 80 + k * 7, TX, D0 + 3.6, TZ, 3.5));
+  // ---------- shots: muzzle flame, smoke ring, chips + a hole on the trunk (until it cracks), casings ----------
   SHOTS_AT.forEach((g, k) => {
     const tt = t - g; if (tt < 0) return;
-    const hx = SX + R.x * 0.95, hz = SZ + R.z * 0.95, hy = D0 + 1.2;
-    if (tt < 0.1) { const u = q(tt / 0.1, 3); out.fx.push({ key: `muzzle${u}`, cw: 500, ch: 500, draw: (p) => fxBurst(p, u, "#ffd27a", 9, 30, 200), x: hx + R.x * 0.25, y: hy, z: hz + R.z * 0.25, w: 0.8, h: 0.8 }); }
-    const bx = TX - 0.42, by = D0 + 1.35 + 0.25 * (k - 1), bz = TZ + 0.25 + 0.1 * k;
-    burst(out, "chip", dot("#8a6440", "#c49a6c"), tt - 0.02, bx, by, bz, 9, 90 + k * 5, [Math.PI * 0.85, 1.4], [2, 4.5], 0.8, 0.07);
-    if (tt > 0.02) out.fx.push({ key: "hole", cw: 64, ch: 64, draw: dot("#2a1c12", "#140c08"), x: bx - 0.02, y: by, z: bz, w: 0.09, h: 0.09 });
-    burst(out, "shell", dot("#d9a441", "#ffe08a"), tt, hx - R.x * 0.2, hy + 0.05, hz - R.z * 0.2, 1, 120 + k, [Math.PI * 0.62, 0.2], [2.2, 2.6], 0.55, 0.05, true);
+    if (tt < 0.1) { const u = q(tt / 0.1, 3); out.fx.push({ key: `muzzle${u}`, cw: 500, ch: 500, draw: (p) => fxBurst(p, u, "#ffb347", 10, 34, 230), x: MUZZLE[0], y: MUZZLE[1], z: MUZZLE[2], w: 1.3, h: 1.3 }); }
+    if (tt < 0.6) { const al = q(0.7 * (1 - tt / 0.6), 6), r = 0.12 + 0.4 * tt; out.fx.push({ key: `ring${al}`, cw: 256, ch: 256, draw: smokeDraw(1, al, [200, 196, 190]), x: MUZZLE[0], y: MUZZLE[1] + 0.2 * tt, z: MUZZLE[2], w: 2 * r, h: 2 * r, soft: true }); }
+    const hit = k === 0 ? T_IMPACT : g + 0.02, th = t - hit;
+    const by = HIT[1] + 0.22 * (k - 1), bz = HIT[2] + 0.08 * k;
+    burst(out, "chip", dot("#8a6440", "#c49a6c"), th, HIT[0], by, bz, 10, 90 + k * 5, [Math.PI * 0.85, 1.4], [2, 4.5], 0.8, 0.07);
+    if (th >= 0 && th < 0.12) { const u = q(th / 0.12, 3); out.fx.push({ key: `hitw${u}`, cw: 500, ch: 500, draw: (p) => fxBurst(p, u, "#fff3b0", 9, 28, 200), x: HIT[0], y: by, z: bz, w: 0.9, h: 0.9 }); }
+    if (th > 0 && t < T_CRACK) out.fx.push({ key: "hole", cw: 64, ch: 64, draw: dot("#2a1c12", "#140c08"), x: HIT[0] - 0.02, y: by, z: bz, w: 0.09, h: 0.09 });
+    burst(out, "shell", dot("#d9a441", "#ffe08a"), tt, MUZZLE[0] - 0.5, MUZZLE[1] + 0.05, MUZZLE[2], 1, 120 + k, [Math.PI * 0.62, 0.2], [2.2, 2.6], 0.55, 0.05, true);
   });
+  // ---------- the pistol drops when he startles ----------
+  burst(out, "pistol", pistolDraw, t - T_CRACK - 0.18, SPOT[0] + 0.4, 1.1, SPOT[1], 1, 170, [Math.PI * 0.35, 0.1], [2.0, 2.2], 0.6, 0.28, true);
+  // ---------- the tree comes down: a long dense dust wall along the trunk, a burst of leaves ----------
+  const td = t - T_TREE_DOWN;
+  if (td >= 0) {
+    for (let i = 0; i < 30; i++) {
+      const age = td - 0.015 * i; if (age < 0 || age > 3.0) continue;
+      const s = 1 + 5.5 * hh(i, 180), a = hh(i, 181) * 6.28, d = 1.4 * hh(i, 182) * (1 - Math.exp(-2.5 * age)), r = (0.6 + 0.5 * hh(i, 183)) * (0.8 + 1.6 * (1 - Math.exp(-1.8 * age)));
+      const al = q(Math.min(1, 1.3 * (1 - age / 3.0) ** 1.1), 10), v = i % 3;
+      out.fx.push({ key: `dust${v}_${al}`, cw: 256, ch: 256, draw: smokeDraw(v, al, [150, 126, 96]), x: TX + fallDir[0] * s + Math.cos(a) * d, y: D0 + 0.3 + r * 0.4 + 0.15 * age, z: TZ + fallDir[1] * s + Math.sin(a) * d, w: 2 * r, h: 2 * r, soft: true, rot: hh(i, 184) * 6 });
+    }
+    leaves(T_TREE_DOWN, 40, 200, TX + fallDir[0] * 4.4, D0 + 2.0, TZ + fallDir[1] * 4.4, 4.5);
+  }
+  void treeFall;
 };
 
 export const stage = (id: number, t: number, cam: CamInfo): Stage => {

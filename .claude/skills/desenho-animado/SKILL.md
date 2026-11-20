@@ -134,6 +134,13 @@ Regras padrão (o usuário pode mudar):
   - carro com cantos arredondados, rodas com calota e faróis brilhando;
   - fumaça e poeira densas e iluminadas, sombras de tudo, bloom;
   - nada de objetos quadrados.
+- **Estudo 3: duelo, bala, queda, cor (seções 12 do estudo):**
+  - batida joga o personagem para fora pela inércia: ele voa girando em volta do próprio centro, cai, desliza e fica tonto; nunca pula para fora;
+  - andar de lado com um pé sempre no chão e o passo igual à distância, sem pular;
+  - tiro importante tem a câmera seguindo a bala: dissolve de 4 quadros, trecho rápido, câmera lenta e corte no alvo;
+  - toda ação termina em reação contínua (susto, cai sentado, se arrasta olhando);
+  - fumaça de batida quase preta, densa e opaca;
+  - no fim de todo vídeo, igualar cor e brilho à referência com `scripts/color_match.py`: pretos levantados, sombras violeta e luzes quentes.
 
 ## Consertos (o que deu errado no vídeo da Torre de Pisa e como resolver)
 - **Vídeo todo em branco, só o céu.** Com React 19 + @react-three/fiber 9, o `<EffectComposer>` do

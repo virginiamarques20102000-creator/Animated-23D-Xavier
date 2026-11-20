@@ -212,3 +212,89 @@ Analisei recortes em HD (540 px) do vídeo da batida. O que dá o ar realista:
 | Sombras | `actorShadow: true` também de dia. |
 
 **Limite honesto:** os vídeos de referência foram feitos num motor de jogo com modelos 3D profissionais e fumaça volumétrica. Aqui tudo é gerado por código, então o resultado fica próximo, mas não idêntico. Para ficar idêntico seria preciso importar modelos prontos (.glb), e a rede deste ambiente bloqueia os sites de modelos.
+
+## 12. Estudo 3: "o segundo saque" (duelo no velho oeste, 56 s)
+Folhas a 2 quadros por segundo no vídeo inteiro e a 20–30 quadros por segundo em: o tiro com a câmera seguindo a bala (0,3–2,3 s), a queda de cara no chão (16,5–18,5 s), o andar (21–22 s) e o saque com brilho (13,3–14,8 s). Cores medidas numericamente.
+
+### Transição "câmera segue a bala" (quadro a quadro, 30 fps)
+1. **0–9 quadros:** atirador mirando, parado, só com micro-movimento.
+2. **Disparo (1 quadro):**
+   - chama grande laranja e amarela em cone na boca do cano, com faíscas;
+   - o revólver dá coice para cima ~45°;
+   - poeira no chão nos pés;
+   - a imagem inteira esquenta e clareia por 2–3 quadros.
+3. **Dissolve de 3–4 quadros** enquanto a câmera gira para trás do cano.
+4. **Bala saindo (~8 quadros):** close do cano, a bala sai com rastro de fogo e anel de fumaça na boca.
+5. **Voo rápido (~6 quadros):** rastro branco-brilhante atrás da bala, linhas de velocidade radiais e fundo borrado.
+6. **Câmera lenta (~1,5 s):**
+   - a câmera anda ao lado da bala, bem perto, e a bala gira devagar no próprio eixo;
+   - foco na bala e fundo desfocado, com o alvo pequeno lá no fundo;
+   - a bala é cobre com contorno preto de tinta e reflexo.
+7. **Corte para o alvo** (close no coldre dele), com a bala chegando no quadro.
+
+### Queda de cara no chão (corpo jogado, não pulando)
+1. **Antes, 7 quadros:** treme.
+2. **Golpe (3 quadros):** o chapéu sai voando para cima e girando, como objeto separado. O corpo dá um tranco pequeno para cima e as pernas abrem.
+3. **Tomba como tábua (~10 quadros):** o corpo gira sobre os pés e acelera como um objeto caindo (gravidade). Braços e pernas ficam atrasados e moles, e a arma voa separada.
+4. **Impacto de cara:** a cabeça amassa um pouco e o corpo **desliza** para frente no chão, perdendo velocidade. Pedrinhas e poeira densa marrom levantam do contato. A câmera desce e aproxima junto.
+5. **Depois (animação contínua):**
+   - ele fica no chão tonto, com terra no rosto;
+   - os olhos piscam, as pupilas mudam e os olhos se apertam;
+   - a poeira fica pairando e se desfazendo devagar;
+   - o chapéu cai por último, perto da cabeça.
+
+### Andar de verdade (não pular)
+- A câmera acompanha de lado, na mesma velocidade, então o personagem fica no quadro e o fundo passa.
+- Ciclo de ~16 quadros (2 passos), e **sempre há um pé no chão**. O pé de apoio não escorrega: a distância que o corpo anda é igual ao passo.
+- O joelho dobra quando a perna passa. O corpo sobe e desce só ~2% e a cabeça fica estável.
+- Os braços balançam opostos às pernas (ou seguram algo e só balançam um pouco).
+- **Errado:** pés levantando alto e o corpo quicando, porque isso vira pulo.
+
+### Saque com "poder"
+1. Dissolve de 3–4 quadros enquanto a câmera se move.
+2. A mão vai ao coldre e os olhos arregalam, com poeira nos pés.
+3. Aura: partículas de fogo dourado sobem em volta do corpo, os olhos brilham amarelos (bloom) e a câmera gira devagar.
+4. Corte para close extremo do coldre: linhas de velocidade, rastro brilhante na mão, anel de choque (círculo expandindo) e estrela de brilho quando a mão bate na arma.
+
+### Micro-animação e continuidade
+- **Ninguém congela:** respiração, piscar, pupilas mudando, sobrancelhas, suor.
+- **Toda ação termina numa reação que continua.** Por exemplo: a árvore cai, ele leva um susto (pulo de 4–5 quadros), cai sentado (com um quique pequeno) e continua sentado se arrastando para trás aos trancos (empurra com as mãos, ~0,35 s por empurrão), sempre olhando para a árvore.
+- **Objetos separados têm a própria física:** o chapéu voa e cai depois, a arma voa, as pedrinhas pulam.
+
+### Fumaça de batida
+- **Cinza escura e densa, quase preta no miolo, opaca:** não é cinza claro transparente.
+- Rolos grandes que sobem e crescem, com a borda de baixo mais escura e o topo levemente iluminado. Junto ao chão fica uma poeira marrom densa.
+
+### Cor e brilho medidos (média dos quadros, sem a faixa de legenda)
+| Medida | Duelo | Batida (referência) | Nosso v2 | Meta |
+|---|---|---|---|---|
+| Luminância média | 0,43 | 0,49 | 0,39 | ~0,46 |
+| Preto (p5) | 0,09 | 0,15 | 0,06 | ~0,12 |
+| Branco (p95) | 0,79 | 0,85 | 0,75 | ~0,82 |
+| Saturação média | 0,48 | 0,29 | 0,44 | ~0,40 |
+| Sombras (RGB) | violeta (0,15; 0,10; 0,21) | neutras | verde-escuras (0,07; 0,11; 0,08) | violeta-azuladas, levantadas |
+| Altas luzes (RGB) | quentes (0,82; 0,74; 0,63) | neutras | frias (0,65; 0,74; 0,77) | quentes ou neutras |
+
+- Nosso v2 estava **escuro demais, com sombras pretas e esverdeadas e luzes frias**. As referências têm pretos levantados, sombras violeta, luzes quentes e brilho alto.
+- **Correção automática:** `projeto/scripts/color_match.py` mede uma referência e o nosso vídeo e gera curvas por canal (preto, meio e luz) para o ffmpeg igualar a cor. Rodar no fim de todo vídeo, com o vídeo de referência do usuário.
+
+### Como aplicamos (exemplo src/videos/batida, versão 3, 12 s)
+- **Arremessado pela inércia:** `driverBody(t)` em story.ts.
+  - Quando o carro para, o corpo continua: é lançado a (-2,4; 4,2; 4,6) m/s e gira 1,25 voltas no ar.
+  - Cai, quica pequeno, desliza 1 m perdendo velocidade (exp(-6,5 t)) e fica de bruços tonto.
+  - Depois se levanta girando de volta em 0,5 s, com os joelhos esticando.
+  - O cartão gira em volta do **centro do corpo**, não dos pés: a posição é compensada por `right*H*sin(θ)` e `-H*cos(θ)`.
+- **Andar real:** visão de lado (`viewOf`) com `march`, passo pequeno (stomp 0,12) e fase igual à distância andada / 1,6 m. Assim o pé não escorrega nem pula. A câmera acompanha de lado.
+- **Câmera da bala:** `bulletAt(t)` faz um primeiro trecho rápido (20% do tempo, 30% do caminho) e depois câmera lenta até o tronco.
+  - A câmera fica 0,36 m atrás e 0,24 m ao lado da bala e **olha para a própria bala**. No 9:16 a largura é estreita, então o assunto tem que ficar perto do eixo da câmera.
+  - Dissolve de 4 quadros na entrada. A bala é um modelo 3D de cobre com contorno de tinta e rastro brilhante aditivo.
+- **Árvore caindo com física:** uma haste rígida girando na base (θ'' = k·(3g/2L)·sin θ), com estalo antes (tremor), queda acelerando, impacto, quique pequeno e mola. Na queda, um muro de poeira ao longo do tronco e uma explosão de folhas.
+- **Reação contínua:**
+  - susto com pulo (4–5 quadros, braços para cima), a arma cai;
+  - as pernas cedem e ele senta com um quique;
+  - se arrasta para trás em 5 empurrões (4 quadros de empurrão, 7 de pausa), **para longe da linha de queda**, sempre olhando a árvore e ofegando (boca alternando a cada 5 quadros).
+- **Fumaça:** RGB (46, 44, 50), opacidade até 1, um rolo a cada 0,11 s subindo ~1 m/s e crescendo 0,85 m/s. Poeira marrom (150, 126, 96) densa.
+  - O material macio grava profundidade com alphaTest 0,3, para que o miolo esconda as linhas de tinta atrás.
+  - Fumaça e poeira ficam na camada NOINK (sem contorno), e partículas a menos de ~1 tamanho da lente são puladas, para não embaçar a câmera.
+- **Câmera da queda da árvore:** sempre do **lado em que o personagem está** em relação à linha de queda (`sideN`), olhando para cima no começo e descendo junto com a árvore.
+- **Cor final:** `scripts/color_match.py` mede a referência e gera as curvas do ffmpeg, aplicadas na montagem final (finalize).

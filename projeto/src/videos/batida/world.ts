@@ -8,7 +8,7 @@ import { LIGHTS, LOOK, LightPreset } from "./lights";
 import { TONE, CHAR, untone } from "./shade";
 import { NOINK } from "./ink";
 import { Pool, Actor, Fx, stage } from "./cast";
-import { FPS, D0, SHOTS, camAt, ShotDef, V3, INTRO_Z, TOWN_X, VIEW_Z, CX, CZ, TX, TZ, carPose, tyrePose, settleS, T_CRASH, SHOTS_AT } from "./story";
+import { FPS, D0, SHOTS, camAt, ShotDef, V3, INTRO_Z, TOWN_X, VIEW_Z, CX, CZ, TX, TZ, carPose, tyrePose, settleS, T_CRASH, SHOTS_AT, treeFall, fallDir, bulletAt, FIRE_DIR, T_TREE_DOWN, T_IMPACT } from "./story";
 
 export const loadKit = async (): Promise<Kit> => ({});
 
@@ -82,7 +82,8 @@ export class World {
   private clouds: THREE.Mesh[] = [];
   private earthM!: THREE.MeshLambertMaterial;
   private car = new THREE.Group(); private carPivot = new THREE.Group(); private hood!: THREE.Mesh; private wheels: THREE.Mesh[] = [];
-  private tyre = new THREE.Group(); private canopy = new THREE.Group();
+  private tyre = new THREE.Group(); private canopy = new THREE.Group(); private treeG = new THREE.Group();
+  private bullet = new THREE.Group(); private trail!: THREE.Mesh;
   private frustum = new THREE.Frustum();
   private m4 = new THREE.Matrix4(); private v = new THREE.Vector3(); private sph = new THREE.Sphere();
 
@@ -237,11 +238,11 @@ export class World {
     // trunk: tapered, slightly bent lathe with flared roots; branches are curved tubes
     const prof: THREE.Vector2[] = [];
     for (let k = 0; k <= 12; k++) { const y = (k / 12) * 4.2, r = 0.42 - 0.18 * (k / 12) + 0.25 * Math.exp(-y * 4); prof.push(new THREE.Vector2(r, y)); }
-    b.add(new THREE.LatheGeometry(prof, 14), M.trunk, at(TX, D0, TZ));
+    const trunkM = new THREE.Mesh(new THREE.LatheGeometry(prof, 14), M.trunk); trunkM.castShadow = true; this.treeG.add(trunkM);
     for (let k = 0; k < 6; k++) {
       const a0 = k * 1.05 + 0.3, len = 2.0 + hash(k, 50) * 1.2, y0 = 2.6 + hash(k, 51) * 1.2;
       const c = new THREE.CatmullRomCurve3([V(0, 0, 0), V(Math.cos(a0) * len * 0.45, len * 0.35, Math.sin(a0) * len * 0.45), V(Math.cos(a0) * len, len * 0.55, Math.sin(a0) * len)]);
-      b.add(new THREE.TubeGeometry(c, 8, 0.11 - 0.01 * (k % 3), 6), M.trunk, at(TX, D0 + y0, TZ));
+      const br = new THREE.Mesh(new THREE.TubeGeometry(c, 8, 0.11 - 0.01 * (k % 3), 6), M.trunk); br.position.y = y0; br.castShadow = true; this.treeG.add(br);
     }
     // ---- the camp: a tarp lean-to, rolled blankets, the campfire ----
     const tx = 3.2, tz = 4.2;
@@ -296,7 +297,15 @@ export class World {
       const g2 = 0.75 + 0.4 * hash(i, 76); col.setRGB(0.42 * g2, 0.72 * g2, 0.25 * g2); grass.setColorAt(gi, col); gi++;
     }
     grass.count = gi; grass.receiveShadow = true; grass.layers.set(NOINK); R.add(grass);
-    this.canopy.position.set(TX, D0 + 4.4, TZ); R.add(this.canopy);
+    this.canopy.position.set(0, 4.4, 0); this.treeG.add(this.canopy);
+    this.treeG.position.set(TX, D0, TZ); R.add(this.treeG);
+    // the followed bullet: copper body with a rounded nose (ink outline from the ink pass), and an additive glowing trail
+    const cu = lam("copper", () => ({ color: "#d07a3a" }));
+    const bb = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, 0.1, 16).rotateX(Math.PI / 2), cu); this.bullet.add(bb);
+    const nose = new THREE.Mesh(new THREE.SphereGeometry(0.045, 16, 10, 0, Math.PI * 2, 0, Math.PI / 2).rotateX(Math.PI / 2), cu); nose.position.z = 0.05; this.bullet.add(nose);
+    this.trail = new THREE.Mesh(new THREE.ConeGeometry(0.032, 1, 12, 1, true).rotateX(-Math.PI / 2).translate(0, 0, -0.5),
+      new THREE.MeshBasicMaterial({ color: new THREE.Color(2.2, 1.5, 0.7), transparent: true, opacity: 0.35, blending: THREE.AdditiveBlending, depthWrite: false }));
+    this.trail.layers.set(NOINK); this.bullet.add(this.trail); this.bullet.visible = false; R.add(this.bullet);
     const red = lam("carRed", () => ({ color: "#d23c2c" })), wh = lam("carWhite", () => ({ color: "#f2ece0" })), blk = lam("tyre", () => ({ color: "#23232a" }));
     const grey = lam("hub", () => ({ color: "#b8bcc4" })), seat = lam("seat", () => ({ color: "#6e4a30" })), glass = lam("glass", () => ({ color: "#a8d4f0" })), lamp = lam("lamp", () => ({ color: "#fff2b0", emissive: "#fff2b0", emissiveIntensity: 1.2 }));
     const chrome = lam("chrome", () => ({ color: "#dfe3ea" })), dark = lam("grille", () => ({ color: "#2a2c33" }));
@@ -395,9 +404,17 @@ export class World {
     const ty = tyrePose(t);
     this.tyre.visible = !!ty;
     if (ty) { this.tyre.position.set(ty.x, D0 + ty.y, ty.z); this.tyre.rotation.set(ty.spin, 0.6, ty.tilt); }
-    let sh = 0.07 * settleS(t - T_CRASH, 9, 2.2);
-    for (const g of SHOTS_AT) sh += 0.018 * settleS(t - g, 16, 6);
+    let sh = 0.07 * settleS(t - T_CRASH, 9, 2.2) + 0.05 * settleS(t - T_TREE_DOWN, 7, 2.5);
+    for (const g of [T_IMPACT, SHOTS_AT[1], SHOTS_AT[2]]) sh += 0.018 * settleS(t - g, 16, 6);
     this.canopy.rotation.set(sh * 0.6, 0, sh);
+    const tf = treeFall(t);
+    this.treeG.quaternion.setFromAxisAngle(V(fallDir[1], 0, -fallDir[0]), tf.th);
+    const bl = bulletAt(t);
+    this.bullet.visible = !!bl;
+    if (bl) {
+      this.bullet.position.set(bl.x, D0 + bl.y, bl.z); this.bullet.lookAt(bl.x + FIRE_DIR[0], D0 + bl.y, bl.z + FIRE_DIR[1]); this.bullet.rotateZ(bl.spin);
+      this.trail.scale.set(1, 1, bl.fast ? 2.2 : 0.7); (this.trail.material as THREE.MeshBasicMaterial).opacity = bl.fast ? 0.45 : 0.22;
+    }
     // ---- cast + effects ----
     const right = V(0, 0, 0).setFromMatrixColumn(cam.matrixWorld, 0);
     const st = stage(id, t, { pos: cam.position, right });
@@ -423,10 +440,12 @@ export class World {
     let fi = 0;
     const fused: Fx[] = [];
     for (const p of st.fx) {
+      if (p.soft && this.v.set(p.x, p.y, p.z).distanceTo(cam.position) < Math.max(p.w, p.h) * 0.8 + 0.3) continue;   // never fog the lens
       if (!this.frustum.intersectsSphere(this.sph.set(this.v.set(p.x, p.y, p.z), Math.max(p.w, p.h)))) continue;
       const e2 = this.fx(fi++);
       e2.r = this.pool.req(p.key, p.cw, p.ch, 1, p.draw);
       e2.use(!!p.soft);
+      e2.mesh.layers.set(p.soft ? NOINK : 0);   // smoke and dust: no ink lines
       e2.mesh.visible = true;
       e2.mesh.position.set(p.x, p.y, p.z);
       if (p.flat) e2.mesh.rotation.set(-Math.PI / 2, 0, p.rot ?? 0);
