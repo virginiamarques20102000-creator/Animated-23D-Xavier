@@ -86,6 +86,15 @@ Regras padrão (o usuário pode mudar):
       além do volume e das folhas.
 11. **Entrega.** Mande o mp4 final e anote o que foi feito.
 
+## Regras aprendidas com o usuário (vídeo de Lampião) — seguir sempre
+- Corte cada cena ~2 frames antes do início da frase (detecte as pausas com `ffmpeg silencedetect`), e mostre na tela exatamente o que a frase diz (fala do rio → mostrar o rio com os personagens).
+- Ações pontuais (tiro, queda, explosão) caem na palavra exata: meça as micro-pausas (`silencedetect d=0.06`) e ponha o evento no início da palavra, nunca depois. O som do efeito vai no mesmo instante.
+- "Centralizar" = ninguém fora de cena e a câmera não corta ninguém; NÃO é aproximar. Enquadre o grupo inteiro (todos os personagens da cena), com o principal no meio. Em 9:16 a largura é estreita: afaste a câmera ou alinhe o grupo em profundidade.
+- Personagens não somem e reaparecem: se o bando está no lugar, ele aparece também na tomada aérea/geral.
+- Câmera sempre em movimento (orbita, acompanha quem anda, aproxima devagar); nunca cena parada, nunca cortar para a mesma cena.
+- Quando a narração diz uma ação (ex.: "cercaram"), mostre a ação de fato (policiais vindo de todos os lados e fechando o círculo).
+- Usuário usa só celular e pede economia: poucas prévias (folha de quadros soltos), um render final em blocos retomáveis (`projeto/scripts/render_chunks.sh` + `finalize.sh`), reaproveitar blocos que não mudaram, mensagens curtas.
+
 ## Consertos (o que deu errado no vídeo da Torre de Pisa e como resolver)
 - **Vídeo todo em branco, só o céu.** Com React 19 + @react-three/fiber 9, o `<EffectComposer>` do
   `@react-three/postprocessing` 3.x não desenha nada. Diagnóstico: um cubo vermelho sem efeitos aparece, e a cidade
