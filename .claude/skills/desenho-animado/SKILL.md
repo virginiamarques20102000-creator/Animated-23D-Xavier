@@ -143,6 +143,25 @@ Regras padrão (o usuário pode mudar):
   - no fim de todo vídeo, igualar cor e brilho à referência com `scripts/color_match.py`: pretos levantados, sombras violeta e luzes quentes.
   - munição, metal e armas em close usam material PBR metálico com reflexo de ambiente, sem contorno, e não o visual de desenho (ver "Projétil realista" no estudo).
 
+## Modo 2.5D em canvas (vídeos longos e 16:9 — "Quem foi Hitler?", 5 min 27 s)
+- Quando o vídeo passa de ~1 min ou é 16:9 (YouTube), NÃO use o mundo three.js (4,5 s/quadro em swangle = 12 h). Use o motor canvas 2D
+  de `projeto/src/videos/hitler/` (engine.ts + paint.ts + story.ts): ~0,13 s/quadro, 9 800 quadros em ~25 min com `CHUNK=600 CONC=4`.
+- Mundo = planos verticais pintados em metros (y para cima) a uma profundidade z, chão projetado em faixas, câmera olhando +z:
+  paralaxe real ao andar/aproximar (`mv([x,y,z,fov,shift],[...])`). `shift` negativo = olhar para baixo (multidão, mesa).
+- Personagens = os mesmos bonecos do toon.ts (bodyFront/bodySide) desenhados num cache por pose; `dark` faz silhueta contra luz.
+- Novos figurinos/chapéus no toon.ts do projeto: stahlhelm, m1 (rede), pilotka (estrela vermelha), fedora, homburg, sidepart (franja),
+  bigode "brush", barba, gravata, medalhas, estrela amarela; props suitcase/portfolio/torch/flag/brush/book/paper/baby/ballot/fist.
+- Cenários prontos em paint.ts: austria, vienna, trench, berlin (day/grey/night/dusk, banners, posters), hall, rally, cell, office,
+  reichstag (fire/ruin), factory (inside), field (border/grey/dusk), camp (dawn), snow, beach, ruins, bunker, memorial, library, home, map.
+- Fluxo: alinhar frases (silencedetect + sílabas, conferir taxa 4,3–7,2 síl/s e corrigir à mão), um plano por frase (frases longas
+  em 2–3 planos nas pausas internas), legenda de data no canto (`caption`), carimbos (`stamp`), títulos (`bigText`).
+- Conferir TODOS os planos em folhas de contato (bridge-stills 0.4 + ffmpeg tile 4x4) antes do render; erros típicos: personagem
+  sentado escondido atrás da mesa (subir a câmera com shift negativo ou erguer com `y`), close perto demais (d < 3 m), púlpito alto.
+- Temas sensíveis: sem símbolos de ódio (bandeiras vermelhas com águia abstrata, sem suástica), Holocausto e morte sem violência
+  gráfica (velas, arame farpado, cadeira vazia, luz que se apaga).
+- Áudio: `audio/hitler_mix.py` (efeitos nos tempos exatos dos planos: passos no ritmo da marcha, tiros, explosões, carimbos, trem,
+  ondas, multidão, sino; trilha em ré menor com piano, cordas, tímpano; final em ré maior).
+
 ## Consertos (o que deu errado no vídeo da Torre de Pisa e como resolver)
 - **Vídeo todo em branco, só o céu.** Com React 19 + @react-three/fiber 9, o `<EffectComposer>` do
   `@react-three/postprocessing` 3.x não desenha nada. Diagnóstico: um cubo vermelho sem efeitos aparece, e a cidade

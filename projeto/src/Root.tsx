@@ -6,6 +6,7 @@ import { SamuraiShort, SAMURAI_FRAMES } from "./videos/samurai/Samurai";
 import { LutadorShort, LUTADOR_FRAMES } from "./videos/lutador/Lutador";
 import { BatidaShort, BATIDA_FRAMES } from "./videos/batida/Batida";
 import { SepeShort, SEPE_FRAMES } from "./videos/sepe/Sepe";
+import { HitlerShort, HITLER_FRAMES } from "./videos/hitler/Hitler";
 import { BridgeShort, BRIDGE_FRAMES } from "./videos/bridge/Bridge";
 // Cada desenho novo: copie templates/pisa/ para src/videos/<nome>/, renomeie e registre aqui.
 export const Root: React.FC = () => (
@@ -17,5 +18,6 @@ export const Root: React.FC = () => (
     <Composition id="LutadorShort" component={LutadorShort} durationInFrames={LUTADOR_FRAMES} fps={30} width={1080} height={1920} />
     <Composition id="BatidaShort" component={BatidaShort} durationInFrames={BATIDA_FRAMES} fps={30} width={1080} height={1920} />
     <Composition id="SepeShort" component={SepeShort} durationInFrames={SEPE_FRAMES} fps={30} width={1080} height={1920} />
+    <Composition id="HitlerShort" component={HitlerShort} durationInFrames={HITLER_FRAMES} fps={30} width={1920} height={1080} />
   </>
 );
