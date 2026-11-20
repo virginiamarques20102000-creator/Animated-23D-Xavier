@@ -141,6 +141,7 @@ Regras padrão (o usuário pode mudar):
   - toda ação termina em reação contínua (susto, cai sentado, se arrasta olhando);
   - fumaça de batida quase preta, densa e opaca;
   - no fim de todo vídeo, igualar cor e brilho à referência com `scripts/color_match.py`: pretos levantados, sombras violeta e luzes quentes.
+  - munição, metal e armas em close usam material PBR metálico com reflexo de ambiente, sem contorno, e não o visual de desenho (ver "Projétil realista" no estudo).
 
 ## Consertos (o que deu errado no vídeo da Torre de Pisa e como resolver)
 - **Vídeo todo em branco, só o céu.** Com React 19 + @react-three/fiber 9, o `<EffectComposer>` do

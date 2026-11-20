@@ -300,10 +300,31 @@ export class World {
     this.canopy.position.set(0, 4.4, 0); this.treeG.add(this.canopy);
     this.treeG.position.set(TX, D0, TZ); R.add(this.treeG);
     // the followed bullet: copper body with a rounded nose (ink outline from the ink pass), and an additive glowing trail
-    const cu = lam("copper", () => ({ color: "#d07a3a" }));
-    const bb = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, 0.1, 16).rotateX(Math.PI / 2), cu); this.bullet.add(bb);
-    const nose = new THREE.Mesh(new THREE.SphereGeometry(0.045, 16, 10, 0, Math.PI * 2, 0, Math.PI / 2).rotateX(Math.PI / 2), cu); nose.position.z = 0.05; this.bullet.add(nose);
-    this.trail = new THREE.Mesh(new THREE.ConeGeometry(0.032, 1, 12, 1, true).rotateX(-Math.PI / 2).translate(0, 0, -0.5),
+    // realistic projectile: lathe-turned ogive (pointed nose, cylinder, boat-tail), metallic copper jacket with fine
+    // lengthwise machining streaks and rifling marks, a cannelure ring, a dark lead base; reflects a small sky/ground
+    // environment; no cartoon ink outline (NOINK)
+    const bprof: THREE.Vector2[] = [];
+    const R0 = 0.045, Lc = 0.06, Lo = 0.105;
+    bprof.push(new THREE.Vector2(0, -0.085), new THREE.Vector2(0.036, -0.085), new THREE.Vector2(0.04, -0.082), new THREE.Vector2(R0, -0.068));
+    for (let k = 0; k <= 4; k++) bprof.push(new THREE.Vector2(R0, -0.068 + ((Lc + 0.008) * k) / 4));
+    for (let k = 1; k <= 18; k++) { const u = k / 18, r = R0 * Math.pow(Math.max(0, 1 - Math.pow(u, 1.7)), 0.62); bprof.push(new THREE.Vector2(Math.max(0.0025, r), 0.0 + Lo * u)); }
+    bprof.push(new THREE.Vector2(0, Lo + 0.002));
+    const jacket = ctex("bulletJacket", 256, 128, (g, r) => {
+      const gr = g.createLinearGradient(0, 0, 256, 0); gr.addColorStop(0, "#c98a56"); gr.addColorStop(1, "#c98a56");
+      g.fillStyle = gr; g.fillRect(0, 0, 256, 128);
+      for (let i = 0; i < 260; i++) { g.strokeStyle = r() < 0.5 ? "rgba(255,220,180,0.07)" : "rgba(90,40,15,0.07)"; g.lineWidth = 0.6 + r(); const x = r() * 256; g.beginPath(); g.moveTo(x, 0); g.lineTo(x + (r() - 0.5) * 3, 128); g.stroke(); }
+      for (let k = 0; k < 6; k++) { g.fillStyle = "rgba(70,30,10,0.16)"; g.fillRect((k * 256) / 6, 30, 3, 50); }   // rifling engraving
+    });
+    const envFace = (top: string, bot: string) => { const cv = document.createElement("canvas"); cv.width = cv.height = 64; const g = cv.getContext("2d")!; const gr = g.createLinearGradient(0, 0, 0, 64); gr.addColorStop(0, top); gr.addColorStop(0.5, "#f4efe6"); gr.addColorStop(1, bot); g.fillStyle = gr; g.fillRect(0, 0, 64, 64); return cv; };
+    const env = new THREE.CubeTexture([envFace("#7fb0ea", "#6f8a4c"), envFace("#7fb0ea", "#6f8a4c"), envFace("#bcd8ff", "#bcd8ff"), envFace("#3d3d46", "#3d3d46"), envFace("#7fb0ea", "#6f8a4c"), envFace("#7fb0ea", "#6f8a4c")]);
+    env.colorSpace = THREE.SRGBColorSpace; env.needsUpdate = true;
+    const copper = new THREE.MeshStandardMaterial({ color: "#d88a52", map: jacket, metalness: 0.92, roughness: 0.26, envMap: env, envMapIntensity: 1.4 });
+    const lead = new THREE.MeshStandardMaterial({ color: "#7a5236", metalness: 0.85, roughness: 0.42, envMap: env });
+    const body = new THREE.Mesh(new THREE.LatheGeometry(bprof, 40).rotateX(Math.PI / 2), copper); body.castShadow = true;
+    const ring = new THREE.Mesh(new THREE.TorusGeometry(R0 * 0.99, 0.0016, 6, 48), new THREE.MeshStandardMaterial({ color: "#7a3c18", metalness: 0.8, roughness: 0.5, envMap: env })); ring.position.z = -0.025;
+    const base = new THREE.Mesh(new THREE.CircleGeometry(0.034, 32).rotateY(Math.PI), lead); base.position.z = -0.0855;
+    for (const m of [body, ring, base]) { m.layers.set(NOINK); this.bullet.add(m); }
+    this.trail = new THREE.Mesh(new THREE.ConeGeometry(0.03, 1, 16, 1, true).rotateX(-Math.PI / 2).translate(0, 0, -0.58),
       new THREE.MeshBasicMaterial({ color: new THREE.Color(2.2, 1.5, 0.7), transparent: true, opacity: 0.35, blending: THREE.AdditiveBlending, depthWrite: false }));
     this.trail.layers.set(NOINK); this.bullet.add(this.trail); this.bullet.visible = false; R.add(this.bullet);
     const red = lam("carRed", () => ({ color: "#d23c2c" })), wh = lam("carWhite", () => ({ color: "#f2ece0" })), blk = lam("tyre", () => ({ color: "#23232a" }));
@@ -413,7 +434,7 @@ export class World {
     this.bullet.visible = !!bl;
     if (bl) {
       this.bullet.position.set(bl.x, D0 + bl.y, bl.z); this.bullet.lookAt(bl.x + FIRE_DIR[0], D0 + bl.y, bl.z + FIRE_DIR[1]); this.bullet.rotateZ(bl.spin);
-      this.trail.scale.set(1, 1, bl.fast ? 2.2 : 0.7); (this.trail.material as THREE.MeshBasicMaterial).opacity = bl.fast ? 0.45 : 0.22;
+      this.trail.scale.set(1, 1, bl.fast ? 2.2 : 0.7); (this.trail.material as THREE.MeshBasicMaterial).opacity = bl.fast ? 0.35 : 0.12;
     }
     // ---- cast + effects ----
     const right = V(0, 0, 0).setFromMatrixColumn(cam.matrixWorld, 0);

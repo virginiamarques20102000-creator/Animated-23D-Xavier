@@ -207,7 +207,7 @@ const CAMS: Record<number, Key[]> = {
   ],
   // the bullet camera: beside and just behind the bullet, looking along its path; the trunk grows ahead
   5: [{ f: 203, s: (f) => { const t = f / FPS, b = bulletAt(Math.max(SHOTS_AT[0] + 0.001, Math.min(t, T_IMPACT - 0.001)))!, sx = -FIRE_DIR[1], sz = FIRE_DIR[0];
-    return { pos: [b.x + sx * 0.24 - FIRE_DIR[0] * 0.36, b.y + 0.05, b.z + sz * 0.24 - FIRE_DIR[1] * 0.36], look: [b.x + FIRE_DIR[0] * 0.02, b.y, b.z + FIRE_DIR[1] * 0.02], fov: 46, roll: 0.05 * Math.sin(t * 3) }; } }],
+    return { pos: [b.x + sx * 0.34 - FIRE_DIR[0] * 0.24, b.y + 0.05, b.z + sz * 0.34 - FIRE_DIR[1] * 0.24], look: [b.x + FIRE_DIR[0] * 0.02, b.y, b.z + FIRE_DIR[1] * 0.02], fov: 46, roll: 0.05 * Math.sin(t * 3) }; } }],
   // back on the shooter: shots 2 and 3
   6: [{ f: 237, s: (f) => dolly([SX - 1.9, 0.95, SZ + 4.6], [SX + 1.05, 1.35, TZ + 0.8], f, 237, 0.003, { fov: 46, roll: -0.03 }) }],
   // wide and low, side-on to the fall: the tree comes down beside him, he scoots back

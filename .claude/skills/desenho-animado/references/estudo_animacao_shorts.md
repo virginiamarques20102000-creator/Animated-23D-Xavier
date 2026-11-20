@@ -298,3 +298,10 @@ Folhas a 2 quadros por segundo no vídeo inteiro e a 20–30 quadros por segundo
   - Fumaça e poeira ficam na camada NOINK (sem contorno), e partículas a menos de ~1 tamanho da lente são puladas, para não embaçar a câmera.
 - **Câmera da queda da árvore:** sempre do **lado em que o personagem está** em relação à linha de queda (`sideN`), olhando para cima no começo e descendo junto com a árvore.
 - **Cor final:** `scripts/color_match.py` mede a referência e gera as curvas do ffmpeg, aplicadas na montagem final (finalize).
+
+### Projétil realista (substitui a bala "desenho")
+- **Forma:** um `LatheGeometry` torneado, com base em boat-tail, cilindro e ponta ogival afilada (`r = R0·(1 − u^1,7)^0,62`), anel de cravação fino (toro de 1,6 mm) e base de chumbo e cobre escura.
+- **Material:** `MeshStandardMaterial` metálico (metalness 0,92, roughness 0,26), cor cobre com textura sutil de usinagem e marcas de raiamento. Reflete um mini-ambiente de céu, horizonte e chão (CubeTexture pintado por código).
+- **Sem contorno de tinta** (camada NOINK). O rastro de calor é aditivo, fino e fraco.
+- **Câmera da bala:** quase de perfil (0,34 m ao lado e 0,24 m atrás), olhando para a bala, para mostrar a ponta e o brilho do metal.
+- Regra geral: objetos que precisam parecer reais (metal, vidro, armas, munição) usam material PBR com reflexo de ambiente, e não o sombreado de desenho.
