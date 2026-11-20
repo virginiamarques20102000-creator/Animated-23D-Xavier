@@ -301,6 +301,19 @@ export const stage = (id: number, t: number, cam: CamInfo): Stage => {
       });
       break;
     }
+    case "dawn": {
+      const shock = t >= 12.1;
+      CAMP.forEach(([x, z, o, okey], i) => {
+        if (okey === "lamp") front(cam, out, { i: 1, o, okey }, x, z, { mode: "stand", expr: shock ? "shock" : "stern", blink: lidAt(t, 1, [12.1]) });
+        else front(cam, out, { i: 20 + i, o, okey }, x, z, { mode: "sit", expr: shock ? "nervous" : "neutral", blink: lidAt(t, 20 + i), facing: x < 0 ? 1 : -1 });
+      });
+      break;
+    }
+    case "river": {
+      front(cam, out, { i: 1, o: LAMPIAO, okey: "lamp" }, 0, 108.4, { mode: "stand", expr: "stern", blink: lidAt(t, 1), facing: 0 });
+      front(cam, out, { i: 2, o: MARIA, okey: "maria" }, -1.25, 108.9, { mode: "stand", expr: "smile", blink: lidAt(t, 2), facing: 1 });
+      break;
+    }
     case "rest": {
       CAMP.forEach(([x, z, o, okey], i) => {
         const expr: Expr = (["smile", "smile_closed", "neutral", "grin", "neutral", "smile"] as Expr[])[i];

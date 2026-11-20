@@ -25,9 +25,9 @@ def place(dst, x, at, gain=1.0):
     dst[i:i + n] += x[:n] * gain
 
 # shot spans (s), from story.ts
-DAY = [(0, 13.1), (13.1, 27.1), (56.1, 63.2)]
-NIGHT = (27.1, 52.4)
-RIVER = [(7.7, 13.1), (63.2, DUR)]
+DAY = [(0, 7.9), (13.3, 27.2), (56.3, 63.4)]
+NIGHT = (27.2, 52.6)
+RIVER = [(19.5, 24.5), (63.4, DUR)]
 GUNSHOTS = [41.2, 41.45, 41.6, 41.95, 42.25, 42.4, 42.8, 43.15, 43.35, 43.9, 44.3, 44.7, 45.05, 45.6, 46.3, 46.95, 47.55,
             48.3, 49.0, 49.55, 50.3, 50.95, 51.6, 52.1]
 
@@ -90,7 +90,7 @@ def whoosh(len_s=0.8):
     return x / np.abs(x).max()
 place(sfx, whoosh(), 12.08 - 0.8, db(-12)); place(sfx, boom(), 12.08, db(-6))
 place(sfx, boom(2.5, 45), 47.55, db(-5)); place(sfx, boom(2.5, 42), 50.3, db(-7))
-place(sfx, whoosh(0.6), 56.1 - 0.5, db(-16)); place(sfx, boom(3.0, 38), 56.31, db(-9))
+place(sfx, whoosh(0.6), 56.3 - 0.5, db(-16)); place(sfx, boom(3.0, 38), 56.31, db(-9))
 # ---- original score: a dark sertão drone (D minor), a tension pulse, a quiet ending ----
 def pad(freqs, a, b, gain):
     g = win(a, b, 2.0)
