@@ -89,7 +89,7 @@ const CAMS: Record<number, Key[]> = {
   2: [{ f: 59, s: (f) => { const c = orbit(SX, SZ, 2.1, 1.65, 0.45 - 0.35 * easeOut(lin(f, 59, 100)), 1.62, f, 59, 0.002, { fov: 40 - 18 * lin(f, 100, 116) ** 2, roll: -0.03 });
     return { ...c, look: [c.look[0] - 7 * (1 - easeOut(lin(f, 59, 68))) * (f < 68 ? 1 : 0), c.look[1], c.look[2]] }; } }],
   // starts tight and widens out of the zoom-through, low angle, arcs around both fighters
-  3: [{ f: 108, s: (f) => { const m = SX + ((SX + Math.max(banditX(f), -4)) / 2 - SX) * easeOut(lin(f, 110, 132)); return orbit(m, SZ, 6.2, 0.85, 0.75 - 0.5 * lin(f, 108, 186), 1.1, f, 108, 0.002, { fov: 24 + 22 * easeOut(lin(f, 108, 122)), roll: 0.02 }); } }],
+  3: [{ f: 108, s: (f) => { const m = SX + ((SX + Math.max(banditX(f), -2.4)) / 2 - SX) * easeOut(lin(f, 110, 132)); return orbit(m, SZ, 7.2, 0.85, 0.75 - 0.5 * lin(f, 108, 186), 1.1, f, 108, 0.002, { fov: 24 + 22 * easeOut(lin(f, 108, 122)), roll: 0.02 }); } }],
   // the strike: crash zoom on impact, slow-motion orbit while it hangs, then pulls back to follow the flying rival
   4: [{ f: 186, s: (f) => orbit(SX - 0.7 - 0.8 * smooth((f - 205) / 25), SZ, 5.4 + 1.6 * smooth((f - 205) / 25), 1.0, 0.25 - 0.35 * lin(f, 191, 232), 1.15, f, 186, 0.001,
     { fov: 46 - 10 * easeOut(lin(f, 191, 194)) + 10 * smooth((f - 200) / 20), roll: 0.04 }) }],
