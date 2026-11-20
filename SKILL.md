@@ -95,6 +95,18 @@ Regras padrão (o usuário pode mudar):
 - Quando a narração diz uma ação (ex.: "cercaram"), mostre a ação de fato (policiais vindo de todos os lados e fechando o círculo).
 - Usuário usa só celular e pede economia: poucas prévias (folha de quadros soltos), um render final em blocos retomáveis (`projeto/scripts/render_chunks.sh` + `finalize.sh`), reaproveitar blocos que não mudaram, mensagens curtas.
 
+## Animação dos personagens (estudo de referência — detalhes em references/estudo_animacao_shorts.md)
+- A imagem muda a cada 0,5–2 s. Cada palavra-chave tem uma imagem própria: plano geral → médio → close de reação, e insertos de objetos.
+- Corpo vivo o tempo todo: respiração, piscar a cada 2–4 s e cabeça mudando de ângulo. Poses assimétricas, com o peso numa perna.
+- Toda ação tem antecipação (3–4 quadros), ação (1–2 quadros, o corpo todo dobra), impacto (faíscas, tremor de 3–6 quadros) e acompanhamento (6–10 quadros).
+- O rosto muda a cada 0,5–1,5 s:
+  - olhos em ponto, meia-lua, círculo de choque ou "><";
+  - sobrancelhas fazem metade da emoção;
+  - a boca alterna 3 formas a cada 2–3 quadros enquanto o personagem fala;
+  - extras de emoção: gota de suor, veia e linhas de susto.
+- Todos olham para quem fala ou para o objeto da ação. Os personagens se deslocam pelo cenário.
+- Luz: sempre uma fonte visível (fogueira, tocha, lua ou janela). À noite, céu frio com chão quente. Fundo desfocado, bonecos nítidos.
+
 ## Consertos (o que deu errado no vídeo da Torre de Pisa e como resolver)
 - **Vídeo todo em branco, só o céu.** Com React 19 + @react-three/fiber 9, o `<EffectComposer>` do
   `@react-three/postprocessing` 3.x não desenha nada. Diagnóstico: um cubo vermelho sem efeitos aparece, e a cidade
