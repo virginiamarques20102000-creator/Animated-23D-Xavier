@@ -91,3 +91,37 @@ Estudado em folhas de quadros: 2 quadros por segundo no vídeo inteiro e 15 quad
 ### Câmera em ação
 - A câmera acompanha o objeto que se move: no voo do corpo ela recua e alarga para mostrar a queda.
 - Corte ou aproximação forte exatamente no quadro do impacto, nunca antes.
+
+## 8. Câmera e transições, medidas no vídeo
+Medi o movimento da câmera quadro a quadro com correlação de fase (deslocamento) e busca de escala (zoom), em 108x192 px.
+- **Ritmo:** a câmera alterna repouso e rajada. No repouso faz um push-in lento (zoom de 1,00–1,02 a cada 0,5 s, ou seja, ~2–4%/s); nunca fica parada de verdade. A rajada é um movimento forte de 0,5–1 s, com início suave e fim suave.
+- **Zoom-in rápido (crash):** ×1,3 a ×2,7 em 0,5–1 s, mergulhando num objeto (o baú de moedas, o carretel). Acelera até o fim e corta ali, ou atravessa para a cena seguinte.
+- **Afastar e revelar:** ×0,7–0,85 por 0,5 s ao mesmo tempo que sobe (grua). Vai do personagem para o exército inteiro, por exemplo.
+- **Panorâmica:** 1–2% da largura da tela por quadro, sempre seguindo algo que se move.
+- **Cortes:** são poucos (~8 em 59 s). A maior parte das "transições" é movimento contínuo de câmera, por isso a sensação hipnótica de plano-sequência.
+
+### Transições usadas
+1. **Corte no movimento, com o objeto como ponte:** o personagem rola a bomba → corte para a bomba em close, rente ao chão → a câmera segue a bomba e sobe até revelar o acampamento.
+2. **Grua de revelação:** close do grupo → sobe e recua acelerando até mostrar o lugar inteiro.
+3. **Dissolve curto (3–6 quadros) com a câmera girando:** os dois planos se sobrepõem enquanto um personagem novo entra pela borda.
+4. **Limpeza por objeto em primeiro plano:** a câmera avança e passa por personagens ou objetos muito perto da lente, que cobrem a tela e "limpam" para o plano seguinte.
+5. **Arco lento em volta do objeto com câmera baixa:** o objeto cresce na tela. Bom para criar suspense.
+6. **Explosão ou flash que cobre a tela:** 2–3 quadros de fogo ou branco, depois volta já no plano novo, bem aberto.
+7. **Chicote (whip pan):** giro muito rápido de 4–6 quadros (aceleração cúbica) que termina no plano seguinte, chegando do lado oposto, com um dissolve de 4–6 quadros no meio e um "whoosh" no som.
+8. **Zoom através:** o plano A aproxima até ~18° de campo de visão, dissolve de 6–8 quadros, e o plano B começa fechado (~24°) e abre em 0,5 s.
+
+### Regras de câmera
+- Câmera baixa (0,5–1,0 m) em ação e confronto; na altura do rosto em closes.
+- Sempre em arco, ou seja, orbitando o assunto, não só indo para frente. O ângulo muda 0,3–0,6 rad por plano.
+- Câmera lenta no impacto: a física corre a ~40% por 0,5 s enquanto a câmera continua orbitando. Depois volta à velocidade normal.
+- No impacto: crash-zoom de ~10° de campo de visão em 3 quadros, tremor de 4–6 quadros e flash de 50%. Depois recua para mostrar a consequência (o corpo voando).
+
+## 9. Mecânica do corpo (animador profissional)
+- **Quebra sucessiva das articulações:** num golpe, o **quadril** começa primeiro, o **peito** 1–2 quadros depois, o **braço** depois e a **arma** por último. Na volta é a mesma ordem.
+- **Antecipação pelo quadril:** o quadril vai para trás (para longe do alvo), o peso fica na perna de trás, o peito inclina para trás, a base alarga e os joelhos dobram mais.
+- **Golpe:** o quadril avança (~30 unidades) e o corpo desce na perna da frente (agachamento +0,1). O peito gira e inclina ~35–40° para frente. O braço livre vai para trás para equilibrar e a cabeça acompanha atrasada.
+- **Depois do golpe:** cada parte passa do ponto e se acomoda numa mola amortecida com frequência própria. Quadril, peito, braço e cabeça balançam em tempos diferentes, assim nada para junto. A recuperação é lenta (12–14 quadros), na mesma ordem: quadril, peito, braço.
+- **Ginga (base brasileira):** o quadril balança de um lado para o outro a cada ~1,2 s, o peito contra-gira (inclina para o lado oposto), o braço livre balança oposto ao quadril e a cabeça fica quase nivelada. Os joelhos dobram mais quando o quadril passa pelo centro.
+- **Respirar:** o peito sobe e desce num ciclo de ~2 s, mesmo em pausa.
+- **Chiburi** (sacudir a lâmina depois do golpe): um estalo rápido de 4 quadros para baixo, volta em 6 quadros e o corpo se acomoda.
+- **Implementação:** o boneco frontal (toon.ts) aceita `hip` (deslocamento do quadril), `crouch` (dobra dos joelhos), `stance` (abertura dos pés), `armB` (braço livre de equilíbrio), `tilt` (peito) e `headTilt`. Exemplo completo na função `lutador` em src/videos/lutador/cast.ts.

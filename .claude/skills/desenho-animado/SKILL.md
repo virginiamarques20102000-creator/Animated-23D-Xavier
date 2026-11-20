@@ -111,6 +111,17 @@ Regras padrão (o usuário pode mudar):
   - faíscas e corpos arremessados seguem trajetória balística com gravidade de 9,8 m/s², quique pequeno e poeira;
   - ao correr, o tronco inclina para frente; ao andar, o corpo sobe e desce;
   - exemplo pronto em src/videos/samurai (função `samurai` em cast.ts).
+- **Câmera e transições (seção 8 do estudo):**
+  - a câmera alterna repouso (push-in de 2–4%/s) e rajadas de 0,5–1 s (crash-zoom de ×1,3–2,7, afastar e revelar subindo, arco em volta do assunto);
+  - poucas transições com corte seco: corte no movimento com o objeto como ponte, chicote (whip), zoom através, dissolve curto girando, limpeza por objeto em primeiro plano e flash ou explosão;
+  - câmera baixa na ação e câmera lenta de 40% por 0,5 s no impacto.
+- **Corpo (seção 9 do estudo):**
+  - a ordem é quadril → peito → braço → arma;
+  - na antecipação o quadril vai para trás e o peso fica na perna de trás;
+  - no golpe o quadril avança, o corpo desce na perna da frente e o braço livre vai para trás;
+  - depois, cada parte se acomoda em mola com tempo próprio;
+  - a ginga brasileira usa quadril, peito em contra-giro e braço oposto;
+  - parâmetros `hip`, `crouch`, `stance`, `armB` no toon.ts, com exemplo em src/videos/lutador.
 
 ## Consertos (o que deu errado no vídeo da Torre de Pisa e como resolver)
 - **Vídeo todo em branco, só o céu.** Com React 19 + @react-three/fiber 9, o `<EffectComposer>` do

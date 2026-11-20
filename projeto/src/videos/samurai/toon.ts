@@ -465,6 +465,8 @@ const BUILD: Record<Build, { a: number; torso: number; legs: number; tw: number 
 export type FrontOpts = {
   phase?: number; expr?: Expr; mode?: "march" | "stroll" | "stand" | "sit" | "fall"; look?: number; blink?: boolean | number; lift?: number;
   prop?: Prop; tilt?: number; headTilt?: number; wave?: number;
+  /** hip shift (u, + = canvas right), knee bend 0..1, feet apart 0..1, free (left) arm swing -1..1 */
+  hip?: number; crouch?: number; stance?: number; armB?: number;
   /** canvas angle the key light comes FROM (painted crescent + thick outline side) */
   light?: number; facing?: -1 | 0 | 1; seed?: number;
 };
@@ -476,13 +478,13 @@ const footStroke = (p: Pen, a: P2, b: P2, w: number, col: string) => {
 
 export const bodyFront = (p: Pen, o: Outfit, opts: FrontOpts) => {
   const { phase = 0, expr = "neutral", mode = "march", look = 0, blink = false, lift = 60, prop = null, tilt = 0, headTilt = 0, wave,
-    light = DEF_LIGHT, facing = 0, seed = 1 } = opts;
+    light = DEF_LIGHT, facing = 0, seed = 1, hip = 0, crouch = 0, stance = 0, armB } = opts;
   const Bd = BUILD[o.build ?? "adult"], skin = o.skin ?? SKIN, two = Math.PI * 2, lid = lidOf(blink);
   const H = headBlob(seed, Bd.a, facing), W = 2 * H.a, HH = 2 * H.b, u = W / 100;
   const tall = (1 + Bd.torso + Bd.legs) * HH, sole = 975;
   // body bob 5 % (march) / 3 % (stroll) of the height, lowest at contact (phase 0 and 0.5)
   const bob = mode === "march" ? 0.025 * tall * Math.cos(2 * two * phase) : mode === "stroll" ? 0.015 * tall * Math.cos(2 * two * phase) : 0;
-  const torsoBot = mode === "sit" ? sole - 0.2 * HH : sole - Bd.legs * HH + bob;
+  const torsoBot = mode === "sit" ? sole - 0.2 * HH : sole - Bd.legs * HH + bob + (mode === "fall" ? 0 : crouch * 0.3 * HH);
   const chin = torsoBot - Bd.torso * HH, hc = chin - H.b, crown = hc - H.b, hipY = torsoBot - 0.12 * HH;
   const thick = thickAngle(light), ow = 5 * u;
   const legCol = mix(o.pants, INK, 0.55), armCol = mix(o.jacket, INK, 0.5), footCol = o.boots;
@@ -514,8 +516,8 @@ export const bodyFront = (p: Pen, o: Outfit, opts: FrontOpts) => {
     const L = mode === "march" ? lift * 1.25 : mode === "stroll" ? lift * 0.55 : 0;
     for (const [side, ph] of [[-1, 0], [1, 0.5]] as const) {
       const up = Math.max(0, Math.sin(two * (phase + ph))) * L;
-      const hx = 300 + side * 15 * u, fx = 300 + side * 22 * u, fy = sole - 4 * u - up;
-      const k: P2 = [(hx + fx) / 2 + side * (1.5 * u + up * 0.16), (hipY + fy) / 2 - up * 0.08];
+      const hx = 300 + side * 15 * u + hip * u, fx = 300 + side * (22 + stance * 30) * u, fy = sole - 4 * u - up;
+      const k: P2 = [(hx + fx) / 2 + side * (1.5 * u + up * 0.16 + crouch * 16 * u), (hipY + fy) / 2 - up * 0.08 - crouch * 0.05 * HH];
       p.stroke(curve([hx, hipY], k, [fx, fy]), legW, legCol);
       footStroke(p, [fx - side * 3 * u, fy], [fx + side * 13 * u, fy + 0.5 * u], footW, footCol);
     }
@@ -523,7 +525,7 @@ export const bodyFront = (p: Pen, o: Outfit, opts: FrontOpts) => {
   // ---- upper body: rotates about the hips (tilt + a small weight-shift sway on every step) ----
   const sway = mode === "march" ? 1.6 * Math.sin(two * phase) : mode === "stroll" ? 1.0 * Math.sin(two * phase) : 0;
   const A = tilt + sway;
-  p.rot = A ? [rad(A), 300, hipY] : null;
+  p.rot = A || hip ? [rad(A), 300, hipY, hip * u, 0] : null;
   const dress = !!o.dress && mode !== "sit" && mode !== "fall";
   const T: Blob = { a: ((Bd.tw / 2) * W) / 1.06, b: 0.5 * (torsoBot - (chin - 0.25 * HH)), nTop: 2.2, nBot: 2.6, egg: o.build === "stout" ? 0.17 : 0.12,
     asym: 0.04 * facing, rot: 0, noise: 0.006, seed: seed + 7 };
@@ -535,6 +537,13 @@ export const bodyFront = (p: Pen, o: Outfit, opts: FrontOpts) => {
     return [S, [ex, S[1] + 0.48 * HH], [hx, chin + 1.04 * HH - Math.abs(fwd) * 9 * u]];
   };
   const sw = mode === "march" || mode === "stroll" ? Math.sin(two * phase) : 0;
+  /** free arm for balance: -1 swung back/up behind, 0 hanging, +1 reaching forward/out */
+  const swingB = (b: number): [P2, P2, P2] => {
+    const S = sh(-1), ang = rad(-12 - 75 * b);
+    const E: P2 = [S[0] + Math.sin(ang) * 0.45 * HH, S[1] + Math.cos(ang) * 0.45 * HH];
+    const a2 = ang - rad(25 * Math.abs(b));
+    return [S, E, [E[0] + Math.sin(a2) * 0.42 * HH, E[1] + Math.cos(a2) * 0.42 * HH]];
+  };
   // rifle at the order: butt by the right hip, held by the hanging right hand, muzzle past the crown
   const R0: P2 = [300 + 47 * u, torsoBot + 0.12 * HH], R1: P2 = [300 + 64 * u, crown - 0.32 * HH];
   const rifle = !!o.rifle && (mode === "march" || mode === "stand" || mode === "stroll");
@@ -543,7 +552,7 @@ export const bodyFront = (p: Pen, o: Outfit, opts: FrontOpts) => {
   if (mode === "sit") for (const side of [-1, 1]) arms.push({ pts: [sh(side), [tcx + side * (1.1 * T.a + 6 * u), sh(side)[1] + 0.4 * HH], [tcx + side * (1.2 * T.a + 10 * u), torsoBot + 0.04 * HH]], front: false });
   else if (mode === "fall") for (const side of [-1, 1]) arms.push({ pts: [sh(side), [tcx + side * (1.15 * T.a + 12 * u), sh(side)[1] - 0.25 * HH], [tcx + side * (1.3 * T.a + 24 * u), sh(side)[1] - 0.68 * HH]], front: false });
   else {
-    arms.push({ pts: prop === "shako" ? hang(-1, 0) : hang(-1, -sw), front: false });
+    arms.push({ pts: prop === "shako" ? hang(-1, 0) : armB !== undefined ? swingB(armB) : hang(-1, -sw), front: false });
     if (rifle) {
       const G = lerp2(R0, R1, 0.1);
       arms.push({ pts: [sh(1), [tcx + 1.12 * T.a + 5 * u, sh(1)[1] + 0.45 * HH], G], front: false });
@@ -631,7 +640,7 @@ export const bodyFront = (p: Pen, o: Outfit, opts: FrontOpts) => {
   }
   // ---- head: rotates with the body, plus its own tilt about the chin ----
   const Ah = A + headTilt, [cpx, cpy] = rotAbout([300, chin], rad(A), [300, hipY]);
-  p.rot = Ah ? [rad(Ah), 300, chin, cpx - 300, cpy - chin] : null;
+  p.rot = Ah || hip ? [rad(Ah), 300, chin, cpx - 300 + hip * u, cpy - chin] : null;
   hatBehind(p, o, H, 300, hc, light, thick, ow, false);
   const hp = blobPts(300, hc, H);
   p.shadedFill(hp, skin, mul(skin, SH_SKIN), light, H.a);
