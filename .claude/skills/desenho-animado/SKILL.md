@@ -6,6 +6,7 @@ description: Faz um short vertical de ~15-70 s contando uma história no estilo 
 # Desenho animado 2D/3D (three.js + Remotion)
 
 Exemplos prontos:
+- **O inferno das trincheiras** (`projeto/src/videos/trincheiras/`, composição `TrincheirasFilm`, 16:9, 10 min): documentário longo feito do áudio + roteiro do usuário, sincronizado palavra a palavra.
 - **A Torre de Pisa** (`templates/pisa/`, composição `PisaShort`, 1080x1920, 30 fps): 12,6 s na voz do narrador, 6 cenas.
 - **A ponte** (`templates/bridge/`, composição `BridgeShort`): 67 s, o primeiro exemplo do estilo.
 - Estudo do estilo: `references/` (STYLE_BIBLE.md, reports/*.md, frames/, sheets/).
@@ -161,6 +162,54 @@ Regras padrão (o usuário pode mudar):
   gráfica (velas, arame farpado, cadeira vazia, luz que se apaga).
 - Áudio: `audio/hitler_mix.py` (efeitos nos tempos exatos dos planos: passos no ritmo da marcha, tiros, explosões, carimbos, trem,
   ondas, multidão, sino; trilha em ré menor com piano, cordas, tímpano; final em ré maior).
+
+## Vídeo longo a partir de áudio + roteiro ("O inferno das trincheiras", 10 min, aprovado pelo usuário)
+Código: `projeto/src/videos/trincheiras/` (composição `TrincheirasFilm`, 1920x1080). Som: `projeto/audio/trincheiras_mix.py`.
+Use este vídeo como modelo para qualquer documentário longo (história, guerras, biografias).
+- **Pedido padrão do usuário:** "bem sincronizado" (se fala "assinando", mostra assinando; se fala "assassinado", mostra o
+  atentado sem sangue) e "mais brilhoso, mais bonito". Ele manda o áudio primeiro e o roteiro depois; esperar os dois.
+- **Alinhamento sem transcrição (a rede bloqueia modelos de ASR/TTS):**
+  1. `ffmpeg silencedetect=n=-32dB:d=0.13` → pausas.
+  2. Roteiro em frases, números por extenso ("mil novecentos e quatorze"), contar sílabas.
+  3. Programação dinâmica: cada fim de frase cai numa pausa, custo = desvio da taxa de sílabas (≈6 síl/s) + penalidade por
+     engolir pausa longa. Depois listar frases com taxa < 4,3 ou > 7,6 síl/s e corrigir à mão (erro típico: fronteira
+     numa vírgula, desloca uma frase inteira).
+  4. Tempo de cada palavra = proporção de sílabas dentro dos trechos com voz (energia > −36 dB em janelas de 50 ms).
+     Salvar como `tempos_palavras.txt` ao lado do código. Corte do plano = início da frase − 0,07 s.
+  5. Nos planos, use tempo absoluto `T` (4º argumento de `act`) e `T - palavra` como idade do evento.
+- **Estrutura de arquivos para ~150 planos:** `kit.ts` (elenco, `Sc`, câmera `mv/path`, efeitos), `shots_a/b/c.ts`
+  (planos por capítulo), `story.ts` (junta, tremidas `KICKS`, fusões, acabamento), `types.ts`.
+- **Kit novo (toon.ts/paint.ts/engine.ts desta pasta):**
+  - capacetes `brodie` (britânico/EUA), `adrian` (francês), `pickel` (alemão 1914), `kepi`, `peaked` (oficiais, imperadores), `fez`;
+    `gasmask: true` no Outfit; props `pen` (escrevendo), `letter`, `bread`, `rifleUp`, `shovel`;
+  - cenários `nomans` (terra de ninguém), `trenchIn` (dentro da trincheira), `sarajevo`, `ocean` (+ `waves()`), `sky` (aviões),
+    `desert`, `russia`, `forest` (Compiègne), `mirrors` (Versalhes), `hospital`, `poppies` (papoulas + cruzes), `station`, `world` (mapa-múndi);
+  - mapa da Europa de 1914 com fronteiras da época (`C14`), `hl()` destaca país, `arrow()`, `frontLine()` (frente ocidental), `pin()`;
+  - sprites: carro 1914, encouraçado, transatlântico, submarino, biplanos, tanque Mark I, canhão, metralhadora, sacos de areia,
+    rato, telegrama, tratados, cruz, cova com capacete, coroa, retrato, dinheiro, maca, escada;
+  - overlays: `chapter()` (cartão de capítulo, título se ajusta à largura), `calendar()`, `counter()` (número subindo),
+    `clockFace()`, `scales()` (balança), carimbos; efeitos `flare`, `tracers`, `spurts`, `mgFire`, `gas`, `mudFront` (lama até o joelho).
+- **"Mais brilhoso":** `post()` em engine.ts faz grade (saturação 1,2, contraste 1,07), bloom em ¼ da resolução
+  (contraste 2,6 → blur 9 px → screen 0,5), vinheta 0,42, sem granulação; `sun()` + `rays()` nos planos de pôr do sol;
+  sobrescrever por plano com `bloom`/`sat`.
+- **Erros que apareceram na folha de contato e o conserto:**
+  - tanque/carro/metralhadora gigantes: escala real cabe mal no quadro → `sc` 0,5–0,85 e câmera a 10+ m;
+  - gás amarelo cobrindo a tela: nuvem atrás dos bonecos (z ≥ 2,6), alfa ≤ 0,4, cor apagada;
+  - documento (tratado/telegrama) tampando quem assina: `sc` 0,4–0,45;
+  - pessoa sentada no carro: `mode: "sit"`, `y` 0,42, z um pouco à frente do carro;
+  - título de capítulo cortado: tamanho = 1560 / (letras × 0,74);
+  - meia-elipse com `ell(…, 0, Math.PI)` = cúpula (capacete); `Math.PI..2π` vira tigela.
+- **Render:** 18 098 quadros em ~45 min (`CHUNK=600 CONC=4`, ~1,5 min por bloco). Os blocos sobrevivem a reinício do contêiner:
+  rodar o mesmo comando de novo retoma. Juntar: concat → mix → `loudnorm=I=-14`; mandar ao usuário a versão `crf 24`
+  (~195 MB) e guardar a de `crf 16`. `.mp4` fica fora do git (limite de 100 MB do GitHub).
+- **Som:** mesmo método do Hitler, mas `pad()` calcula só o trecho (não o vídeo inteiro), senão 10 min fica lento; trilha em
+  ré menor que vira ré maior quando a guerra acaba; efeitos nos tempos absolutos das palavras.
+- **Entrega:** junto do vídeo, oferecer título e descrição de YouTube (ver abaixo).
+
+## Título e descrição para YouTube (o usuário pede ao fim)
+- Título ≤ 70 caracteres, gancho emocional + tema claro, sem caixa alta inteira nem promessa falsa.
+- Descrição: 2 primeiras linhas = gancho (aparecem na busca), resumo, capítulos com minutagem real dos cartões de capítulo
+  (o primeiro em 00:00), chamada para inscrição/comentário, 3–5 hashtags.
 
 ## Consertos (o que deu errado no vídeo da Torre de Pisa e como resolver)
 - **Vídeo todo em branco, só o céu.** Com React 19 + @react-three/fiber 9, o `<EffectComposer>` do
