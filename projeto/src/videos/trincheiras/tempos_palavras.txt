@@ -1,0 +1,131 @@
+0: Imagine@0.1 acordar@0.8 em@1.2 um@1.3 lugar@1.4 onde@1.9 a@2.1 lama@2.3 chega@2.5 aos@2.9 joelhos,@3.0
+1: o@4.1 cheiro@4.2 de@4.5 cadáveres@4.7 invade@5.3 o@5.8 ar@6.0
+2: e,@6.6 a@6.7 qualquer@6.8 momento,@7.3 uma@8.2 explosão@8.6 pode@9.0 destruir@9.3 tudo@9.8 ao@10.1 seu@10.2 redor.@10.3
+3: Você@11.4 não@11.7 sabe@11.8 se@12.1 sobreviverá@12.2 ao@12.8 próximo@13.0 minuto.@13.5
+4: Não@14.7 sabe@14.8 se@15.0 verá@15.1 sua@15.3 família@15.6 novamente.@16.1
+5: E,@17.5 enquanto@17.6 os@18.4 tiros@18.5 ecoam@18.8 pelo@19.3 campo@19.6 de@19.9 batalha,@20.0
+6: tudo@21.0 o@21.2 que@21.4 pode@21.5 fazer@21.8 é@22.4 esperar.@22.5
+7: Essa@23.9 foi@24.2 a@24.4 realidade@24.5 de@25.2 milhões@25.4 de@25.7 soldados@25.9 durante@26.3 a@26.8 Primeira@26.9 Guerra@27.4 Mundial.@27.7
+8: Entre@28.9 mil@29.1 novecentos@29.3 e@29.9 quatorze@30.1 e@30.6 mil@30.8 novecentos@30.9 e@31.6 dezoito,@31.6 o@32.5 mundo@32.7 mergulhou@33.0 em@33.4 um@33.5 dos@33.8 conflitos@33.9 mais@34.4 devastadores@34.5 da@35.2 história.@35.4
+9: Impérios@36.5 desmoronaram,@37.2 cidades@38.3 foram@38.8 destruídas@39.1
+10: e@40.0 uma@40.1 geração@40.4 inteira@40.8 foi@41.2 marcada@41.4 por@41.8 um@42.0 nível@42.0 de@42.4 violência@42.5 que@43.1 poucos@43.2 poderiam@43.7 imaginar.@44.2
+11: Mas@45.5 como@45.6 uma@46.0 guerra@46.2 que@46.6 muitos@46.8 acreditavam@47.1 durar@47.9 apenas@48.4 alguns@48.8 meses@49.1
+12: se@49.7 transformou@49.8 em@50.2 quatro@50.4 anos@51.0 de@51.4 puro@51.5 horror?@52.0
+13: No@53.4 início@53.5 do@54.1 século@54.4 vinte,@55.1 a@55.5 Europa@55.7 era@56.2 uma@56.5 região@56.9 dominada@57.2 por@58.1 grandes@58.2 impérios,@58.5
+14: rivalidades@59.6 políticas@60.1 e@60.5 uma@60.6 corrida@60.8 armamentista@61.2 cada@61.8 vez@62.0 mais@62.0 intensa.@62.2
+15: Alemanha,@63.1 França,@63.7 Reino@64.2 Unido,@64.5 Rússia@65.0 e@65.5 Áustria-Hungria@65.7 disputavam@66.7 poder,@67.5 territórios@67.9 e@69.0 influência.@69.2
+16: Alianças@70.5 militares@71.0 foram@71.7 criadas.@71.9
+17: Exércitos@72.7 cresceram.@73.4
+18: Navios@74.3 de@74.8 guerra@74.9 se@75.2 multiplicaram.@75.3
+19: E@76.7 qualquer@76.8 crise@77.5 poderia@77.8 desencadear@78.4 uma@79.1 guerra@79.4 de@79.8 proporções@80.0 continentais.@80.5
+20: O@82.2 estopim@82.2 aconteceu@82.8 em@83.3 vinte@83.5 e@83.7 oito@83.8 de@84.2 junho@84.2 de@84.5 mil@84.7 novecentos@84.8 e@85.4 quatorze.@85.5
+21: Na@86.8 cidade@86.9 de@87.3 Sarajevo,@87.5 o@88.0 arquiduque@88.4 Francisco@89.0 Ferdinando,@89.3 herdeiro@90.0 do@90.8 Império@90.8 Austro-Húngaro,@91.5
+22: foi@92.5 assassinado@92.7 por@93.5 Gavrilo@93.5 Princip,@94.0 um@94.3 nacionalista@94.5 sérvio-bósnio.@95.8
+23: O@97.3 atentado@97.4 desencadeou@98.0 uma@98.5 crise@98.9 diplomática.@99.1
+24: A@100.5 Áustria-Hungria@100.6 declarou@101.5 guerra@102.0 à@102.2 Sérvia.@102.2
+25: A@103.2 Rússia@103.3 mobilizou@103.8 suas@104.3 tropas.@104.7
+26: A@105.5 Alemanha@105.6 apoiou@106.2 os@106.7 austríacos@106.8 e@107.5 declarou@107.7 guerra@108.2 à@108.5 Rússia@108.5 e@108.9 à@109.1 França.@109.1
+27: Em@110.0 seguida,@110.2 tropas@110.6 alemãs@111.2 invadiram@111.7 a@112.2 Bélgica@112.3 para@112.8 alcançar@113.2 a@113.6 França,@113.8
+28: provocando@114.4 a@114.8 entrada@115.0 do@115.3 Reino@115.5 Unido@115.7 no@116.1 conflito.@116.2
+29: Em@117.3 poucas@117.5 semanas,@117.8 grande@118.3 parte@118.8 da@119.2 Europa@119.3 estava@119.8 em@120.3 guerra.@120.5
+30: Milhões@121.3 de@121.7 jovens@121.8 marcharam@122.1 para@122.6 os@122.9 campos@123.0 de@123.4 batalha@123.5
+31: acreditando@124.4 que@125.0 voltariam@125.2 para@125.7 casa@126.0 antes@126.3 do@126.5 Natal.@126.7
+32: Eles@127.7 estavam@128.0 completamente@128.4 enganados.@129.3
+33: Capítulo@131.1 dois.@131.9 O@132.6 inferno@132.8 das@133.3 trincheiras.@133.6
+34: No@135.2 início,@135.3 os@136.1 exércitos@136.2 avançavam@136.8 rapidamente.@137.3
+35: Mas,@138.6 no@138.7 fronte@138.8 ocidental,@139.2 a@139.8 situação@140.2 mudou.@140.8
+36: Os@141.8 soldados@141.8 começaram@142.3 a@142.8 cavar@143.0 trincheiras@143.3 para@143.8 se@144.0 proteger@144.2 das@144.7 metralhadoras@144.8 e@145.5 da@145.7 artilharia@145.8 inimiga.@146.5
+37: O@147.8 que@147.8 deveria@147.9 ser@148.4 uma@148.6 solução@148.8 temporária@149.1
+38: se@150.0 transformou@150.2 em@150.6 um@150.8 sistema@150.9 gigantesco@151.4 de@152.2 valas@152.3 que@152.7 atravessava@152.8 centenas@153.6 de@154.2 quilômetros.@154.3
+39: Entre@155.9 os@156.2 exércitos,@156.3 existia@156.9 uma@157.7 faixa@158.0 de@158.2 terra@158.4 conhecida@158.8 como@159.4 terra@159.8 de@160.2 ninguém.@160.3
+40: Um@161.2 território@161.3 devastado@162.2 por@162.9 crateras,@163.1 arame@163.7 farpado,@164.2 cadáveres@164.9 e@165.8 tiros@165.9 constantes.@166.3
+41: Para@167.2 atravessá-lo,@167.4 os@168.4 soldados@168.6 precisavam@169.1 sair@169.7 das@169.8 trincheiras@170.0 e@170.5 correr@170.7 em@171.0 direção@171.2 ao@171.7 inimigo,@171.8
+42: muitas@173.0 vezes@173.3 sob@173.7 uma@173.9 chuva@174.3 de@174.7 balas.@174.8
+43: A@175.9 vida@176.1 dentro@176.4 das@176.8 trincheiras@176.9 era@177.4 igualmente@177.7 terrível.@178.7
+44: A@179.8 lama,@179.9 a@180.2 água@180.4 contaminada,@181.0 os@181.7 ratos@182.0 e@182.3 os@182.6 piolhos@182.7 faziam@183.2 parte@183.7 da@184.1 rotina.@184.2
+45: Os@185.3 soldados@185.4 dormiam@185.9 em@186.3 espaços@186.5 apertados,@187.0 com@187.9 medo@188.1 de@188.4 ataques@188.6 noturnos@189.1 e@189.6 bombardeios.@189.8
+46: Alguns@191.0 passavam@191.3 dias@191.9 sem@192.2 tomar@192.4 banho@192.8 ou@193.2 trocar@193.3 de@193.8 roupa.@194.0
+47: O@195.1 medo@195.2 era@195.4 permanente.@195.8
+48: E,@197.2 mesmo@197.3 quando@197.8 os@198.3 tiros@198.4 cessavam,@198.8 o@199.2 silêncio@199.8 não@200.3 significava@200.6 segurança.@201.3
+49: Podia@202.6 ser@202.9 apenas@203.2 o@203.6 intervalo@203.8 antes@204.4 da@204.7 próxima@204.9 explosão.@205.3
+50: Capítulo@206.9 três.@207.8 Armas@208.5 que@208.8 transformaram@209.0 a@209.9 guerra.@210.1
+51: A@211.4 Primeira@211.6 Guerra@212.0 Mundial@212.3 marcou@212.8 uma@213.2 nova@213.5 era@213.8 de@214.2 destruição.@214.3
+52: As@215.4 metralhadoras@215.5 podiam@216.2 disparar@216.8 centenas@217.2 de@217.8 tiros@217.9 por@218.2 minuto,@218.4
+53: tornando@219.3 ataques@219.8 de@220.2 infantaria@220.4 extremamente@221.3 mortais.@222.2
+54: A@223.0 artilharia@223.1 pesada@223.9 bombardeava@224.3 posições@225.1 inimigas@225.6 durante@226.2 horas,@226.6
+55: transformando@227.2 campos,@228.1 florestas@228.6 e@229.2 cidades@229.3 em@229.9 paisagens@230.3 irreconhecíveis.@230.9
+56: Em@232.8 mil@232.9 novecentos@233.1 e@233.7 quinze,@233.8 os@234.3 alemães@234.5 utilizaram@234.9 gás@235.7 cloro@235.8 em@236.2 larga@236.3 escala@236.6 na@237.1 Frente@237.2 Ocidental,@237.6
+57: durante@238.6 a@238.9 Segunda@239.1 Batalha@239.4 de@239.8 Ypres.@239.9
+58: O@240.9 gás@241.1 se@241.2 espalhava@241.3 pelo@242.0 campo@242.3 de@242.6 batalha,@242.8 atingindo@243.2 os@244.2 pulmões@244.3 dos@244.7 soldados@244.8 e@245.2 provocando@245.4 sufocamento.@246.1
+59: Máscaras@247.7 de@248.1 proteção@248.2 começaram@248.7 a@249.3 ser@249.5 utilizadas,@249.7 mas@250.8 nem@250.9 sempre@251.1 eram@251.4 suficientes.@251.7
+60: Os@253.1 tanques@253.2 também@253.6 surgiram@253.9 nesse@254.4 conflito.@254.8
+61: Desenvolvidos@256.1 para@256.7 atravessar@257.1 o@257.6 arame@257.7 farpado@258.2 e@258.7 superar@258.9 as@259.4 trincheiras,@259.4
+62: eles@260.2 eram@260.6 lentos,@260.9 barulhentos@261.2 e@262.0 frequentemente@262.1 quebravam.@263.2
+63: Mesmo@264.2 assim,@264.6 representavam@264.9 uma@265.9 nova@266.1 forma@266.4 de@266.9 combater.@267.0
+64: Nos@268.2 céus,@268.3 aviões@268.4 inicialmente@268.8 usados@269.8 para@270.2 reconhecimento@270.6
+65: passaram@271.5 a@272.1 enfrentar@272.2 outros@272.8 pilotos@273.1 e@273.6 atacar@273.8 posições@274.4 terrestres.@274.9
+66: A@276.1 guerra@276.2 estava@276.6 mudando.@277.1
+67: E@278.3 a@278.4 tecnologia,@278.6 que@279.1 prometia@279.4 progresso@280.0 para@280.4 a@280.6 humanidade,@280.7
+68: estava@281.7 sendo@282.1 usada@282.4 para@282.9 tornar@283.2 a@283.5 morte@283.9 cada@284.1 vez@284.6 mais@284.7 eficiente.@284.9
+69: Capítulo@286.8 quatro.@287.4 Batalhas@288.6 onde@289.1 milhares@289.4 morriam.@289.8
+70: Algumas@291.2 batalhas@291.7 se@292.2 tornaram@292.4 símbolos@292.8 da@293.2 brutalidade@293.4 desse@294.1 conflito.@294.4
+71: Em@295.8 mil@295.9 novecentos@296.1 e@296.7 dezesseis,@296.9 os@297.4 alemães@297.6 lançaram@298.1 uma@298.6 enorme@298.9 ofensiva@299.4 contra@300.1 Verdun,@300.4 na@300.9 França.@301.1
+72: O@302.1 objetivo@302.2 era@302.8 desgastar@303.1 o@303.6 exército@303.7 francês@304.3 em@304.6 uma@304.8 batalha@305.1 de@305.6 resistência.@305.8
+73: Durante@307.1 meses,@307.7 soldados@308.1 enfrentaram@308.8 bombardeios,@309.6 ataques@310.4 e@311.1 combates@311.4 incessantes.@312.0
+74: Verdun@313.4 se@313.7 tornou@313.9 um@314.2 símbolo@314.4 da@314.9 resistência@315.0 francesa,@315.9
+75: mas@316.9 o@317.0 preço@317.2 foi@317.5 devastador:@317.9 centenas@318.6 de@319.7 milhares@319.9 de@320.4 soldados@320.5 foram@321.0 mortos,@321.4 feridos@321.6 ou@322.5 desapareceram.@322.6
+76: No@324.6 mesmo@324.6 ano,@324.9 os@325.4 britânicos@325.6 lançaram@326.1 uma@326.6 ofensiva@326.9 no@327.4 Somme.@327.6
+77: No@328.1 primeiro@328.3 dia@328.8 do@329.1 ataque,@329.2 em@330.1 primeiro@330.2 de@330.7 julho@330.9 de@331.1 mil@331.3 novecentos@331.4 e@332.1 dezesseis,@332.2
+78: o@333.1 exército@333.3 britânico@334.0 sofreu@334.8 aproximadamente@335.1 cinquenta@336.4 e@336.9 sete@337.1 mil@337.4 baixas,@337.6 incluindo@338.2 cerca@338.8 de@339.1 dezenove@339.3 mil@340.0 mortos.@340.1
+79: Foi@341.4 um@341.6 dos@341.7 dias@341.9 mais@342.1 sangrentos@342.3 da@342.8 história@342.9 militar@343.6 britânica.@344.1
+80: Apesar@345.6 de@346.1 meses@346.2 de@346.5 combate,@346.6 os@347.1 avanços@347.6 territoriais@348.1 foram@348.9 pequenos@349.2 diante@349.8 do@350.2 enorme@350.4 número@350.9 de@351.4 vidas@351.5 perdidas.@351.8
+81: A@353.1 guerra@353.2 parecia@353.6 consumir@354.2 soldados@354.7 sem@355.1 oferecer@355.3 uma@356.0 vitória@356.3 decisiva.@356.9
+82: Capítulo@358.8 cinco.@359.5 O@360.4 mundo@360.6 inteiro@360.9 entra@361.6 em@361.9 guerra.@362.1
+83: O@363.4 conflito@363.5 não@363.9 ficou@364.1 limitado@364.4 à@365.1 Europa.@365.1
+84: Soldados@366.1 de@366.5 diferentes@366.6 partes@367.2 do@367.6 mundo@367.8 foram@368.1 enviados@368.4 para@369.0 lutar.@369.4
+85: Tropas@370.4 das@370.6 colônias@370.8 britânicas@371.4 e@372.1 francesas@372.2 participaram@372.7 das@373.6 campanhas,@373.7
+86: levando@374.6 homens@375.0 da@375.3 África,@375.4 da@376.1 Índia,@376.2 do@376.9 Canadá,@377.1 da@377.9 Austrália@378.0 e@378.9 de@379.1 outras@379.2 regiões@379.5 para@379.8 campos@380.1 de@380.5 batalha@380.6 distantes.@381.1
+87: O@382.3 Império@382.4 Otomano@383.0 entrou@383.6 na@383.9 guerra@384.0 ao@384.2 lado@384.4 das@384.6 Potências@384.8 Centrais,@385.4 ampliando@385.7 o@386.5 conflito@386.6 para@387.0 o@387.4 Oriente@387.6 Médio.@388.0
+88: Enquanto@389.4 isso,@389.9 em@390.4 mil@390.6 novecentos@390.7 e@391.2 dezessete,@391.4 um@391.9 acontecimento@392.4 mudaria@393.2 completamente@393.9 o@394.6 equilíbrio@394.8 da@395.4 guerra.@395.6
+89: Os@396.4 Estados@396.6 Unidos@397.1 entraram@397.5 no@398.0 conflito@398.2 ao@398.9 lado@399.0 dos@399.3 Aliados.@399.4
+90: A@400.8 decisão@400.9 foi@401.4 influenciada@401.6 por@402.4 ataques@402.6 submarinos@403.1 alemães@403.8 contra@404.2 navios@404.6
+91: e@405.4 pelo@405.4 Telegrama@405.8 Zimmermann,@406.3 uma@406.8 proposta@407.4 alemã@407.9 de@408.4 aliança@408.4 com@409.1 o@409.2 México@409.3 caso@409.9 os@410.2 Estados@410.3 Unidos@410.8 entrassem@411.1 na@411.6 guerra.@411.8
+92: A@412.6 chegada@412.7 de@413.1 tropas,@413.4 recursos@413.8 e@414.3 equipamentos@414.4 americanos@415.1 fortaleceu@415.9 os@416.7 Aliados.@416.9
+93: Ao@418.4 mesmo@418.6 tempo,@418.9 a@419.4 Rússia@419.6 enfrentava@420.1 uma@420.6 crise@420.9 interna@421.3 devastadora.@421.8
+94: Revoluções@423.1 derrubaram@423.7 o@424.3 governo@424.4 e,@424.9 posteriormente,@425.3 levaram@426.5 os@426.9 bolcheviques@427.1 ao@427.8 poder.@427.9
+95: Em@428.9 mil@429.1 novecentos@429.2 e@429.9 dezoito,@430.0 a@430.8 Rússia@430.9 saiu@431.4 da@431.5 guerra@431.6 após@431.9 assinar@432.3 o@432.8 Tratado@432.9 de@433.4 Brest-Litovsk@433.6 com@434.2 a@434.4 Alemanha.@434.6
+96: Mas,@435.9 no@436.1 oeste,@436.2 os@436.9 combates@437.1 continuavam.@437.8
+97: Capítulo@439.9 seis.@440.8 O@441.4 fim@441.6 da@441.9 guerra.@442.1
+98: Em@443.4 mil@443.5 novecentos@443.6 e@444.2 dezoito,@444.4 a@445.2 Alemanha@445.4 tentou@445.9 uma@446.2 última@446.6 grande@447.0 ofensiva@447.3 antes@448.0 que@448.3 as@448.4 forças@448.6 americanas@448.9 chegassem@449.8 em@450.2 número@450.4 ainda@450.8 maior.@451.1
+99: No@452.1 início,@452.1 os@453.0 alemães@453.1 conseguiram@453.6 avançar.@454.1
+100: Mas@455.1 o@455.3 desgaste,@455.4 a@455.9 falta@456.1 de@456.5 recursos,@456.6 o@457.2 bloqueio@457.4 naval@458.2 e@458.5 o@458.7 fortalecimento@458.9 dos@460.1 Aliados@460.2 começaram@460.8 a@461.4 pesar.@461.6
+101: As@462.6 tropas@462.8 alemãs@463.1 estavam@463.6 exaustas.@464.1
+102: A@465.1 população@465.3 enfrentava@465.9 fome.@466.6
+103: A@467.4 economia@467.4 estava@468.1 enfraquecida.@468.4
+104: Os@469.9 Aliados@469.9 passaram@470.6 a@470.9 contra-atacar@471.1 e@471.9 recuperar@472.1 territórios.@472.7
+105: Dentro@474.1 da@474.4 Alemanha,@474.6 revoltas@475.4 e@475.9 manifestações@476.0 se@476.8 espalharam.@476.9
+106: A@478.1 monarquia@478.2 entrou@478.9 em@479.2 colapso,@479.4 e@480.2 o@480.4 imperador@480.6 Guilherme@481.1 segundo@481.5 abdicou.@481.9
+107: Finalmente,@483.4 em@484.1 onze@484.4 de@484.7 novembro@484.9 de@485.4 mil@485.5 novecentos@485.6 e@486.3 dezoito,@486.5 às@486.9 onze@487.4 horas@487.8 da@488.1 manhã,@488.2 o@488.6 armistício@489.0 entrou@489.8 em@490.1 vigor.@490.3
+108: Os@491.3 tiros@491.4 cessaram.@491.9
+109: Depois@493.1 de@493.4 quatro@493.6 anos@494.1 de@494.4 destruição,@494.6 a@495.1 Primeira@495.2 Guerra@496.0 Mundial@496.3 havia@496.8 terminado.@497.2
+110: Mas@498.7 o@498.9 mundo@499.0 não@499.3 voltaria@499.6 a@500.3 ser@500.4 o@500.6 mesmo.@500.8
+111: Capítulo@501.4 sete.@502.1 As@502.9 cicatrizes@503.0 que@503.7 nunca@503.9 desapareceram.@504.1
+112: A@506.0 guerra@506.1 deixou@506.6 milhões@506.9 de@507.2 mortos,@507.4 feridos@507.9 e@508.7 desaparecidos.@508.9
+113: Famílias@510.9 perderam@511.6 seus@512.2 filhos,@512.4 maridos@512.9 e@513.4 irmãos.@513.7
+114: Soldados@514.7 voltaram@515.1 para@515.6 casa@516.0 com@516.3 ferimentos@516.5 físicos@517.2 e@517.6 traumas@517.9 psicológicos@518.2 que,@519.1 naquela@519.3 época,@519.9 muitas@520.4 vezes@521.0 eram@521.4 incompreendidos.@521.7
+115: Impérios@523.4 desapareceram.@523.9
+116: O@525.3 Império@525.4 Alemão,@526.0 o@526.6 Austro-Húngaro,@526.9 o@527.8 Russo@528.0 e@528.3 o@528.5 Otomano@528.6 foram@529.4 profundamente@529.8 transformados@530.6 ou@531.2 desmantelados.@531.4
+117: Em@532.8 mil@533.0 novecentos@533.1 e@533.8 dezenove,@533.9 o@534.8 Tratado@535.0 de@535.5 Versalhes@535.6 impôs@536.2 duras@536.5 condições@536.8 à@537.3 Alemanha,@537.3
+118: incluindo@538.3 perdas@538.8 territoriais,@539.1 limitações@540.0 militares@540.8 e@541.5 reparações@541.6 financeiras.@542.3
+119: A@543.5 paz,@543.8 porém,@544.0 não@544.4 resolveu@544.9 todas@545.4 as@545.9 tensões.@546.1
+120: O@547.0 ressentimento,@547.1 a@547.9 instabilidade@548.1 econômica@548.9 e@549.6 as@549.8 disputas@549.9 políticas@550.3 continuaram@551.0 alimentando@551.6 conflitos.@552.4
+121: Pouco@553.5 mais@553.9 de@554.0 duas@554.2 décadas@554.5 depois,@555.0 o@555.5 mundo@555.9 mergulharia@556.2 novamente@557.0 em@557.8 uma@557.9 guerra@558.3 ainda@558.6 maior.@559.0
+122: A@560.0 Primeira@560.1 Guerra@560.6 Mundial@560.9 começou@561.4 com@561.8 promessas@562.0 de@562.4 glória,@562.5 patriotismo@563.0 e@564.0 vitórias@564.1 rápidas.@564.8
+123: Mas@565.9 terminou@566.0 com@566.5 cidades@566.6 destruídas,@567.2 milhões@567.8 de@568.2 vidas@568.4 perdidas@568.8 e@569.2 uma@569.5 geração@570.1 marcada@570.6 para@571.2 sempre.@571.5
+124: Homens@572.6 que@573.0 partiram@573.1 acreditando@573.6 que@574.4 seriam@574.5 heróis@575.0
+125: descobriram@575.4 que,@575.9 no@576.0 campo@576.1 de@576.5 batalha,@576.6 a@577.0 sobrevivência@577.2 era@578.4 a@578.6 única@578.9 vitória@579.2 que@579.9 realmente@580.0 importava.@580.5
+126: A@581.9 guerra@582.0 mostrou@582.2 que@582.5 o@582.7 avanço@582.9 da@583.3 tecnologia@583.5 não@584.1 significa@584.3 necessariamente@585.0 o@586.0 avanço@586.1 da@586.5 humanidade.@586.7
+127: E@588.0 que,@588.1 quando@588.2 o@588.8 orgulho,@589.0 o@589.4 poder@589.7 e@590.0 o@590.2 ódio@590.4 se@590.9 tornam@591.0 maiores@591.2 que@591.6 a@591.8 vida@592.0 humana,@592.2
+128: o@593.1 preço@593.4 pode@593.6 ser@594.0 pago@594.3 por@594.6 gerações@594.8 inteiras.@595.3
+129: Porque@596.5 algumas@596.8 guerras@597.2 terminam@597.5 quando@598.0 os@598.4 tiros@598.6 cessam.@598.9
+130: Mas@599.8 suas@599.9 consequências@600.1 continuam@601.0 ecoando@601.5 muito@602.1 depois.@602.5
