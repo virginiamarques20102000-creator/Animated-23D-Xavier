@@ -204,12 +204,26 @@ Use este vídeo como modelo para qualquer documentário longo (história, guerra
   (~195 MB) e guardar a de `crf 16`. `.mp4` fica fora do git (limite de 100 MB do GitHub).
 - **Som:** mesmo método do Hitler, mas `pad()` calcula só o trecho (não o vídeo inteiro), senão 10 min fica lento; trilha em
   ré menor que vira ré maior quando a guerra acaba; efeitos nos tempos absolutos das palavras.
-- **Entrega:** junto do vídeo, oferecer título e descrição de YouTube (ver abaixo).
+- **Entrega:** junto do vídeo, oferecer título, descrição e capa do YouTube (ver abaixo). Mandar ao usuário também a
+  versão de qualidade máxima se ele pedir, antes de a sessão acabar (o contêiner é apagado).
 
 ## Título e descrição para YouTube (o usuário pede ao fim)
 - Título ≤ 70 caracteres, gancho emocional + tema claro, sem caixa alta inteira nem promessa falsa.
 - Descrição: 2 primeiras linhas = gancho (aparecem na busca), resumo, capítulos com minutagem real dos cartões de capítulo
   (o primeiro em 00:00), chamada para inscrição/comentário, 3–5 hashtags.
+
+## Capa do YouTube (aprovada no vídeo das trincheiras)
+Código: `projeto/src/videos/trincheiras/Capa.tsx` (composição `TrincheirasCapa`, 1 quadro). Resultado: `projeto/Trincheiras_capa.jpg`.
+- Formato vencedor: **metade/metade, antes x depois, o MESMO personagem** nos dois lados.
+  - esquerda: passado alegre (sol + raios, confete, sorriso "laugh", cores quentes);
+  - direita: presente terrível (noite, chuva, explosão laranja atrás, rosto "shock" sujo de lama);
+  - corte em zigue-zague com borda branca brilhante (`TEAR`), cada metade desenhada num buffer e recortada (`clip`).
+- Texto: anos nos cantos de cima (branco x vermelho), frase de 3 palavras em amarelo #ffe14a com contorno escuro grosso
+  embaixo, combinando com o título (ex.: "ANTES DO NATAL?" + título "Eles Achavam Que Voltariam Antes do Natal…").
+- Enquadramento: cada personagem no centro da sua metade → câmera deslocada ~0,6 m para o lado, a ~3,4 m dele, `y` 1,3, `shift` 60.
+- A explosão precisa ficar à frente da parede do cenário (z menor que o da parede) e na altura da cabeça, senão some.
+- Render: `COMP=TrincheirasCapa node scripts/bridge-stills.mjs out/x_ 0 0.6667` → reduzir para 1280x720.
+- Sempre oferecer uma 2ª capa para o teste A/B de miniaturas do YouTube.
 
 ## Consertos (o que deu errado no vídeo da Torre de Pisa e como resolver)
 - **Vídeo todo em branco, só o céu.** Com React 19 + @react-three/fiber 9, o `<EffectComposer>` do
