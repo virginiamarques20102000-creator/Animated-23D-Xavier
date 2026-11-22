@@ -59,3 +59,10 @@ const renderOne = (g: Ctx, t: number) => {
   if (t < 0.4) { g.fillStyle = `rgba(0,0,0,${1 - t / 0.4})`; g.fillRect(0, 0, VW, VH); }
 };
 export const SHOT_LIST = SH.map((s) => ({ t0: s.t0, t1: s.t1! }));
+
+/** text overlays (captions, titles) of the 2.5D shot at film time t, drawn on their own transparent canvas (used over 3D shots) */
+export const overlaysAt = (g: Ctx, t: number) => {
+  const sh = SH.find((s) => t >= s.t0 && t < s.t1!); if (!sh) return;
+  const lt = t - sh.t0, u = clamp(lt / (sh.t1! - sh.t0)), A = new Sc(g, sh.cam(u, lt), t);
+  sh.act?.(A, lt, u, t); A.overs.forEach((d) => d(g));
+};

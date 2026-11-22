@@ -11,9 +11,14 @@ def bp(x, a, b): return signal.sosfilt(signal.butter(2, [a, b], "band", fs=SR, o
 def db(v): return 10 ** (v / 20)
 def norm(x): return x / (np.abs(x).max() + 1e-9)
 def env(a, b, fa=0.6, fb=0.6): return np.clip((t - a) / fa, 0, 1) * np.clip((b - t) / fb, 0, 1)
-def place(d, x, at, g=1.0):
+PANS = {}
+def place(d, x, at, g=1.0, pan=None):
     i = int(at * SR); n = min(len(x), len(d) - i)
-    if n > 0 and i >= 0: d[i:i + n] += x[:n] * g
+    if n > 0 and i >= 0:
+        d[i:i + n] += x[:n] * g
+        w = 0.65 if d is sfx else 0.3 if d is amb else 0.0
+        p = rng.uniform(-w, w) if pan is None else pan
+        PANS.setdefault(id(d), []).append((i, n, x[:n] * g, p))
 def seg(a, b): n = int((b - a) * SR); return n, np.arange(n) / SR
 def addseg(d, x, a, g=1.0): place(d, x, a, g)
 amb = np.zeros(N); sfx = np.zeros(N); mus = np.zeros(N)
@@ -34,14 +39,24 @@ def fire_bed(a, b, g):
     place(amb, norm(x + hp(cr, 1200)) * np.minimum(1, tt / 0.5) * np.minimum(1, (b - a - tt) / 0.5), a, db(g))
 # ---------------- sfx ----------------
 def boom(L=2.6):
-    n = int(L * SR); tt = np.arange(n) / SR
-    return norm(lp(rng.standard_normal(n), 140) * np.exp(-tt / 0.6) + 0.7 * np.sin(2 * np.pi * 42 * tt) * np.exp(-tt / 0.35) + 0.5 * hp(rng.standard_normal(n), 2000) * np.exp(-tt / 0.05))
+    L *= rng.uniform(0.8, 1.3); n = int(L * SR); tt = np.arange(n) / SR; f = rng.uniform(30, 58); dec = rng.uniform(0.4, 0.95)
+    body = lp(rng.standard_normal(n), rng.uniform(100, 240)) * np.exp(-tt / dec) + rng.uniform(0.4, 0.9) * np.sin(2 * np.pi * f * tt * (1 - 0.15 * tt)) * np.exp(-tt / rng.uniform(0.25, 0.5))
+    crack = rng.uniform(0.2, 0.7) * hp(rng.standard_normal(n), rng.uniform(1200, 3500)) * np.exp(-tt / rng.uniform(0.03, 0.09))
+    deb = np.zeros(n)
+    for k in range(rng.integers(4, 14)):
+        j = int(rng.uniform(0.3, min(L, 2.2) - 0.05) * SR); m = min(1200, n - j)
+        if m > 0: deb[j:j + m] += bp(rng.standard_normal(m), rng.uniform(600, 2000), 6000) * np.exp(-np.arange(m) / rng.uniform(80, 300)) * rng.uniform(0.05, 0.25)
+    return norm(body + crack + deb)
 def shot():
+    n = int(rng.uniform(0.6, 1.4) * SR); tt = np.arange(n) / SR; a, b, c = rng.uniform(600, 1600), rng.uniform(0.006, 0.02), rng.uniform(45, 95)
+    echo = np.zeros(n); d = int(rng.uniform(0.12, 0.35) * SR); echo[d:] = lp(rng.standard_normal(n - d), 900) * np.exp(-np.arange(n - d) / SR / 0.25) * rng.uniform(0.1, 0.35)
+    return norm(echo + hp(rng.standard_normal(n), a) * np.exp(-tt / b) + lp(rng.standard_normal(n), rng.uniform(500, 1200)) * np.exp(-tt / 0.1) + 0.8 * np.sin(2 * np.pi * c * tt) * np.exp(-tt / 0.12))
+def shot_old():
     n = int(0.9 * SR); tt = np.arange(n) / SR
     return norm(hp(rng.standard_normal(n), 900) * np.exp(-tt / 0.012) + lp(rng.standard_normal(n), 800) * np.exp(-tt / 0.1) + 0.8 * np.sin(2 * np.pi * 60 * tt) * np.exp(-tt / 0.12))
 def stomp(): n = int(0.25 * SR); tt = np.arange(n) / SR; return norm(lp(rng.standard_normal(n), 320) * np.exp(-tt / 0.03) + 0.3 * bp(rng.standard_normal(n), 1500, 4000) * np.exp(-tt / 0.01))
 def step(): n = int(0.18 * SR); tt = np.arange(n) / SR; return norm(bp(rng.standard_normal(n), 200, 2500) * np.exp(-tt / 0.025))
-def thud(L=0.5, f=180): n = int(L * SR); tt = np.arange(n) / SR; return norm(lp(rng.standard_normal(n), f) * np.exp(-tt / 0.08) + 0.6 * np.sin(2 * np.pi * 70 * tt) * np.exp(-tt / 0.1))
+def thud(L=0.5, f=180): f *= rng.uniform(0.75, 1.3); L *= rng.uniform(0.8, 1.25); n = int(L * SR); tt = np.arange(n) / SR; return norm(lp(rng.standard_normal(n), f) * np.exp(-tt / 0.08) + 0.6 * np.sin(2 * np.pi * 70 * tt) * np.exp(-tt / 0.1))
 def clang():
     n = int(2.2 * SR); tt = np.arange(n) / SR
     return norm(sum(np.sin(2 * np.pi * f * tt) * np.exp(-tt / d) for f, d in [(312, 0.9), (497, 0.6), (853, 0.4), (1290, 0.25)]) + 0.8 * hp(rng.standard_normal(n), 2000) * np.exp(-tt / 0.02))
@@ -49,14 +64,16 @@ def bell(f=392):
     n = int(4 * SR); tt = np.arange(n) / SR
     return norm(sum(a * np.sin(2 * np.pi * f * m * tt) * np.exp(-tt / d) for m, a, d in [(0.5, 0.6, 2.5), (1, 1, 1.8), (1.19, 0.5, 1.2), (1.5, 0.4, 1.0), (2.0, 0.3, 0.7), (2.74, 0.2, 0.4)]))
 def whoosh(L=0.6, a=300, b=3500):
-    n = int(L * SR); e = np.sin(np.linspace(0, np.pi, n)) ** 2; return norm(bp(rng.standard_normal(n), a, b) * e)
-def rumble(a, b, g, f=90):  # tank/engine
-    n, tt = seg(a, b); x = lp(rng.standard_normal(n), f) * (1 + 0.5 * np.sin(2 * np.pi * 9 * tt)) + 0.4 * np.sign(np.sin(2 * np.pi * 31 * tt)) * lp(rng.standard_normal(n), 400) * 0.3
+    a *= rng.uniform(0.7, 1.4); b *= rng.uniform(0.7, 1.3); L *= rng.uniform(0.85, 1.2); n = int(L * SR); e = np.sin(np.linspace(0, np.pi, n)) ** 2; return norm(bp(rng.standard_normal(n), a, b) * e)
+def rumble(a, b, g, f=90):  # tank/engine: each column has its own engine note, track cadence and squeal
+    f *= rng.uniform(0.7, 1.4); cad = rng.uniform(5, 11); n, tt = seg(a, b); x = lp(rng.standard_normal(n), f) * (1 + 0.5 * np.sin(2 * np.pi * cad * tt))
+    sq = np.sin(2 * np.pi * rng.uniform(1800, 3200) * tt + 3 * np.sin(2 * np.pi * rng.uniform(0.5, 2) * tt)) * (0.5 + 0.5 * np.sin(2 * np.pi * rng.uniform(0.2, 0.7) * tt)) ** 6 * rng.uniform(0.03, 0.12)
+    x = x + sq + 0.4 * np.sign(np.sin(2 * np.pi * 31 * tt)) * lp(rng.standard_normal(n), 400) * 0.3
     clat = np.zeros(n)
     for k in range(int((b - a) * 7)): i = int(k / 7 * SR); clat[i:i + 600] += hp(rng.standard_normal(600), 1500) * np.exp(-np.arange(600) / 90)
     place(sfx, norm(x + 0.5 * clat) * np.minimum(1, tt / 0.6) * np.minimum(1, (b - a - tt) / 0.6), a, db(g))
 def planes(a, b, g):
-    n, tt = seg(a, b); x = sum(np.sin(2 * np.pi * f * tt * (1 + 0.004 * np.sin(2 * np.pi * 0.3 * tt))) for f in [92, 96.5, 184]) * lp(rng.standard_normal(n), 300) * 0.5 + lp(rng.standard_normal(n), 600)
+    n, tt = seg(a, b); f0 = rng.uniform(70, 125); x = sum(np.sin(2 * np.pi * f * tt * (1 + 0.004 * np.sin(2 * np.pi * rng.uniform(0.2, 0.5) * tt))) for f in [f0, f0 * rng.uniform(1.03, 1.07), f0 * 2]) * lp(rng.standard_normal(n), 300) * 0.5 + lp(rng.standard_normal(n), 600)
     place(sfx, norm(x) * np.sin(np.pi * tt / (b - a)) ** 1.5, a, db(g))
 def mg(a, b, g, rate=11):
     k = 0
@@ -189,6 +206,13 @@ def splash_snd(at, g=-10): n = int(1.6 * SR); tt = np.arange(n) / SR; place(sfx,
 def cheer(a, b, g=-18): crowd(a, b, g, True)
 def tear(at, g=-10): n = int(0.5 * SR); tt = np.arange(n) / SR; place(sfx, norm(bp(rng.standard_normal(n), 1200, 6000)) * (tt / 0.5) * np.exp(-tt / 0.3) * (1 + np.sign(np.sin(2 * np.pi * 40 * tt))), at, db(g))
 
+def debris_rain(at, dur=1.6, n=24, g=-18):  # chunks landing after a blast
+    for k in range(n): place(sfx, thud(rng.uniform(0.08, 0.25), rng.uniform(300, 1400)), at + rng.uniform(0, dur) ** 1.3, db(g + rng.uniform(-8, 2)))
+def ricochet(at, g=-16): n = int(rng.uniform(0.3, 0.6) * SR); tt = np.arange(n) / SR; f0 = rng.uniform(2500, 4200); place(sfx, np.sin(2 * np.pi * (f0 - rng.uniform(900, 1800) * tt / tt[-1]) * tt) * np.exp(-tt / 0.12) * 0.6 + hp(rng.standard_normal(n), 3000) * np.exp(-tt / 0.01), at, db(g))
+def whistle_in(at, L=0.8, g=-18): n = int(L * SR); tt = np.arange(n) / SR; f = rng.uniform(1100, 1700) - rng.uniform(400, 800) * tt / L; place(sfx, np.sin(2 * np.pi * np.cumsum(f) / SR) * (tt / L) ** 1.5 * 0.5, at - L, db(g))
+def clank(at, g=-20): n = int(0.5 * SR); tt = np.arange(n) / SR; place(sfx, norm(sum(np.sin(2 * np.pi * rng.uniform(400, 2400) * tt) * np.exp(-tt / rng.uniform(0.05, 0.2)) for _ in range(4))), at, db(g))
+def big_blast(at, g=-2, dur=2.0): place(sfx, boom(3.0), at, db(g)); debris_rain(at + 0.35, dur, 30, g - 14); whistle_in(at, rng.uniform(0.5, 1.0), g - 14)
+
 # ================= events (absolute seconds, from the shot list) =================
 # opening
 bed(gfire, 0, 3.9, -24); planes(0, 4.0, -18); raid_siren(0, 4.0, -26); place(sfx, thud(0.8, 160), 3.05, db(-6)); booms([3.5], -6)
@@ -314,6 +338,13 @@ wind(559.2, 564.0, -32); birds(559.3, 564, 4, -36)
 wind(564.07, 567.6, -36); bed(gfire, 567.6, 573.1, -18); stomps(567.7, 573.1, 0.5, -18)
 wind(573.2, 577.0, -28); waves(577.0, DUR, -24); birds(577, 580, 3, -34)
 
+# 3D action layer: whistles before impacts, debris falling after, ricochets, track clanks
+for at in [3.05, 158.2, 145.55, 150.2, 204.8, 263.2, 296.3, 319.8, 365.6, 377.0, 440.0]: big_blast(at, -4)
+for at in [7.4, 8.0, 8.5, 9.0, 9.5, 155.0, 156.1, 156.7, 157.5, 158.0, 158.3]: debris_rain(at, 1.0, 10, -22)
+for k in range(8): ricochet(315.7 + k * 0.16, -18)
+for k in range(6): ricochet(406.3 + k * 0.35, -20)
+for at in [151.0, 151.6, 152.1, 233.4, 234.2, 300.0, 301.2, 338.0, 339.5, 341.0, 342.5, 403.4, 404.6, 472.8, 475.0, 477.5]: clank(at, -24)
+for k in range(10): place(sfx, thud(0.12, 700), 154.95 + k * 0.05, db(-18))
 # soldiers hit / thrown (falls added in the second pass)
 for at in [9.6, 156.25, 364.4]: booms([at], -4)
 for at, g in [(10.4, -14), (10.6, -16), (157.0, -14), (157.5, -16), (316.25, -12), (316.8, -16), (364.9, -16), (365.3, -16), (365.5, -18), (365.8, -18), (373.2, -18), (374.4, -18), (375.7, -18), (373.7, -22), (374.9, -22), (376.2, -22), (377.7, -14), (407.2, -12), (407.75, -16)]:
@@ -378,9 +409,15 @@ for dt, f, L in [(0.3, Fs4, 2.2), (2.5, A4, 2.4)]: strings(573.4 + dt, f, L, db(
 raw = subprocess.run(["ffmpeg", "-v", "error", "-i", sys.argv[1], "-ac", "1", "-ar", str(SR), "-f", "f32le", "-"], capture_output=True).stdout
 voice = np.frombuffer(raw, np.float32).astype(np.float64); v = np.zeros(N); v[:min(N, len(voice))] = voice[:N]
 e = lp(np.abs(v), 4); e /= e.max() + 1e-9; duck = 1 - 0.55 * np.clip(e * 3, 0, 1)
-mix = v + (amb + mus * db(3)) * duck + sfx * db(-6) * (1 - 0.35 * np.clip(e * 3, 0, 1))
-mix /= max(1.0, np.abs(mix).max() / 0.97)
+def stereo(d):  # rebuild a bus in stereo from its panned placements (constant-power), plus what was added directly
+    L = np.zeros(N); R = np.zeros(N); placed = np.zeros(N)
+    for i, n, x, p in PANS.get(id(d), []):
+        a = (p + 1) * np.pi / 4; L[i:i + n] += x * np.cos(a) * 1.414; R[i:i + n] += x * np.sin(a) * 1.414; placed[i:i + n] += x
+    rest = d - placed; return L + rest, R + rest
+aL, aR = stereo(amb); sL, sR = stereo(sfx); sd = 1 - 0.35 * np.clip(e * 3, 0, 1)
+mixL = v + (aL + mus * db(3)) * duck + sL * db(-6) * sd; mixR = v + (aR + mus * db(3)) * duck + sR * db(-6) * sd
+pk = max(np.abs(mixL).max(), np.abs(mixR).max()); mixL /= max(1.0, pk / 0.97); mixR /= max(1.0, pk / 0.97)
 with wave.open(sys.argv[2], "wb") as w:
     w.setnchannels(2); w.setsampwidth(2); w.setframerate(SR)
-    w.writeframes((np.clip(np.stack([mix, mix], 1), -1, 1) * 32767).astype(np.int16).tobytes())
+    w.writeframes((np.clip(np.stack([mixL, mixR], 1), -1, 1) * 32767).astype(np.int16).tobytes())
 print("ok", round(N / SR, 2))
