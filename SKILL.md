@@ -207,6 +207,36 @@ Use este vídeo como modelo para qualquer documentário longo (história, guerra
 - **Entrega:** junto do vídeo, oferecer título, descrição e capa do YouTube (ver abaixo). Mandar ao usuário também a
   versão de qualidade máxima se ele pedir, antes de a sessão acabar (o contêiner é apagado).
 
+## Modo "ultra-realista" (pedido do usuário — "A Segunda Guerra Mundial", 9 min 40 s, 16:9)
+Código: `projeto/src/videos/ww2/` (composição `Ww2Film`). Som: `projeto/audio/ww2_mix.py`. Alinhamento: `projeto/audio/ww2_align.py`.
+Use este vídeo como modelo sempre que o usuário pedir "ultra realista", "com física", "brilho", "sombra", "nada repetido".
+- **Regras do usuário (seguir sempre):**
+  - nada repetido: cada plano tem lugar, paleta, luz e figurantes próprios (place builders com chave própria por plano;
+    `sol(o, n)`/`civ(i, paleta)` variam uniformes e roupas; mapas com estilo próprio cada um em `ST`);
+  - ação dita = ação mostrada: "assinar" → close da caneta escrevendo a assinatura traço a traço (`signing()` em kit.ts:
+    mesa vista de cima, papel com sombra, tinta molhada, mão + caneta seguindo a ponta, brilho do metal);
+  - andar é andar (pé de apoio plantado, `walkS`/`walkF`), nunca pulando; correr inclina o tronco (`runS`);
+  - física em tudo que cai: `bounce()` (gravidade 9,81 + restituição), `spring()` (mola amortecida), destroços balísticos.
+- **Motor (engine.ts + fx.ts):**
+  - personagens com **sombra projetada** do sol (silhueta borrada cisalhada no chão), **luz de contorno** (rim) e cor da
+    luz principal, por plano via `lite` (presets em `looks.ts`: DAY, GOLD, BACK, GREY, NIGHTFIRE, MOON, LAMP, COLD, RED, NOON);
+  - `blast()`: clarão, bola de fogo que esfria (branco→laranja→fumaça), anel de choque no chão, destroços que quicam,
+    faíscas balísticas, coluna de fumaça; `scorch()` marca o chão;
+  - `mushroom()` (cogumelo atômico com anel de condensação e clarão branco), `flak()`, `searchlight()`, `splash()` (coluna d'água),
+    `sea()` (cristas + brilho do sol), `wake()`, `trail()` (avião atingido), `sparks()` (solda), `embers()`, `shards()` (vidro com
+    brilho), `coins()`, `flutter()` (papel/confete/pétalas com balanço e giro), `rubble()`, `birds()`, `breath()` (frio), `dust()`,
+    `lightning()`, `exhaust()`, `lensFlare()` e `glint()` (brilho de luneta, binóculo, metal);
+  - veículos animados (vehicles.ts + kit.ts): `tank()` com rodas girando, esteira correndo, recuo do tiro com mola, poeira e
+    sombra; `plane()` com hélice girando e inclinação pelo ângulo de voo; `planeTop()` vistos de baixo (formações); `ship()`
+    balançando com esteira e salvas de canhão; `para()` paraquedista pendular; `flag()` bandeira de pano ondulando com sombreado;
+  - pós: contraste 1,13, bloom 0,35, vinheta; `grade` soft-light por plano; `kicks` por plano para tremidas.
+- **Erros vistos nas folhas de contato e conserto:** bloom alto lava a imagem (manter ≤ 0,5 × 0,7); sombras GOLD longas
+  demais viram riscos (sx ≤ 1,1); `source-atop` direto no canvas principal pinta a tela inteira (só usar em cache);
+  bandeiras: `new WP(cg, 400)` senão a espessura do traço cobre tudo; câmera em cena com prédio/mesa grande: subir `y`
+  e usar `shift` negativo; aviões no céu: `y ≈ 0,2 × z` e `shift` positivo para olhar para cima.
+- **Temas sensíveis:** sem suástica (águia abstrata), morte de Hitler só com sala vazia e luz apagando, bomba atômica de
+  longe e ruínas (sem vítimas), Holocausto com trilhos/portão, sapatos vazios, velas e estelas.
+
 ## Título e descrição para YouTube (o usuário pede ao fim)
 - Título ≤ 70 caracteres, gancho emocional + tema claro, sem caixa alta inteira nem promessa falsa.
 - Descrição: 2 primeiras linhas = gancho (aparecem na busca), resumo, capítulos com minutagem real dos cartões de capítulo

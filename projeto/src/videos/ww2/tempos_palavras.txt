@@ -1,0 +1,89 @@
+0: Imagine@0.00 um@0.70 mundo@0.85 onde@1.25 cidades@1.60 inteiras@2.25 são@2.85 destruídas,@3.05 milhões@4.00 de@4.35 pessoas@4.50 precisam@4.85 abandonar@5.45 suas@6.20 casas@6.35 e@6.70 soldados@7.20 lutam@7.75 em@8.10 batalhas@8.25 tão@8.90 gigantescas@9.10 que@9.80 mudam@10.25 o@10.60 destino@10.75 de@11.30 países@11.55 inteiros.@11.90
+1: Entre@13.56 1939@13.85 e@15.70 1945,@15.85 o@18.15 mundo@18.30 viveu@18.65 o@18.95 conflito@19.10 mais@19.55 devastador@19.70 da@20.40 história@20.55 da@21.00 humanidade:@21.15 a@22.55 Segunda@22.70 Guerra@23.15 Mundial.@23.45
+2: Mais@24.69 de@24.80 30@24.95 países@25.45 participaram@25.85 dessa@26.75 guerra,@27.15 dezenas@27.90 de@28.40 milhões@28.55 de@28.90 pessoas@29.10 morreram@29.40 e@29.95 novas@30.10 armas@30.80 foram@31.15 utilizadas@31.50 em@32.35 uma@32.50 escala@32.85 nunca@33.35 vista@33.75 antes.@34.10
+3: Mas@35.22 como@35.30 tudo@35.55 isso@36.00 começou?@36.25
+4: Como@37.28 Hitler@37.55 conseguiu@37.90 conquistar@38.35 tantos@38.90 territórios?@39.40
+5: E@40.73 como@40.90 uma@41.20 guerra@41.55 que@41.85 parecia@42.00 impossível@42.55 de@43.20 vencer@43.35 terminou@43.95 com@44.45 duas@44.60 bombas@44.75 atômicas?@45.10
+6: Prepare-se,@46.68 porque@47.60 agora@47.90 você@48.45 vai@48.80 conhecer@48.95 toda@49.65 a@49.95 história@50.10 da@50.60 Segunda@50.75 Guerra@51.20 Mundial.@51.50
+7: Para@52.93 entender@53.20 a@53.65 Segunda@53.80 Guerra@54.25 Mundial,@54.55 precisamos@55.15 voltar@55.80 ao@56.10 final@56.25 da@56.60 Primeira@56.75 Guerra@57.20 Mundial,@57.50 em@57.80 1918.@58.20
+8: A@60.38 Alemanha@60.45 havia@61.05 sido@61.30 derrotada@61.60 e@62.45 obrigada@62.55 a@63.15 assinar@63.30 o@63.70 Tratado@63.90 de@64.35 Versalhes,@64.50 em@64.90 1919.@65.15
+9: O@67.37 acordo@67.60 impôs@68.15 enormes@68.45 punições@69.00 ao@69.55 país,@69.75 incluindo@69.90 perdas@70.70 territoriais,@71.15 limitações@71.90 militares@72.80 e@73.50 pesadas@74.00 indenizações@74.50 financeiras.@75.30
+10: A@76.74 população@76.80 alemã@77.40 enfrentava@77.80 dificuldades@78.35 econômicas,@79.15 desemprego@80.15 e@80.75 um@81.10 profundo@81.30 sentimento@81.85 de@82.40 humilhação.@82.55
+11: Foi@84.10 nesse@84.30 cenário@84.65 que@85.15 surgiu@85.30 Adolf@85.65 Hitler,@86.15 líder@86.55 do@87.40 Partido@87.55 Nazista.@88.15
+12: Prometendo@89.44 recuperar@90.10 o@90.75 orgulho@90.90 alemão,@91.40 reconstruir@92.25 o@92.70 exército@92.90 e@93.80 transformar@93.95 novamente@94.45 o@95.10 país@95.25 em@95.40 uma@95.60 grande@95.90 potência,@96.30 Hitler@97.30 conquistou@97.60 cada@98.20 vez@98.50 mais@98.70 apoio.@98.85
+13: Em@99.92 1933,@100.00 chegou@101.55 ao@102.00 poder@102.15 e@102.50 rapidamente@102.60 estabeleceu@103.65 uma@104.35 ditadura.@104.60
+14: O@105.87 regime@105.95 nazista@106.40 passou@106.95 a@107.25 perseguir@107.45 opositores,@107.95 eliminar@109.00 liberdades@109.60 e@110.35 promover@110.55 uma@111.00 ideologia@111.30 racista@111.90 e@112.35 antissemita.@112.55
+15: Enquanto@114.11 isso,@114.50 Hitler@115.10 começou@115.40 a@115.85 expandir@116.00 o@116.50 território@116.65 alemão@117.25 e@117.90 a@118.05 desafiar@118.20 os@118.65 acordos@118.90 internacionais.@119.35
+16: Em@120.74 1938,@120.80 anexou@122.70 a@123.15 Áustria@123.30 e,@123.60 posteriormente,@124.00 ocupou@124.75 parte@125.35 da@125.75 Tchecoslováquia.@125.95
+17: As@127.61 outras@127.75 potências@128.10 europeias@128.55 tentaram@129.15 evitar@129.65 um@130.25 novo@130.40 conflito,@130.75 mas@131.75 suas@131.90 concessões@132.05 não@132.55 impediram@132.70 os@133.35 planos@133.50 de@133.85 Hitler.@134.00
+18: E@135.19 então@135.30 chegou@135.65 setembro@136.15 de@136.75 1939.@136.90
+19: No@139.70 dia@139.80 1º@139.95 de@140.40 setembro@140.55 de@141.05 1939,@141.20 a@142.90 Alemanha@143.40 invadiu@143.95 a@144.40 Polônia@144.60 utilizando@145.05 uma@145.80 estratégia@146.10 militar@146.85 conhecida@147.25 como@147.85 Blitzkrieg,@148.15 ou@148.85 guerra-relâmpago.@149.10
+20: A@150.72 tática@150.90 combinava@151.35 tanques,@152.05 aviões@152.50 e@152.80 tropas@152.95 terrestres@153.35 para@153.85 atacar@154.20 rapidamente@154.85 e@155.60 desorganizar@155.75 as@156.70 defesas@156.85 inimigas.@157.40
+21: Dois@158.74 dias@158.90 depois,@159.05 Reino@159.35 Unido@159.75 e@160.50 França@160.70 declararam@161.05 guerra@161.70 à@162.00 Alemanha.@162.20
+22: A@163.50 Segunda@163.60 Guerra@164.10 Mundial@164.45 havia@164.80 começado.@165.25
+23: Pouco@166.43 depois,@166.70 a@167.00 União@167.15 Soviética@167.65 também@168.25 invadiu@168.65 a@169.10 Polônia@169.25 pelo@169.80 leste,@170.15 conforme@170.55 os@171.30 acordos@171.45 secretos@171.95 firmados@172.45 com@173.00 Hitler.@173.15
+24: Em@174.16 1940,@174.30 os@176.00 alemães@176.15 avançaram@176.70 sobre@177.35 Dinamarca,@177.70 Noruega,@178.55 Bélgica,@179.25 Holanda@179.90 e@180.40 França.@180.80
+25: Em@181.78 poucas@182.00 semanas,@182.30 Paris@182.75 foi@183.20 ocupada@183.35 e@184.10 a@184.50 França@184.75 se@185.05 rendeu.@185.20
+26: Parecia@186.13 que@186.50 ninguém@186.65 conseguiria@186.90 deter@187.45 o@187.75 avanço@188.00 alemão.@188.45
+27: Mas@189.51 havia@189.65 um@190.00 país@190.20 que@190.35 ainda@190.55 resistia:@190.90 a@191.45 Inglaterra.@191.60
+28: Hitler@193.60 sabia@193.85 que@194.15 precisava@194.30 derrotar@194.90 os@195.35 britânicos@195.60 para@196.25 dominar@196.55 completamente@197.05 a@198.00 Europa@198.15 Ocidental.@198.60
+29: A@199.76 Alemanha@199.90 iniciou@200.50 então@201.05 uma@201.35 intensa@201.80 campanha@202.30 de@202.80 bombardeios@202.95 contra@203.40 cidades@203.75 e@204.20 instalações@204.40 militares@205.00 inglesas.@205.70
+30: Esse@206.72 confronto@207.00 ficou@207.45 conhecido@207.75 como@208.40 Batalha@208.70 da@209.25 Grã-Bretanha.@209.40
+31: Apesar@210.62 dos@211.00 ataques,@211.15 os@211.60 britânicos@211.95 resistiram,@212.50 impedindo@213.05 uma@213.85 invasão@214.10 alemã.@214.50
+32: Mas@215.52 Hitler@215.70 tinha@216.10 outro@216.55 objetivo@217.00 ainda@217.85 maior.@218.25
+33: Em@219.02 junho@219.15 de@219.45 1941,@219.60 rompeu@221.60 o@221.90 acordo@222.05 com@222.55 Stalin@222.70 e@223.10 lançou@223.25 a@223.60 Operação@223.80 Barbarossa,@224.40 invadindo@225.30 a@225.90 União@226.10 Soviética@226.40 com@227.05 milhões@227.25 de@227.55 soldados.@227.70
+34: O@228.87 ataque@228.95 abriu@229.45 uma@229.75 gigantesca@230.05 frente@230.65 de@231.05 batalha@231.20 no@231.65 leste@231.80 europeu.@232.10
+35: As@233.18 forças@233.25 alemãs@233.55 avançaram@234.00 rapidamente,@234.60 conquistando@235.40 territórios@236.25 e@236.85 cercando@237.05 cidades.@237.60
+36: Entretanto,@238.63 o@239.15 inverno@239.50 soviético,@239.90 a@240.45 resistência@240.60 do@241.25 Exército@241.45 Vermelho@242.00 e@242.40 os@242.55 problemas@242.65 de@243.30 abastecimento@243.45 começaram@244.25 a@245.00 dificultar@245.15 o@245.70 avanço@245.85 alemão.@246.30
+37: E,@247.35 enquanto@247.45 a@248.10 Europa@248.25 estava@248.75 em@249.20 chamas,@249.35 outro@249.65 acontecimento@250.25 mudaria@251.10 completamente@251.60 o@252.50 rumo@252.65 da@252.95 guerra.@253.10
+38: No@254.00 dia@254.15 7@254.30 de@254.60 dezembro@254.75 de@255.20 1941,@255.35 o@257.30 Japão@257.45 atacou@257.80 de@258.25 surpresa@258.40 a@258.95 base@259.10 naval@259.40 americana@259.70 de@260.55 Pearl@260.70 Harbor,@260.85 no@261.15 Havaí.@261.40
+39: O@262.32 ataque@262.45 destruiu@263.15 navios@263.50 e@263.95 matou@264.10 milhares@264.55 de@265.10 pessoas.@265.30
+40: No@266.32 dia@266.40 seguinte,@266.55 os@267.00 Estados@267.35 Unidos@267.80 entraram@268.20 oficialmente@268.65 na@269.50 guerra@269.65 contra@269.95 o@270.30 Japão.@270.45
+41: Poucos@271.37 dias@271.65 depois,@271.80 Alemanha@272.15 e@273.00 Itália@273.15 também@273.65 declararam@274.00 guerra@274.65 aos@274.95 americanos.@275.10
+42: Agora,@276.50 o@277.15 conflito@277.35 havia@277.85 se@278.15 transformado@278.30 verdadeiramente@279.05 em@280.05 uma@280.25 guerra@280.65 mundial.@281.00
+43: Em@282.00 1942,@282.15 as@283.90 forças@284.05 do@284.35 Eixo@284.50 ainda@284.80 controlavam@285.10 enormes@285.75 territórios,@286.20 mas@286.80 começaram@287.00 a@287.95 enfrentar@288.10 derrotas@288.55 importantes.@289.05
+44: No@290.51 Oceano@290.60 Pacífico,@291.05 a@291.80 Batalha@291.90 de@292.35 Midway@292.45 representou@292.75 uma@293.30 grande@293.55 vitória@293.85 americana@294.25 contra@295.00 a@295.30 marinha@295.45 japonesa.@295.85
+45: Na@297.00 África,@297.10 os@297.85 britânicos@298.00 derrotaram@298.60 as@299.35 forças@299.45 alemãs@299.75 e@300.20 italianas@300.30 na@300.90 Batalha@301.05 de@301.50 El@301.70 Alamein.@301.85
+46: Mas@302.95 uma@303.10 das@303.40 batalhas@303.65 mais@304.10 importantes@304.30 aconteceu@305.05 na@305.75 União@305.90 Soviética.@306.20
+47: A@307.55 cidade@307.70 de@308.20 Stalingrado@308.40 se@309.05 transformou@309.25 em@309.75 um@309.90 verdadeiro@310.05 inferno.@310.80
+48: Durante@312.02 meses,@312.50 soldados@312.85 alemães@313.55 e@314.10 soviéticos@314.30 lutaram@315.00 casa@315.70 por@316.10 casa,@316.30 enfrentando@317.00 frio@317.80 extremo,@318.00 fome@318.90 e@319.45 bombardeios@319.65 constantes.@320.20
+49: Em@321.38 fevereiro@321.45 de@322.00 1943,@322.15 o@323.75 exército@324.00 alemão@324.60 cercado@325.05 acabou@325.50 se@326.05 rendendo.@326.20
+50: A@327.35 derrota@327.50 foi@328.05 devastadora@328.20 para@328.95 Hitler.@329.30
+51: Pela@330.14 primeira@330.40 vez,@330.85 uma@331.00 grande@331.55 força@331.85 alemã@332.15 havia@332.60 sido@333.05 completamente@333.35 derrotada@334.35 em@335.05 uma@335.20 batalha@335.60 decisiva.@336.20
+52: A@337.67 partir@337.75 daquele@338.05 momento,@338.45 os@338.85 soviéticos@339.40 começaram@339.95 a@340.50 avançar@340.65 em@341.05 direção@341.20 ao@341.60 território@341.75 alemão.@342.35
+53: Enquanto@343.52 isso,@343.95 os@344.60 Aliados@344.75 preparavam@345.25 uma@345.90 operação@346.20 gigantesca@346.80 no@347.45 oeste@347.60 europeu.@347.90
+54: Na@349.19 madrugada@349.30 de@349.90 6@350.05 de@350.20 junho@350.35 de@350.65 1944,@350.85 aconteceu@353.35 uma@353.95 das@354.25 maiores@354.40 operações@354.70 militares@355.35 da@356.00 história.@356.15
+55: O@357.22 Dia@357.50 D.@357.75
+56: Milhares@358.69 de@359.10 soldados@359.25 aliados@359.75 atravessaram@360.25 o@361.05 Canal@361.20 da@361.50 Mancha@361.65 e@362.00 desembarcaram@362.35 nas@363.15 praias@363.35 da@363.50 Normandia,@363.70 na@364.15 França@364.30 ocupada.@364.85
+57: A@366.23 operação@366.35 envolveu@367.00 tropas@367.55 americanas,@367.90 britânicas,@368.80 canadenses@369.50 e@370.20 de@370.35 outras@370.50 nações@370.85 aliadas.@371.20
+58: Os@372.33 soldados@372.45 enfrentaram@373.00 intensas@373.80 defesas@374.40 alemãs,@374.95 metralhadoras,@375.70 minas@376.65 e@377.00 obstáculos@377.20 construídos@378.05 nas@378.65 praias.@378.85
+59: Mesmo@379.63 diante@379.90 das@380.25 enormes@380.45 perdas,@380.95 conseguiram@381.35 estabelecer@382.25 posições@383.10 e@383.65 iniciar@383.85 a@384.35 libertação@384.55 da@385.20 França.@385.45
+60: Com@386.42 os@386.50 soviéticos@386.65 avançando@387.25 pelo@387.90 leste@388.15 e@388.45 os@388.70 Aliados@388.85 pelo@389.30 oeste,@389.65 a@389.90 Alemanha@390.45 começou@391.05 a@391.50 ser@391.65 pressionada@391.80 por@392.45 todos@392.75 os@393.05 lados.@393.20
+61: O@394.18 fim@394.30 do@394.45 regime@394.60 nazista@395.10 estava@395.55 cada@396.30 vez@396.70 mais@396.90 próximo.@397.05
+62: Em@398.31 1945,@398.45 as@400.55 tropas@400.70 soviéticas@401.00 chegaram@401.60 a@402.05 Berlim.@402.20
+63: A@403.10 capital@403.20 alemã@403.70 estava@404.15 cercada@404.65 e@405.25 os@405.40 combates@405.55 aconteciam@406.05 nas@406.70 próprias@406.85 ruas@407.20 da@407.35 cidade.@407.50
+64: O@408.56 exército@408.65 alemão@409.30 estava@409.70 praticamente@410.30 destruído,@411.00 e@411.85 Hitler@412.05 permanecia@412.40 escondido@412.95 em@413.55 um@413.70 bunker@413.80 subterrâneo.@414.10
+65: No@415.36 dia@415.45 30@415.60 de@416.05 abril@416.20 de@416.50 1945,@416.65 Adolf@418.80 Hitler@419.10 tirou@419.50 a@419.90 própria@420.05 vida.@420.50
+66: Poucos@421.46 dias@421.75 depois,@421.90 em@422.35 8@422.50 de@422.90 maio,@423.10 a@423.25 Alemanha@423.40 se@424.40 rendeu@424.55 oficialmente@424.90 aos@425.80 Aliados.@425.95
+67: Na@427.11 Europa,@427.20 a@427.95 guerra@428.05 finalmente@428.35 havia@429.05 terminado.@429.30
+68: Mas@430.72 no@430.85 outro@431.00 lado@431.30 do@431.60 mundo,@431.75 o@432.05 conflito@432.45 continuava.@433.05
+69: O@434.32 Japão@434.45 ainda@434.85 resistia@435.15 e@435.65 os@435.80 combates@436.15 no@436.60 Pacífico@436.75 permaneciam@437.60 extremamente@438.20 violentos.@439.10
+70: Os@440.30 Estados@440.40 Unidos@440.85 buscavam@441.25 uma@441.65 maneira@441.95 de@442.35 encerrar@442.50 rapidamente@442.90 a@443.65 guerra@443.80 contra@444.10 o@444.35 Japão.@444.50
+71: No@445.44 dia@445.50 6@445.65 de@445.80 agosto@445.95 de@446.40 1945,@446.55 uma@448.40 bomba@449.15 atômica@449.45 foi@450.15 lançada@450.30 sobre@450.75 Hiroshima.@451.05
+72: A@452.24 explosão@452.40 destruiu@452.95 grande@453.30 parte@453.65 da@454.00 cidade@454.20 e@454.70 provocou@454.85 a@455.55 morte@455.75 de@456.05 dezenas@456.25 de@456.75 milhares@456.90 de@457.40 pessoas.@457.65
+73: Três@458.63 dias@458.75 depois,@458.90 em@459.20 9@459.40 de@459.85 agosto,@460.00 outra@460.45 bomba@461.25 atômica@461.55 foi@462.25 lançada@462.40 sobre@462.90 Nagasaki.@463.25
+74: As@464.65 duas@464.75 cidades@464.90 sofreram@465.40 uma@465.90 destruição@466.25 terrível,@466.75 e@467.30 os@467.90 sobreviventes@468.05 enfrentaram@468.85 consequências@469.50 devastadoras@470.25 da@471.10 radiação.@471.25
+75: Nesse@472.31 mesmo@472.55 período,@472.85 a@473.55 União@473.70 Soviética@474.00 declarou@474.60 guerra@475.00 ao@475.30 Japão@475.45 e@475.80 iniciou@476.10 uma@476.55 ofensiva@476.85 contra@477.40 as@477.70 forças@477.90 japonesas@478.20 na@478.85 Ásia.@479.00
+76: Diante@479.88 da@480.15 situação@480.30 militar@480.80 e@481.35 da@481.60 destruição@481.75 provocada@482.25 pelas@483.00 bombas,@483.40 o@484.05 Japão@484.20 anunciou@484.60 sua@485.10 rendição.@485.25
+77: No@486.35 dia@486.45 2@486.60 de@486.75 setembro@486.90 de@487.45 1945,@487.60 a@489.45 rendição@489.95 foi@490.40 oficialmente@490.55 assinada.@491.45
+78: Depois@492.39 de@492.70 seis@492.90 anos@493.05 de@493.45 destruição,@493.60 a@494.15 Segunda@494.35 Guerra@495.30 Mundial@495.65 finalmente@496.05 chegava@496.90 ao@497.45 fim.@497.65
+79: O@498.97 mundo@499.05 que@499.35 surgiu@499.50 depois@499.80 da@500.10 guerra@500.25 era@500.60 completamente@500.90 diferente.@501.85
+80: Estima-se@503.58 que@504.15 entre@504.30 70@504.60 e@505.20 85@505.35 milhões@506.30 de@506.60 pessoas@506.75 tenham@507.10 morrido@507.40 durante@507.90 o@508.35 conflito,@508.50 entre@509.65 militares@509.95 e@510.60 civis.@510.75
+81: O@512.13 regime@512.25 nazista@512.70 também@513.20 foi@513.55 responsável@513.70 pelo@514.35 Holocausto,@514.70 o@515.85 assassinato@516.00 sistemático@516.80 de@517.60 aproximadamente@517.80 seis@518.85 milhões@519.05 de@519.40 judeus,@519.55 além@520.25 da@520.55 perseguição@520.75 e@521.35 morte@521.50 de@521.85 milhões@522.05 de@522.35 outras@522.50 vítimas.@522.80
+82: Cidades@524.30 estavam@524.85 destruídas,@525.40 países@526.00 precisavam@526.75 ser@527.55 reconstruídos@527.70 e@528.50 milhões@529.05 de@529.45 pessoas@529.60 haviam@530.00 perdido@530.35 suas@531.00 famílias.@531.15
+83: A@532.77 Alemanha@532.85 foi@533.45 dividida@533.60 em@534.20 zonas@534.35 de@534.65 ocupação,@534.80 e@535.80 duas@535.95 novas@536.10 superpotências@536.40 passaram@537.30 a@537.75 disputar@537.90 influência@538.45 mundial:@538.95 os@539.25 Estados@539.40 Unidos@540.40 e@540.85 a@541.00 União@541.40 Soviética.@541.70
+84: Essa@543.30 rivalidade@543.55 daria@544.30 início@544.60 à@545.10 Guerra@545.25 Fria.@545.70
+85: Em@546.83 1945,@546.95 também@548.95 foi@549.25 criada@549.40 a@549.75 Organização@549.90 das@550.65 Nações@550.80 Unidas,@551.10 com@551.55 o@551.70 objetivo@552.15 de@552.80 promover@552.95 a@553.45 cooperação@553.60 internacional@554.30 e@555.05 evitar@555.50 novos@556.00 conflitos@556.30 de@556.95 proporções@557.15 semelhantes.@557.60
+86: A@559.22 Segunda@559.30 Guerra@559.75 Mundial@560.05 deixou@560.30 uma@560.60 marca@560.90 permanente@561.20 na@561.85 história@562.00 da@562.40 humanidade.@562.55
+87: E@564.07 talvez@564.20 sua@564.50 maior@564.70 lição@564.85 seja@565.20 justamente@565.50 esta:@566.15 quando@566.50 o@566.80 ódio,@567.70 o@568.00 extremismo@568.20 e@569.00 a@569.15 ambição@569.30 pelo@569.90 poder@570.25 ultrapassam@570.60 todos@571.40 os@571.90 limites,@572.05 o@572.60 preço@573.30 pode@573.65 ser@574.05 pago@574.30 por@574.65 gerações@574.85 inteiras.@575.35
+88: Essa@577.08 foi@577.35 a@577.70 história@577.85 da@578.35 Segunda@578.50 Guerra@579.00 Mundial.@579.35
