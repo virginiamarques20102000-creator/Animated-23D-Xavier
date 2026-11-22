@@ -207,6 +207,55 @@ Use este vídeo como modelo para qualquer documentário longo (história, guerra
 - **Entrega:** junto do vídeo, oferecer título, descrição e capa do YouTube (ver abaixo). Mandar ao usuário também a
   versão de qualidade máxima se ele pedir, antes de a sessão acabar (o contêiner é apagado).
 
+## Modo "ultra-realista" (pedido do usuário — "A Segunda Guerra Mundial", 9 min 40 s, 16:9)
+Código: `projeto/src/videos/ww2/` (composição `Ww2Film`). Som: `projeto/audio/ww2_mix.py`. Alinhamento: `projeto/audio/ww2_align.py`.
+Use este vídeo como modelo sempre que o usuário pedir "ultra realista", "com física", "brilho", "sombra", "nada repetido".
+- **Regras do usuário (seguir sempre):**
+  - nada repetido: cada plano tem lugar, paleta, luz e figurantes próprios (place builders com chave própria por plano;
+    `sol(o, n)`/`civ(i, paleta)` variam uniformes e roupas; mapas com estilo próprio cada um em `ST`);
+  - ação dita = ação mostrada: "assinar" → close da caneta escrevendo a assinatura traço a traço (`signing()` em kit.ts:
+    mesa vista de cima, papel com sombra, tinta molhada, mão + caneta seguindo a ponta, brilho do metal);
+  - andar é andar (pé de apoio plantado, `walkS`/`walkF`), nunca pulando; correr inclina o tronco (`runS`);
+  - física em tudo que cai: `bounce()` (gravidade 9,81 + restituição), `spring()` (mola amortecida), destroços balísticos.
+- **Motor (engine.ts + fx.ts):**
+  - personagens com **sombra projetada** do sol (silhueta borrada cisalhada no chão), **luz de contorno** (rim) e cor da
+    luz principal, por plano via `lite` (presets em `looks.ts`: DAY, GOLD, BACK, GREY, NIGHTFIRE, MOON, LAMP, COLD, RED, NOON);
+  - `blast()`: clarão, bola de fogo que esfria (branco→laranja→fumaça), anel de choque no chão, destroços que quicam,
+    faíscas balísticas, coluna de fumaça; `scorch()` marca o chão;
+  - `mushroom()` (cogumelo atômico com anel de condensação e clarão branco), `flak()`, `searchlight()`, `splash()` (coluna d'água),
+    `sea()` (cristas + brilho do sol), `wake()`, `trail()` (avião atingido), `sparks()` (solda), `embers()`, `shards()` (vidro com
+    brilho), `coins()`, `flutter()` (papel/confete/pétalas com balanço e giro), `rubble()`, `birds()`, `breath()` (frio), `dust()`,
+    `lightning()`, `exhaust()`, `lensFlare()` e `glint()` (brilho de luneta, binóculo, metal);
+  - veículos animados (vehicles.ts + kit.ts): `tank()` com rodas girando, esteira correndo, recuo do tiro com mola, poeira e
+    sombra; `plane()` com hélice girando e inclinação pelo ângulo de voo; `planeTop()` vistos de baixo (formações); `ship()`
+    balançando com esteira e salvas de canhão; `para()` paraquedista pendular; `flag()` bandeira de pano ondulando com sombreado;
+  - pós: contraste 1,13, bloom 0,35, vinheta; `grade` soft-light por plano; `kicks` por plano para tremidas.
+- **Erros vistos nas folhas de contato e conserto:** bloom alto lava a imagem (manter ≤ 0,5 × 0,7); sombras GOLD longas
+  demais viram riscos (sx ≤ 1,1); `source-atop` direto no canvas principal pinta a tela inteira (só usar em cache);
+  bandeiras: `new WP(cg, 400)` senão a espessura do traço cobre tudo; câmera em cena com prédio/mesa grande: subir `y`
+  e usar `shift` negativo; aviões no céu: `y ≈ 0,2 × z` e `shift` positivo para olhar para cima.
+- **Segunda rodada (crítica do usuário: "parece desenho, estático, ninguém morre, explosão amarela, sol no chão, mapa cortado"):**
+  - explosão = fumaça PRETA densa (44 nuvens, iluminadas por baixo pelo fogo no início), jatos de terra, bola de fogo turbulenta
+    de células pequenas (não uma bola amarela), destroços com rastro de fumaça, fogo residual na base;
+  - menos "desenho": contorno do mundo/veículos fino e translúcido (`INKK.k = 0.42`), textura de desgaste/sujeira e luz de cima
+    em todo sprite (`grime` no cache), pano e pele com sombreado e grão nos bonecos, grade de cinema (laranja em cima, azul-petróleo embaixo);
+  - nada parado: câmera viva em todo plano (deriva orgânica + push-in de 5 %), bonecos parados respiram, balançam, viram a cabeça,
+    mudam o peso e mexem o braço automaticamente (em `Sc.a`, quantizado para o cache);
+  - quando a narração fala de morte/batalha, mostrar soldados atingidos: `fall()` (desaba com gravidade ou é arremessado pela explosão,
+    gira, quica e fica no chão; poeira; sem sangue) + baque no som;
+  - sol/raios/flare nunca abaixo do horizonte (`skyY()` usa o horizonte real `HZ.y` do plano);
+  - mapas de invasão mostram a Europa inteira (câmera z ≈ −40 a −46, x perto de 0, rótulos ×1,5) — senão Noruega/URSS somem e aparece borda preta;
+  - carros, caminhões, ônibus e canhões sempre com rodas (pneu, aro, cubo, brilho); caneta grande e visível na mão de quem assina.
+- **Terceira rodada ("animação fluida e verdadeira, nada travado"):** poses contínuas (sem degraus de 1/24 na fase da caminhada;
+  cache com `q` de 1/120), bonecos parados respiram (crouch), gesticulam com antecipação → subida rápida → segura → acomodação em
+  mola (talkers e 1/3 da multidão), cabeça e quadril em tempos diferentes; desfoque de movimento de cinema (média de 2 subquadros
+  dentro do obturador de 180°, `renderFrame` em story.ts). Custo ~0,37 s/quadro (9 min 40 s ≈ 1,8 h com CONC=4).
+- **Blender (bpy 5.3 via `pip install bpy`, Cycles CPU ~28 s/quadro a 720p):** teste em `projeto/blender/hitler_walk_shoot.py`
+  (corpo por skin modifier + armature com pesos automáticos, ciclo de caminhada, mira, recuo, clarão, cápsulas balísticas).
+  Bom para cenas curtas; o vídeo inteiro no Blender sem GPU levaria ~100 h.
+- **Temas sensíveis:** sem suástica (águia abstrata), morte de Hitler só com sala vazia e luz apagando, bomba atômica de
+  longe e ruínas (sem vítimas), Holocausto com trilhos/portão, sapatos vazios, velas e estelas.
+
 ## Título e descrição para YouTube (o usuário pede ao fim)
 - Título ≤ 70 caracteres, gancho emocional + tema claro, sem caixa alta inteira nem promessa falsa.
 - Descrição: 2 primeiras linhas = gancho (aparecem na busca), resumo, capítulos com minutagem real dos cartões de capítulo
@@ -295,3 +344,19 @@ story.ts, no layout do build.ts/world.ts e nos papéis do cast.ts.
 - Objeto a menos de ~2 m da lente vira mancha gigante cortada na borda.
 - Placa pintada com sol de lado fica cinza e ilegível: use material sem luz na face da placa.
 - Espera parada lê como congelada: toda espera precisa de um zoom lento.
+
+## Modo híbrido 2.5D + 3D real (three.js) para cenas de ação — 4ª rodada
+
+Pedido do usuário: "animação fluida e verdadeira, nada estático", rodas de tanque certas, sol no céu, câmera dinâmica, sons que não se repetem. Solução aprovada: **cenas de ação em three.js** (batalhas, tanques, aviões, navios, explosões); mapas, discursos e assinaturas continuam no motor 2.5D. Código: `projeto/src/videos/ww2/three/`.
+
+- **Mesma timeline do filme**: composição `Ww2Film3D` tem a duração do filme; só os quadros dentro de um shot 3D são renderizados (`scripts/render3d.mjs`, um bundle, retomável), montados numa trilha cheia com preto entre eles e sobrepostos ao master 2.5D com `overlay=enable='between(n,a,b)+…'` (`scripts/ww2_splice.sh`). Não precisa renderizar o 2D de novo.
+- **Legendas e títulos** dos shots 2D continuam aparecendo sobre o 3D: `overlaysAt(g,t)` em `story.ts` roda o `act` do shot 2D só para coletar os `A.over`.
+- **Céu**: domo com shader (gradiente topo/meio/horizonte/chão + disco do sol) e o sol **nunca abaixo de 3°**; a luz direcional usa a mesma direção. Sombra do sol segue o foco do shot (`S.shadowAt`). Para silhuetas contra o pôr do sol use `bigSun`. Reflexos: equiretangular do mesmo céu → PMREM → `scene.environment` (sem isso mar e metal ficam pretos).
+- **Tanques**: casco e torre por perfis extrudados com bisel e "taper" (blindagem inclinada) — nada de caixas. Esteira = elos instanciados que deslizam numa curva fechada em volta da roda motriz, roda-guia e rodas de apoio; rodas giram por distância/raio (comprimento de arco do caminho). Suspensão balança com a distância.
+- **Aviões**: fuselagem por torno, asas por planta (afilada/elíptica/gaivota invertida) com diedro, hélice com pás + disco borrado. Movimento por função de posição; o nariz segue a velocidade e o banking é um ângulo à parte (`fly`).
+- **Personagens**: os mesmos desenhos toon como cards **sem luz** (MeshBasic com tinta do clima: mistura sol+céu, mais escura à noite/fogo) — com luz física ficam pretos no contraluz. Viram para a câmera em Y, projetam a silhueta real na sombra, redesenhados por quadro com fase contínua (pool por pose). Morte: card gira pelos pés com gravidade e quica (`fallK`).
+- **Fumaça**: textura de ruído fbm (a de círculos sobrepostos vira "bolhas de sabão" em close). Fumaça preta iluminada por baixo pelo fogo nos primeiros segundos. Destroços escalam com √tamanho da explosão (linear vira dados gigantes). Anel de choque bem fraco, só em explosão no chão.
+- **Neblina**: distâncias longas (900–3000 m); neblina curta apaga navios e cidades em cinza chapado.
+- **Câmera**: caminhos Catmull-Rom por chaves (sem parar nas chaves), câmera de perseguição (`track`), mão leve + tremor por explosão (`S.shake`). Nunca ponha a câmera a menos de ~3 m de um card (vira silhueta preta tapando a tela) nem dentro de prédios — confira prévias no meio de cada shot (`scripts/stills3d.mjs`, ~8 s por quadro a 0,5×).
+- **Custo**: ~2,5–3,5 s/quadro em 1920×1080 com swangle e concorrência 4 (~3 h para ~140 s de ação).
+- **Som**: cada estouro/tiro/baque sorteia parâmetros (frequência, decaimento, estalo, cauda de destroços, eco) e cada som entra no estéreo com pan próprio; acrescente apito de chegada antes do impacto, chuva de destroços depois, ricochetes e rangido de esteira.
