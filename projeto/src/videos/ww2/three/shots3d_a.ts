@@ -44,9 +44,9 @@ export const SHOTS_A: Shot3[] = [
   // "e novas armas foram utilizadas" — V-2 lift-off: ignition, ground cloud, slow then fast climb
   { t0: 29.95, t1: 32.35, mood: "overcast", over: { sunEl: 20 }, bloom: 1.2, build: (S) => {
       ground(S, "concrete"); S.shadowAt(0, 0, 0, 40); for (let i = 0; i < 26; i++) tree(S.root, (hs(i, 1) - 0.5) * 160, -40 - 60 * hs(i, 2), "pine", 1.4, i);
-      const r = v2(); S.add(r); const y = (t: number) => (t < 0.7 ? 0 : 0.5 * 9 * (t - 0.7) ** 2); S.on((t) => { r.position.set(0, y(t) + 0.5 * Math.min(1, t * 4) * 0, 0); r.rotation.z = (t > 1.2 ? 0.01 * (t - 1.2) : 0); });
+      const r = v2(); S.add(r); const y = (t: number) => (t < 0.7 ? 0 : 0.5 * 9 * (t - 0.7) ** 2); S.on((t) => { r.position.set(0, 0.6 + y(t), 0); r.rotation.z = (t > 1.2 ? 0.01 * (t - 1.2) : 0); });
       rbox(6, 0.6, 6, M.std("#5a5a56", 1, 0.3), S.root, 0, 0.3, 0, 0.1); for (const s of [-1, 1]) rbox(0.4, 9, 0.4, M.std("#3a3a36", 0.8, 0.5), S.root, s * 3.5, 4.5, 0, 0.05);
-      exhaust(S, (t) => V(0, y(t), 0), () => V(0, -1, 0), 0.15, 3, 1.2, { rate: 22, life: 4, ground: 2 }); S.shake(0.2, 0.06, 0.6);
+      exhaust(S, (t) => V(0, 0.6 + y(t), 0), () => V(0, -1, 0), 0.15, 3, 2.0, { rate: 26, life: 4, ground: 3 }); S.shake(0.2, 0.06, 0.6);
       for (let i = 0; i < 3; i++) stander(S, sol(WEH, i, false), 30 + i, -14 + i * 2.2, 12, () => ({ look: 0.2, expr: "stern" as never })); },
     cam: path(2.4, [[0, [-16, 1.6, 22], [0, 6, 0], 34], [0.5, [-14, 1.4, 20], [0, 9, 0], 36], [1, [-12, 1.2, 19], [0, 26, 0], 42]]) },
   // "em uma escala nunca vista antes." — a sky full of bombers, from below, flak bursting among them

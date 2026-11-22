@@ -175,7 +175,7 @@ export class Stage {
     // flash pool: 4 strongest active flashes get the 4 point lights
     const act = this.flashes.map((f) => { const a = t - f.t0; if (a < 0 || a > f.dur * 4) return null; const k = Math.exp(-a / f.dur) * Math.min(1, a * 40 + 0.2) * (f.flick ? 0.8 + 0.2 * Math.sin(a * 70 + f.t0) : 1); return { f, k: k * f.power }; })
       .filter(Boolean).sort((a, b) => b!.k - a!.k) as { f: Flash; k: number }[];
-    this.lights.forEach((l, i) => { const a = act[i]; if (!a) { l.intensity = 0; return; } l.position.copy(a.f.pos); l.color.copy(a.f.col); l.intensity = 1600 * a.k; });
+    this.lights.forEach((l, i) => { const a = act[i]; if (!a) { l.intensity = 0; return; } l.position.copy(a.f.pos); l.color.copy(a.f.col); l.intensity = 900 * a.k; });
   }
 }
 export const fogFor = (m: Mood) => new THREE.Fog(m.fog, m.fogN, m.fogF);

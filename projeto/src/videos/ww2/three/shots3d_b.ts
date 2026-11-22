@@ -7,7 +7,7 @@ import { actor, walker, stander, marcherF, fallK } from "./actors";
 import { Shot3, path, track, ground, hills, sea, seaY, street, drive, fly } from "./set";
 import { WEH, RED, REDH, GI, TOMMY, MARINE, VOLKS, sol } from "../kit";
 
-function deckY0() { return 11.8; }
+function deckY0() { return 15.4; }
 const wakeLine = (S: Stage, from: (t: number) => THREE.Vector3, t0: number, t1: number) => dust(S, from, t0, t1, { col: "#e8eef2", rate: 12, sc: 0.8, life: 2.5 });
 
 export const SHOTS_B: Shot3[] = [
@@ -34,13 +34,13 @@ export const SHOTS_B: Shot3[] = [
   // "No Oceano Pacífico, a Batalha de Midway" — an American carrier launches its dive-bombers
   { t0: 290.5, t1: 292.7, mood: "pacific", over: { sunAz: 80, sunEl: 25 }, build: (S) => {
       sea(S, "#1e4a72", 0.6); const C = ship("carrier", { nation: "us", col: "#5a6470" }); C.g.position.set(0, 0, 0); S.add(C.g); S.shadowAt(30, 10, 0, 90);
-      const deckY = 7.2 + 4.6; for (let i = 0; i < 6; i++) { const p = plane("dauntless"); p.g.position.set(-60 - (i % 3) * 14, deckY + 1.7, -12 + Math.floor(i / 3) * 18); S.add(p.g); S.on((t) => p.spin(t)); }
+      const deckY = deckY0(); for (let i = 0; i < 6; i++) { const p = plane("dauntless"); p.g.position.set(-60 - (i % 3) * 14, deckY + 1.7, -12 + Math.floor(i / 3) * 18); S.add(p.g); S.on((t) => p.spin(t)); }
       const L = plane("dauntless"), x = (t: number) => 0 + 0.5 * 14 * t * t + 6 * t; fly(S, L.g, (t) => V(x(t), deckY + 1.7 + (x(t) > 110 ? (x(t) - 110) * 0.15 : 0), 0), () => 0, L.spin);
       for (let i = 0; i < 3; i++) stander(S, sol(GI, i, false), 150 + i, 30 + i * 4, 12 + i, () => ({ wave: 1, expr: "shout" as never })); },
-    cam: path(2.2, [[0, [40, deckY0() + 14, 26], [10, deckY0() + 2, 0], 42], [1, [60, deckY0() + 12, 22], [110, deckY0() + 6, 0], 40]]) },
+    cam: (t) => { const x = 7 * t * t + 6 * t; return { p: [x - 16 - 4 * t, deckY0() + 4.5, -12 + 2 * t], l: [x + 6, deckY0() + 2, 0], fov: 44 }; } },
   // "representou uma grande vitória americana" — the Dauntlesses peel off and plunge through the clouds
-  { t0: 292.7, t1: 294.2, mood: "pacific", over: { sunEl: 40 }, build: (S) => {
-      sea(S, "#1e4a72", 0.6, 4000, 80); clouds(S, 30, [0, 1300, -800], [3000, 200, 2000], "#ffffff", 0, 6, 3);
+  { t0: 292.7, t1: 294.2, mood: "pacific", over: { sunEl: 40, fog: "#7a98b8", fogN: 300, fogF: 3500 }, build: (S) => {
+      sea(S, "#1e4a72", 0.6, 30000, 60); clouds(S, 30, [0, 1300, -800], [3000, 200, 2000], "#ffffff", 0, 6, 3);
       const K = ship("carrier", { nation: "jp", col: "#6a6e70" }); K.g.position.set(400, 0, -900); K.g.rotation.y = 0.5; S.add(K.g); wakeLine(S, () => V(300, 0.2, -840), -2, 1.5);
       for (let i = 0; i < 3; i++) { const p = plane("dauntless"); fly(S, p.g, (t) => { const a = Math.max(0, t - i * 0.25); return V(i * 16 + 40 * t + 60 * a * a, 1500 - 8 * i - 140 * a * a, -i * 10 - 80 * a * a); }, (t) => (t > i * 0.25 ? -2.6 * sm((t - i * 0.25) / 0.6) : 0), p.spin); } },
     cam: (t) => ({ p: [-20 + 40 * t, 1520, 26], l: [60 + 120 * t, 1440 - 150 * t, -60 - 40 * t], fov: 46, roll: -0.2 }) },
@@ -105,7 +105,7 @@ export const SHOTS_B: Shot3[] = [
       const W = tank("panzer", { burnt: true, winter: false }); W.g.position.set(-8, -0.2, -12); W.g.rotation.set(0.05, 0.7, 0.06); W.turret.rotation.y = 1.0; S.add(W.g); smokeCol(S, [-8, 2, -12], 1.0, { grey: 0.2 }); weather(S, "snow", 1200); },
     cam: path(5.9, [[0, [-30, 2, 16], [0, 2, -6], 40], [0.5, [-14, 6, 18], [10, 2, -6], 42], [1, [-4, 3, 14], [16, 2.4, -6], 40]]) },
   // "Na madrugada de 6 de junho de 1944," — C-47s over Normandy at night; paratroopers jump into the flak
-  { t0: 349.19, t1: 353.3, mood: "night", over: { stars: true, hor: "#2a3450" }, bloom: 1.3, build: (S) => {
+  { t0: 349.19, t1: 353.3, mood: "night", over: { stars: true, hor: "#2a3450", sunCol: "#9ab0e0", sunI: 2.2, hemiI: 1.5, disc: 0.6, sunEl: 25, sunAz: 30 }, bloom: 1.3, build: (S) => {
       ground(S, "field").position.y = -300; clouds(S, 16, [0, -120, -600], [2400, 40, 1600], "#6a7490", 1, 4, 2);
       const lead = (t: number) => V(40 * t, 0, 0);
       for (let i = 0; i < 7; i++) { const p = plane("c47"), o = V(-(i % 4) * 40, -(i % 3) * 8, -Math.floor(i / 2) * 45 + 20); fly(S, p.g, (t) => lead(t).add(o), (t) => 0.04 * Math.sin(t + i), p.spin); }
@@ -117,11 +117,11 @@ export const SHOTS_B: Shot3[] = [
       tracers(S, (t) => V(-60 + 80 * hs(Math.round(t * 10), 1), -300, -100 + 80 * hs(Math.round(t * 10), 2)), (t) => V(40 * t + 40 * (hs(Math.round(t * 10), 3) - 0.5), 20, -30), Array.from({ length: 30 }, (_, i) => 0.1 + i * 0.13), "#ff9a50", 0.5); },
     cam: (t) => ({ p: [40 * t - 30, 4, 34], l: [40 * t + 10, -6, -10], fov: 44, roll: 0.05 * Math.sin(t * 0.8) }) },
   // "aconteceu uma das maiores operações militares da história." — dawn armada: battleships fire broadsides over the landing craft
-  { t0: 353.3, t1: 357.1, mood: "overcast", over: { hor: "#c8b8a8", sunAz: 90, sunEl: 8 }, hand: 0.05, build: (S) => {
-      sea(S, "#3a4a52", 0.9); const ships = [[-200, -500], [150, -650], [450, -520]].map(([x, z], i) => { const B = ship(i === 1 ? "cruiser" : "bb", { col: "#6a7078" }); B.g.position.set(x, 0, z); B.g.rotation.y = 0.15; S.add(B.g); B.turrets.forEach((tt) => (tt.rotation.y = 1.5)); B.guns.forEach((g) => (g.rotation.z = 0.1)); return B; });
+  { t0: 353.3, t1: 357.1, mood: "overcast", over: { hor: "#c8b8a8", sunAz: 90, sunEl: 8, fogF: 2600 }, hand: 0.05, build: (S) => {
+      sea(S, "#3a4a52", 0.9); const ships = [[-160, -300], [120, -420], [380, -320]].map(([x, z], i) => { const B = ship(i === 1 ? "cruiser" : "bb", { col: "#6a7078" }); B.g.position.set(x, 0, z); B.g.rotation.y = 0.15; S.add(B.g); B.turrets.forEach((tt) => (tt.rotation.y = 1.5)); B.guns.forEach((g) => (g.rotation.z = 0.1)); return B; });
       ships.forEach((B, i) => B.guns.forEach((g, k) => muzzle(S, () => g.localToWorld(V(20, 0, 0)), [0.4 + i * 0.7 + k * 0.08, 2.4 + i * 0.5 + k * 0.08], 10)));
       for (let i = 0; i < 16; i++) { const H = ship("higgins"), x0 = -120 + i * 18, z0 = -60 - 40 * hs(i, 1); S.add(H.g); H.g.rotation.y = Math.PI / 2; S.on((t) => { const z = z0 + 8 * t; H.g.position.set(x0, seaY(x0, z, t, 0.9) - 0.4, z); H.g.rotation.x = 0.06 * Math.sin(t * 1.4 + i); }); wakeLine(S, (t) => V(x0, 0.2, z0 + 8 * t - 6), -2, 3.8); } },
-    cam: path(3.8, [[0, [0, 3, 40], [0, 10, -400], 40], [1, [30, 4, 30], [80, 14, -500], 38]]) },
+    cam: path(3.8, [[0, [0, 3, 40], [0, 10, -300], 40], [1, [30, 4, 30], [80, 14, -350], 38]]) },
   // "e desembarcaram" — the ramp drops (hinge + bounce), the men surge into the surf; one is hit
   { t0: 362.0, t1: 363.5, mood: "overcast", over: { hor: "#b8b0a4" }, hand: 0.09, build: (S) => {
       sea(S, "#4a5a5a", 0.5, 800, 120); ground(S, "sand", 1200, 60, 0.3).position.z = -640;
@@ -171,7 +171,7 @@ export const SHOTS_B: Shot3[] = [
   { t0: 406.0, t1: 408.5, mood: "fire", over: { hor: "#8a4a2a" }, hand: 0.08, bloom: 1.2, build: (S) => {
       ground(S, "cobble"); S.shadowAt(0, 0, -6, 20); street(S, -26, -40, 40, { broken: 1, seed: 77, hue: 30 }); sandbags(S.root, 0, -8, 14, 4); rocks(S.root, 30, -8, 8, -9, -6, ["#5a5048"], 0.3, 1.1, 3);
       const defs = [0, 1, 2, 3].map((i) => { const x = -5 + i * 3.2; stander(S, i % 2 ? sol(VOLKS, i) : sol(WEH, i), 280 + i, x, -9.2, () => ({ expr: "shout" as never, crouch: 0.2 }), { die: i === 2 ? 1.3 : undefined, dieDir: 0, sc: 0.95 }); muzzle(S, () => V(x + 0.4, 1.4, -8.6), [0.2 + i * 0.3, 0.9 + i * 0.25, 1.7 + i * 0.2].filter((x) => i !== 2 || x < 1.3), 0.5); return x; });
-      for (let i = 0; i < 3; i++) { const x = -3 + i * 3; actor(S, sol(RED, i + 5), 290 + i, (t) => ({ x, z: 3 + i * 0.4, side: true, flip: true, s: { mode: "stand", expr: "shout", blink: 0, pose: 0 } as never })); muzzle(S, () => V(x - 0.2, 1.3, 2.4), [0.4 + i * 0.2, 1.1 + i * 0.3, 1.9], 0.5); }
+      for (let i = 0; i < 3; i++) { const x = [-7, 5, 8][i]; actor(S, sol(RED, i + 5), 290 + i, (t) => ({ x, z: 2 + i * 0.6, side: true, flip: true, s: { mode: "stand", expr: "shout", blink: 0, pose: 0 } as never })); muzzle(S, () => V(x - 0.2, 1.3, 2.4), [0.4 + i * 0.2, 1.1 + i * 0.3, 1.9], 0.5); }
       tracers(S, () => V(-2, 1.3, 2.4), (t) => V(defs[Math.round(t * 3) % 4] + 0.2, 1.2, -9), [0.5, 0.8, 1.1, 1.4, 1.7, 2.0], "#ffb860"); tracers(S, (t) => V(defs[Math.round(t * 5) % 4], 1.4, -8.6), () => V(0, 1.4, 3), [0.3, 0.7, 1.2, 1.6, 2.1], "#ff9050");
       fire(S, [12, 0.3, -12], 1.6); weather(S, "ash", 800); },
     cam: path(2.5, [[0, [3, 1.5, 7], [-2, 1.3, -8], 42], [1, [1, 1.3, 6.5], [-3, 1.2, -9], 44]]) },
@@ -200,10 +200,10 @@ export const SHOTS_B: Shot3[] = [
   // "A explosão destruiu grande parte da cidade" — white flash, the fireball climbs into the mushroom
   { t0: 452.24, t1: 454.8, mood: "day", over: { sunEl: 40, sunAz: 120, fogF: 8000, hor: "#d8e0e8" }, bloom: 1.6,
     white: (t) => (t < 0.08 ? 0 : t < 0.2 ? 1 : Math.max(0, 1 - (t - 0.2) / 0.5)), build: (S) => {
-      ground(S, "grass", 20000, 400); hills(S, "#5a6a5a", 3500, 260, 30); sea(S, "#3a5a7a", 0.3, 6000, 60, 0, 2600);
+      ground(S, "grass", 20000, 400); hills(S, "#5a6a5a", 3500, 260, 30); sea(S, "#3a5a7a", 0.3, 6000, 60, 0, 4600);
       for (let i = 0; i < 260; i++) { const r = 1600 * Math.sqrt(hs(i, 1)), a = hs(i, 2) * 6.28; rbox(14 + 20 * hs(i, 3), 8 + 10 * hs(i, 4), 14 + 20 * hs(i, 5), M.std("#8a8070", 1, 0, 3), S.root, Math.cos(a) * r, 5, Math.sin(a) * r - 400, 2); }
-      mushroom(S, [0, 0, -400], 0.1, 1.6); },
-    cam: path(2.56, [[0, [600, 120, 2600], [0, 200, -400], 40], [1, [560, 130, 2500], [0, 420, -400], 42]]) },
+      mushroom(S, [0, 0, -400], 0.1, 3.2); },
+    cam: path(2.56, [[0, [500, 140, 2000], [0, 250, -400], 44], [1, [470, 150, 1900], [0, 500, -400], 48]]) },
   // "Nesse mesmo período, a União Soviética declarou guerra ao Japão" — Soviet armour crosses the Manchurian grassland
   { t0: 472.31, t1: 479.88, mood: "golden", over: { sunAz: -50, sunEl: 10 }, bloom: 1.1, build: (S) => {
       ground(S, "steppe"); hills(S, "#6a5a3a", 700, 70); hills(S, "#4a3e2e", 1100, 120, 20, 3); S.shadowAt(10, 0, -10, 60);

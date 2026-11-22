@@ -53,12 +53,12 @@ export const blast = (S: Stage, pos: THREE.Vector3 | V3, t0: number, sc = 1, o: 
     sp.forEach((m, i) => { const b = a - 0.01 * i; if (b <= 0 || b > 1.4) { m.visible = false; return; } m.visible = true;
       const d = V(hs(i, seed + 18) - 0.5, 0.4 + hs(i, seed + 19), hs(i, seed + 20) - 0.5).normalize().multiplyScalar(14 * sc * (0.5 + hs(i, seed + 21)));
       m.position.set(P.x + d.x * b, P.y + d.y * b - 4.9 * b * b, P.z + d.z * b); m.scale.setScalar(0.25 * sc); mat(m).opacity = 1 - b / 1.4; });
-    if (nd) { deb.visible = a > 0; if (a > 0) { for (let i = 0; i < nd; i++) { const ang = hs(i, seed + 22) * 6.28, out = (3 + 10 * hs(i, seed + 23)) * sc, vy = (5 + 11 * hs(i, seed + 24)) * sc, s = (0.08 + 0.35 * hs(i, seed + 25) ** 2) * sc;
+    if (nd) { deb.visible = a > 0; if (a > 0) { for (let i = 0; i < nd; i++) { const ang = hs(i, seed + 22) * 6.28, out = (3 + 10 * hs(i, seed + 23)) * sc, vy = (5 + 11 * hs(i, seed + 24)) * sc, s = (0.06 + 0.3 * hs(i, seed + 25) ** 2) * Math.min(2.2, Math.sqrt(sc));
       const bb = bounceY(P.y, vy, a), drag = (1 - Math.exp(-a * 1.1)) / 1.1, slide = bb.n ? 0.75 : 1; const spin = Math.min(a, 1.5 + bb.n * 0.3) * (bb.n >= 3 ? 0.3 : 1);
       s3.setScalar(s); e.set(spin * 9 * hs(i, 30), spin * 9 * hs(i, 31), spin * 9 * hs(i, 32)); q.setFromEuler(e);
       m4.compose(tmp.set(P.x + Math.cos(ang) * out * drag * slide, Math.max(s * 0.5, bb.y), P.z + Math.sin(ang) * out * drag * slide), q, s3); deb.setMatrixAt(i, m4); } deb.instanceMatrix.needsUpdate = true; } }
     (scorch.material as THREE.MeshBasicMaterial).opacity = a > 0 ? 0.55 * sm(a * 3) : 0;
-    const rm = ring.material as THREE.MeshBasicMaterial; rm.opacity = a > 0 && a < 0.6 ? 0.5 * (1 - a / 0.6) : 0; ring.scale.setScalar(1 + a * 40 * sc);
+    const rm = ring.material as THREE.MeshBasicMaterial; rm.opacity = !o.water && P.y < 1 && a > 0 && a < 0.5 ? 0.18 * (1 - a / 0.5) : 0; ring.scale.setScalar(1 + a * 40 * sc);
   });
 };
 /** burning fire: flickering flames, embers, steady light; optional smoke column */
@@ -125,6 +125,7 @@ export const exhaust = (S: Stage, pos: (t: number) => THREE.Vector3, back: (t: n
       const ts = t0 + i / rate, a = t - ts; if (a < 0 || a > life) { m.visible = false; return; } m.visible = true; const q = pos(ts), bb = back(ts).normalize();
       const spread = (o.ground && q.y < o.ground) ? 6 * (1 - Math.exp(-a)) : 0;
       m.position.copy(q).addScaledVector(bb, (2 + 2 * a) * sc).add(V((hs(i, 1) - 0.5) * (0.6 + spread) * sc, 0.4 * a, (hs(i, 2) - 0.5) * (0.6 + spread) * sc));
+      if (m.position.y < 0.6) { const k = 0.6 - m.position.y; m.position.y = 0.6 + 0.3 * k; m.position.x += (hs(i, 4) - 0.5) * k * 2; m.position.z += (hs(i, 5) - 0.5) * k * 2; }
       m.scale.setScalar(sc * (0.9 + 2.6 * a)); const gv = (o.grey ?? 0.75) - 0.1 * hs(i, 3), heat = Math.exp(-a * 5); mat(m).color.setRGB(gv + heat * 0.5, gv + heat * 0.3, gv); mat(m).opacity = (1 - a / life) * 0.75; mat(m).rotation = i; }); });
 };
 /** atomic fireball rising into a mushroom: stem, cap with roll, condensation ring, ground surge */
