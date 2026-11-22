@@ -1,6 +1,6 @@
 // Realistic effects for the WW2 film: physical explosions (fireball, shock ring, ballistic debris that bounces, embers, lingering smoke),
 // atomic cloud, flak, searchlights, lens flares and glints, sparks, glass, coins, confetti and paper with flutter physics, water, birds, breath.
-import { Ctx, Cam, VW, VH, P, glow, puff, clamp, lerp, easeOut, hash, rng } from "./engine";
+import { Ctx, Cam, VW, VH, P, glow, puff, clamp, lerp, easeOut, hash, rng, skyY } from "./engine";
 
 export const G = 9.81;
 /** height of a bouncing body: dropped/thrown at vy0 (m/s) from y0, restitution e; returns [y, vy, bounces] */
@@ -23,53 +23,52 @@ const fireCol = (k: number, a: number) => { // k: 0 white-hot .. 1 dark smoke
   const [k0, c0] = stops[i], [k1, c1] = stops[i + 1], f = clamp((k - k0) / (k1 - k0));
   return `rgba(${c0.map((v, j) => Math.round(lerp(v, c1[j], f))).join(",")},${a})`;
 };
-/** full physical explosion at world point. age in s, size ~ fireball radius (m) */
+/** full physical explosion at world point. age in s, size ~ fireball radius (m).
+ *  Layers: flash → turbulent fireball (white-hot core cooling to orange/red) → dense, black, billowing smoke lit from below by the fire
+ *  → dirt jets (ground bursts) → ballistic debris that bounces and settles → sparks → shock ring. */
 export const blast = (g: Ctx, cam: Cam, age: number, x: number, y: number, z: number, size = 2.5, seed = 1, o: { debris?: number; dirt?: boolean; smoke?: number; ring?: boolean } = {}) => {
-  if (age < 0 || age > 9) return;
-  const [sx, sy, s] = P(cam, x, y, z), R = size * s, r = rng(seed * 977 + 13);
-  // flash + light on everything around
-  if (age < 0.25) { const k = 1 - age / 0.25; glow(g, sx, sy - 0.3 * R, R * 7, "rgba(255,236,190,1)", 0.9 * k); glow(g, sx, sy - 0.3 * R, R * 2.2, "rgba(255,255,240,1)", k); }
-  // ground shock ring (dust)
-  if (o.ring !== false && age < 1.2) { const k = easeOut(age / 1.2), [, gy, gs] = P(cam, x, 0, z), rr = (0.6 + 5 * k) * size * gs, fy = clamp(cam.y / (z - cam.z), 0.08, 0.5);
-    g.save(); g.globalAlpha = 0.55 * (1 - k); g.strokeStyle = "rgba(200,180,150,1)"; g.lineWidth = Math.max(2, 0.5 * size * gs * (1 - k)); g.beginPath(); g.ellipse(sx, gy, rr, rr * fy, 0, 0, 7); g.stroke(); g.restore(); }
-  // lingering smoke column (drifts, rises)
-  const SM = o.smoke ?? 1;
-  for (let i = 0; i < 14; i++) { const st = 0.35 + i * 0.12; const a2 = age - st; if (a2 < 0) continue;
-    const rise = (2.2 + r() * 1.6) * a2 * size * 0.55, dx = (r() - 0.5) * size * 1.2 + a2 * 0.35 * size * 0.3;
-    const [px, py, ps] = P(cam, x + dx, y + size * 0.6 + rise, z + (r() - 0.5) * size * 0.4), rad = (0.6 + 0.45 * a2) * size * ps;
-    puff(g, px, py, rad, [52 + i * 2, 47 + i * 2, 46 + i], 0.82 * SM * clamp(a2 / 0.3) * clamp(1 - a2 / 8)); }
-  // fireball: buoyant hot puffs cooling to smoke
-  const n = 18;
-  for (let i = 0; i < n; i++) {
-    const ang = r() * Math.PI * 2, sp = 0.4 + r() * 0.8, life = 0.9 + r() * 0.9, k = clamp(age / life);
-    const d = easeOut(clamp(age / 0.5)) * sp * size, px0 = Math.cos(ang) * d, py0 = Math.abs(Math.sin(ang)) * d * 0.9 + age * age * 1.6 * (0.5 + r());
-    const [px, py, ps] = P(cam, x + px0, y + py0 + size * 0.25, z + (r() - 0.5) * size * 0.5), rad = (0.35 + 0.55 * easeOut(k)) * size * ps * (0.7 + r() * 0.5);
-    if (k >= 1) continue;
-    const hot = k < 0.45;
-    const grd = g.createRadialGradient(px, py - rad * 0.2, rad * 0.05, px, py, rad);
-    grd.addColorStop(0, fireCol(k * 0.9, 0.95 * (1 - k * 0.5))); grd.addColorStop(0.6, fireCol(Math.min(1, k * 0.9 + 0.2), 0.8 * (1 - k * 0.6))); grd.addColorStop(1, fireCol(1, 0));
-    g.fillStyle = grd; g.beginPath(); g.arc(px, py, rad, 0, 7); g.fill();
-    if (hot) { g.save(); g.globalCompositeOperation = "lighter"; g.globalAlpha = 0.5 * (1 - k / 0.45); g.fillStyle = "rgba(255,200,110,1)"; g.beginPath(); g.arc(px, py, rad * 0.55, 0, 7); g.fill(); g.restore(); }
-  }
-  // ballistic debris: chunks fly, spin, hit the ground, bounce and settle; dirt clods leave puffs
-  const nd = o.debris ?? 22;
-  for (let i = 0; i < nd; i++) {
-    const vx = (r() - 0.5) * 18 * Math.sqrt(size / 2.5), vy = 5 + r() * 12 * Math.sqrt(size / 2.5), vz = (r() - 0.5) * 6, sz = 0.06 + r() * 0.22, spin = (r() - 0.5) * 30, dark = r();
-    const [hy, , nb] = bounce(age, y + 0.3, vy, 0.3);
-    const drag = 1 - Math.exp(-age * 0.8), tx = vx * (nb ? 1 : 1) * drag / 0.8, px = x + tx * (nb ? 0.9 : 1), pz = z + vz * drag / 0.8;
-    if (pz - cam.z < 0.4) continue;
-    const [qx, qy, qs] = P(cam, px, Math.max(0, hy), pz);
-    g.save(); g.translate(qx, qy); g.rotate(spin * Math.min(age, 1.4)); g.fillStyle = o.dirt === false ? (dark > 0.5 ? "#2a2624" : "#6a625a") : dark > 0.5 ? "#3a2c20" : "#6e5a40";
-    g.fillRect(-sz * qs, -sz * qs * 0.6, sz * 2 * qs, sz * 1.2 * qs); g.restore();
-    if (age < 1.8 && i % 3 === 0) { const [tx2, ty2] = P(cam, px - vx * 0.03, Math.max(0, hy - 0.2), pz); g.strokeStyle = "rgba(60,50,40,0.35)"; g.lineWidth = Math.max(1, sz * qs); g.beginPath(); g.moveTo(qx, qy); g.lineTo(tx2, ty2); g.stroke(); }
-  }
-  // embers / sparks (hot, ballistic, fade)
+  if (age < 0 || age > 12) return;
+  const [sx, sy, s] = P(cam, x, y, z), R = size * s, r = rng(seed * 977 + 13), SM = o.smoke ?? 1;
+  if (age < 0.18) { const k = 1 - age / 0.18; glow(g, sx, sy - 0.3 * R, R * 9, "rgba(255,226,170,1)", 0.85 * k); glow(g, sx, sy - 0.3 * R, R * 2.4, "rgba(255,255,245,1)", k); }
+  if (o.ring !== false && age < 0.9) { const k = easeOut(age / 0.9), [, gy, gs] = P(cam, x, 0, z), rr = (0.6 + 6 * k) * size * gs, fy = clamp(cam.y / (z - cam.z), 0.08, 0.5);
+    g.save(); g.globalAlpha = 0.5 * (1 - k); g.strokeStyle = "rgba(120,100,80,1)"; g.lineWidth = Math.max(2, 0.8 * size * gs * (1 - k)); g.beginPath(); g.ellipse(sx, gy, rr, rr * fy, 0, 0, 7); g.stroke(); g.restore(); }
+  // dirt jets: dark columns of soil thrown up in a crown (ground bursts)
+  if (o.dirt !== false && y < 1.5) for (let i = 0; i < 9; i++) { const ang = -0.9 + 1.8 * (i / 8) + (r() - 0.5) * 0.2, v0 = (9 + r() * 6) * Math.sqrt(size / 2.5);
+    for (let j = 0; j < 7; j++) { const tt = age - j * 0.035; if (tt < 0 || tt > 2.2) continue; const px = x + Math.sin(ang) * v0 * tt * 0.6, py = y + Math.cos(ang) * v0 * tt - 0.5 * G * tt * tt; if (py < 0) continue;
+      const [qx, qy, qs] = P(cam, px, py, z + (r() - 0.5) * 0.6); puff(g, qx, qy, (0.18 + tt * 0.55) * size * qs * 0.45, [46, 36, 28], 0.85 * clamp(1 - tt / 2.2)); } }
+  // dense black smoke: big billows rising and spreading, under-lit by the fire for the first seconds
+  for (let i = 0; i < 44; i++) { const st = 0.1 + i * 0.03, a2 = age - st; if (a2 < 0) continue;
+    const ang = r() * Math.PI * 2, spread = (0.4 + r() * 0.9) * size, rise = (1.6 + r() * 1.4) * size * (1 - Math.exp(-a2 * 0.9)) + a2 * 0.5 * size, drift = a2 * 0.25 * size;
+    const [px, py, ps] = P(cam, x + Math.cos(ang) * spread * (0.6 + a2 * 0.25) + drift, y + 0.6 * size + rise + Math.sin(ang) * spread * 0.35, z + (r() - 0.5) * size * 0.6), rad = (0.55 + 0.5 * Math.min(a2, 3)) * size * ps * (0.7 + r() * 0.6);
+    const lit = clamp(1 - a2 / 1.6) * (1 - i / 40), al = 0.95 * SM * clamp(a2 / 0.15) * clamp(1 - (a2 - 6) / 5);
+    const gr = g.createRadialGradient(px - rad * 0.25, py - rad * 0.35, rad * 0.05, px, py, rad);
+    gr.addColorStop(0, `rgba(${Math.round(44 + 30 * lit)},${Math.round(40 + 14 * lit)},${Math.round(40)},${al * 0.9})`); gr.addColorStop(0.45, `rgba(${Math.round(28 + 110 * lit)},${Math.round(24 + 36 * lit)},${Math.round(24 + 4 * lit)},${al * 0.75})`); gr.addColorStop(0.8, `rgba(26,22,22,${al * 0.3})`); gr.addColorStop(1, "rgba(24,20,20,0)");
+    g.fillStyle = gr; g.beginPath(); g.arc(px, py, rad, 0, 7); g.fill(); }
+  // turbulent fireball: many small hot cells, white→yellow→orange→deep red, collapsing into the smoke
   g.save(); g.globalCompositeOperation = "lighter";
-  for (let i = 0; i < 26; i++) { const vx = (r() - 0.5) * 16, vy = 4 + r() * 14, life = 0.7 + r() * 1.3; if (age > life) continue;
-    const px = x + vx * age, py = y + 0.5 + vy * age - 0.5 * G * age * age; if (py < 0) continue;
-    const [qx, qy, qs] = P(cam, px, py, z + (r() - 0.5) * 2), [tx, ty] = P(cam, px - vx * 0.025, py - (vy - G * age) * 0.025, z);
-    g.strokeStyle = `rgba(255,${190 + Math.round(60 * r())},120,${(1 - age / life) * 0.95})`; g.lineWidth = Math.max(1.2, 0.035 * qs); g.beginPath(); g.moveTo(qx, qy); g.lineTo(tx, ty); g.stroke(); }
+  for (let i = 0; i < 34; i++) { const life = 0.35 + r() * 0.7, k = age / life; if (k >= 1) { r(); r(); r(); continue; }
+    const ang = r() * Math.PI * 2, d = easeOut(clamp(age / 0.35)) * (0.2 + r() * 0.9) * size, px0 = Math.cos(ang) * d, py0 = Math.abs(Math.sin(ang)) * d * 0.8 + age * 1.6 * size * 0.4;
+    const [px, py, ps] = P(cam, x + px0, y + py0 + size * 0.3, z + (r() - 0.5) * size * 0.4), rad = (0.25 + 0.4 * easeOut(k)) * size * ps;
+    const c = fireCol(Math.min(0.62, k * 0.75 + 0.05), (1 - k) * 0.85); const gr = g.createRadialGradient(px, py, 0, px, py, rad); gr.addColorStop(0, c); gr.addColorStop(1, "rgba(120,30,10,0)");
+    g.fillStyle = gr; g.beginPath(); g.arc(px, py, rad, 0, 7); g.fill(); }
   g.restore();
+  // ballistic debris: chunks fly, spin, smoke-trail, hit the ground, bounce and settle
+  const nd = o.debris ?? 26;
+  for (let i = 0; i < nd; i++) {
+    const vx = (r() - 0.5) * 18 * Math.sqrt(size / 2.5), vy = 5 + r() * 12 * Math.sqrt(size / 2.5), vz = (r() - 0.5) * 6, sz = 0.05 + r() * 0.2, spin = (r() - 0.5) * 30, dark = r();
+    const [hy, , nb] = bounce(age, y + 0.3, vy, 0.3), drag = (1 - Math.exp(-age * 0.8)) / 0.8, px = x + vx * drag * (nb ? 0.9 : 1), pz = z + vz * drag;
+    if (pz - cam.z < 0.4) continue; const [qx, qy, qs] = P(cam, px, Math.max(0, hy), pz);
+    if (age < 1.6 && i % 2 === 0) for (let j = 1; j < 5; j++) { const tb = Math.max(0, age - j * 0.06), [hy2] = bounce(tb, y + 0.3, vy, 0.3), d2 = (1 - Math.exp(-tb * 0.8)) / 0.8, [tx, ty, ts] = P(cam, x + vx * d2, Math.max(0, hy2), z + vz * d2); puff(g, tx, ty, (0.06 + j * 0.03) * ts, [60, 54, 52], 0.35 * (1 - j / 5)); }
+    g.save(); g.translate(qx, qy); g.rotate(spin * Math.min(age, 1.4)); g.fillStyle = dark > 0.5 ? "#2a221c" : "#5a4a38"; g.beginPath(); g.moveTo(-sz * qs, -sz * qs * 0.4); g.lineTo(sz * qs * 0.6, -sz * qs * 0.7); g.lineTo(sz * qs, sz * qs * 0.3); g.lineTo(-sz * qs * 0.4, sz * qs * 0.6); g.closePath(); g.fill(); g.restore();
+  }
+  g.save(); g.globalCompositeOperation = "lighter";
+  for (let i = 0; i < 30; i++) { const vx = (r() - 0.5) * 18, vy = 4 + r() * 15, life = 0.6 + r() * 1.4; if (age > life) continue;
+    const px = x + vx * age, py = y + 0.5 + vy * age - 0.5 * G * age * age; if (py < 0) continue;
+    const [qx, qy, qs] = P(cam, px, py, z + (r() - 0.5) * 2), [tx, ty] = P(cam, px - vx * 0.03, py - (vy - G * age) * 0.03, z);
+    g.strokeStyle = `rgba(255,${180 + Math.round(70 * r())},110,${(1 - age / life) * 0.95})`; g.lineWidth = Math.max(1.2, 0.035 * qs); g.beginPath(); g.moveTo(qx, qy); g.lineTo(tx, ty); g.stroke(); }
+  g.restore();
+  // residual fire at the base while the smoke builds
+  if (age > 0.3 && age < 4 && y < 1.5) { const [fx, fy, fs] = P(cam, x, 0, z), k = clamp(1 - (age - 0.3) / 3.7); g.save(); g.globalCompositeOperation = "lighter"; for (let i = 0; i < 6; i++) { const ph = (age * 2.4 + i / 6) % 1, rr = (1 - ph) * 0.5 * size * fs * k; const gr = g.createRadialGradient(fx + (hash(i + seed) - 0.5) * size * fs, fy - ph * size * fs, 0, fx, fy - ph * size * fs, rr + 1); gr.addColorStop(0, "rgba(255,200,110,0.8)"); gr.addColorStop(1, "rgba(200,50,10,0)"); g.fillStyle = gr; g.beginPath(); g.arc(fx + (hash(i + seed) - 0.5) * size * fs, fy - ph * size * fs, rr + 1, 0, 7); g.fill(); } g.restore(); }
 };
 /** scorch / crater left on the ground after a blast */
 export const scorch = (g: Ctx, cam: Cam, x: number, z: number, r: number, a = 0.7) => { const [sx, sy, s] = P(cam, x, 0, z), fy = clamp(cam.y / (z - cam.z), 0.06, 0.5);
@@ -116,7 +115,7 @@ export const searchlight = (g: Ctx, cam: Cam, x: number, z: number, ang: number,
 };
 /** anamorphic lens flare: streak + ghosts mirrored through the frame centre */
 export const lensFlare = (g: Ctx, x: number, y: number, a: number, col = "255,214,160") => {
-  if (a <= 0) return; g.save(); g.globalCompositeOperation = "lighter";
+  if (a <= 0) return; y = skyY(y, 30); g.save(); g.globalCompositeOperation = "lighter";
   const gr = g.createLinearGradient(x - VW * 0.6, y, x + VW * 0.6, y); gr.addColorStop(0, `rgba(${col},0)`); gr.addColorStop(0.5, `rgba(${col},${0.5 * a})`); gr.addColorStop(1, `rgba(${col},0)`);
   a *= 0.6; g.fillStyle = gr; g.fillRect(x - VW * 0.6, y - 3, VW * 1.2, 6); glow(g, x, y, 120, `rgba(${col},1)`, 0.6 * a);
   const cx = VW / 2, cy = VH / 2; [[0.4, 40, "160,200,255"], [0.75, 22, "255,180,120"], [1.25, 70, "140,255,200"], [1.6, 34, "255,140,200"]].forEach(([k, rr, c]) => {

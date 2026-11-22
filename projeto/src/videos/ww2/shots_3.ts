@@ -1,6 +1,6 @@
 // 254 – 415 s: Pearl Harbor, America enters, 1942 turning points (Midway, El Alamein, Stalingrad), D-Day, the squeeze on Germany, Berlin.
 import { VW, VH, P, glow, fire, smokeCol, puff, tint, clamp, lerp, smooth, easeOut, easeIn, hash, rays, sun, beam, muzzle } from "./engine";
-import { Sc, C, mv, hand, walkS, runS, marchF, marchCol, crowd, tank, plane, planeTop, ship, flag, signing, hl, arrow, pin, panel, caption, bigText, counter, para,
+import { fall, Sc, C, mv, hand, walkS, runS, marchF, marchCol, crowd, tank, plane, planeTop, ship, flag, signing, hl, arrow, pin, panel, caption, bigText, counter, para,
   civ, kid, sol, v, idle, HIT_GREY, HIT_CAP, HIT_OLD, STALIN_CAP, FDR, MUSSO, IKE, PAULUS, WEH, RED, REDH, REDW, GI, TOMMY, CANUK, POLE, FRENCH, MARINE, SAILOR, SAILOR_B, USPIL, MEDIC, VOLKS, HJ, NURSE } from "./kit";
 import { blast, scorch, rubble, embers, flutter, sparks, searchlight, lensFlare, glint, birds, breath, dust, lightning, exhaust, trail, flak, sea, wake, splash, bounce, spring } from "./fx";
 import { loc, mtn, hillL, clouds, city, skyline, forest, wall, banners, ruins, field, wire, pier, cliffs, dunes, europe, world, ST, MX, MY, mix, shade } from "./places";
@@ -87,7 +87,7 @@ export const SHOTS_3: Shot[] = [
       A.over((g) => bigText(g, "GUERRA MUNDIAL", T - 280.6, 1.6, VH * 0.86, 90, "#f6efe0", undefined, "120,180,255"));
     } },
   // 43a "Em 1942, as forças do Eixo ainda controlavam enormes territórios," — the Axis at its height
-  { t0: 282.0, fade: 0.25, L: () => europe("q9", ST.rust), cam: mv([4, 4, -24, 40], [5, 4.4, -21, 40]), act: (A, lt, u, T) => {
+  { t0: 282.0, fade: 0.25, L: () => europe("q9", ST.rust), cam: mv([0.5, 3, -46, 40], [0.5, 3, -42, 40]), act: (A, lt, u, T) => {
       hl(A, "AXIS42", (T - 283.9) / 1.0, "#3a2a24", 0.62); hl(A, "GER", 1, "#2a1a14", 0.5); A.over((g) => caption(g, "1942", lt - 0.2, 2.8));
     } },
   // 43b "mas começaram a enfrentar derrotas importantes." — a German officer at dusk beside a burnt-out tank
@@ -151,7 +151,7 @@ export const SHOTS_3: Shot[] = [
     } },
   // 48b "casa por casa," — a soldier sprints across the rubble street, bullets kick up dust at his heels
   { t0: 315.6, fade: 0.1, L: () => loc(["#6a6a70", "#a8a29a"], { near: "#6a5e52", far: "#8a7c6e", kind: "rubble", seed: 156 }, [ruins("q19", 16, ["#8a7a6a", "#7a6a5c", "#94826e"], 103, { hgt: [8, 15] }), ruins("q19b", 40, ["#6a5e54", "#5e544a"], 105, { hgt: [10, 20], blur: 1.5 })]),
-    cam: (u, lt) => C(-3 + lt * 4.0, 1.2, -6, 42), lite: GREY, act: (A, lt) => { runS(A, sol(REDH, 14), 721, lt, -4, 3, 4.4, { expr: "fear" }); spurts(A, lt, 7, -5 + lt * 4.4 - 1.5, -5 + lt * 4.4 + 2.5, 2.6, 3.8, 7, [150, 140, 128]); } },
+    cam: (u, lt) => C(-3 + lt * 4.0, 1.2, -6, 42), lite: GREY, act: (A, lt, u, T) => { fall(A, sol(REDH, 15), 722, 1.8, 3.8, T, 316.25, { dir: 1, run: 4.4 }); runS(A, sol(REDH, 14), 721, lt, -4, 3, 4.4, { expr: "fear" }); spurts(A, lt, 7, -5 + lt * 4.4 - 1.5, -5 + lt * 4.4 + 2.5, 2.6, 3.8, 7, [150, 140, 128]); } },
   // 48c "enfrentando frio extremo," — wrapped in a blanket, frost on the helmet, breath freezing
   { t0: 316.95, fade: 0.2, L: () => loc(["#7a8aa0", "#d8e0e8"], { near: "#c8ccd4", far: "#dfe4ea", kind: "snow", seed: 158 }, [ruins("q20", 14, ["#8a8a92", "#7a7a84"], 107, { hgt: [6, 12], snow: true, blur: 1.5 })]),
     cam: mv([0, 1.5, -2.6, 38], [0, 1.5, -2.1, 34]), lite: COLD, wx: ["snow", 260, 0.7], act: (A, lt) => {
@@ -256,6 +256,7 @@ export const SHOTS_3: Shot[] = [
     cam: mv([-8, 8, -20, 46, -60], [4, 8.6, -18, 44, -70]), lite: GREY, kicks: [[364.4, 6], [365.1, 5]], act: (A, lt, u, T) => {
       A.fx(60, (g, c) => sea(g, c, lt, { crest: "rgba(240,245,250,0.5)", z0: -20, z1: 4, n: 160, seed: 51 }));
       for (let i = 0; i < 5; i++) A.sp("higgins", -20 + i * 10, -0.2, 1 + (i % 2) * 2, { sc: 1 }); for (let i = 0; i < 14; i++) runS(A, sol(GI, 70 + i), 881 + i, lt, -16 + i * 2.4, 12 + (i % 4) * 4, 2.8, { expr: "shout" });
+      fall(A, sol(GI, 85), 895, -2.4, 10, T, 364.4, { dir: -1, blast: true, run: 2.8 }); A.fx(10.6, (g, c) => blast(g, c, T - 364.4, -1.6, 0, 10.6, 2.2, 95)); fall(A, sol(GI, 86), 896, 4, 14, T, 364.9, { dir: 1, run: 2.8 }); fall(A, sol(GI, 87), 897, 9, 18, T, 365.3, { dir: -1, run: 2.8 });
       for (let i = 0; i < 8; i++) A.sp("hedgehog", -18 + i * 5, 0, 9 + (i % 3) * 5, { sc: 1 }); for (const [at, x] of [[364.4, -6], [365.1, 10]] as number[][]) A.fx(30, (g, c) => blast(g, c, T - at, x, 0, 30, 3, at, { debris: 20 }));
       A.fx(66, (g, c) => { for (const x of [-30, 0, 30]) smokeCol(g, c, lt, x, 8, 66, { h: 30, w: 6, col: [70, 66, 64], a: 0.6, seed: x }); });
       A.over((g) => caption(g, "NORMANDIA · FRANÇA OCUPADA", lt - 0.3, 2.0));
@@ -280,13 +281,13 @@ export const SHOTS_3: Shot[] = [
     cam: hand(mv([0.6, 1.4, -2.6, 42], [0.5, 1.4, -2.1, 40]), 0.015), lite: { ...GREY, rim: "#fff0d0" }, kicks: [[373.0, 3], [374.0, 3], [375.0, 3]], act: (A, lt, u, T) => {
       A.fx(40, (g, c) => sea(g, c, lt, { crest: "rgba(240,245,250,0.4)", z0: 30, z1: 200, n: 80, seed: 53 }));
       A.a(sol(WEH, 150), 941, -0.6, 1.4, { expr: "shout", crouch: 0.3, look: 1, facing: 1 }); A.sp("mg42", 0.2, 1.0, 1.3, { sc: 1.3 });
-      if (Math.floor(lt * 30) % 3 !== 2) A.fx(1.25, (g, c) => muzzle(g, c, 1.45, 1.13, 1.3, 0.3, 1)); casings(A, lt, 0.1, 1.1, 1.2, 0, 9);
+      if (Math.floor(lt * 30) % 3 !== 2) A.fx(1.25, (g, c) => muzzle(g, c, 1.45, 1.13, 1.3, 0.3, 1)); casings(A, lt, 0.1, 1.1, 1.2, 0, 9); for (const [k, th] of [[0, 373.2], [1, 374.4], [2, 375.7]]) fall(A, sol(GI, 152 + k), 943 + k, -2 + k * 3, 26 + k * 3, T, th, { dir: k % 2 ? 1 : -1, run: 2.6 });
     } },
   // 58b "minas" — a mine erupts in a geyser of sand
   { t0: 376.55, fade: 0.1, L: () => loc(["#8a94a2", "#d0ccc4"], { near: "#bca88a", far: "#cfbea0", kind: "sand", seed: 188 }, [cliffs("q41", 80, "#8a8274", "#5a6a3a", 143, 18, 2)]),
     cam: hand(mv([0, 1.4, -6, 42], [0, 1.4, -5.5, 40]), 0.03), lite: GREY, kicks: [[376.75, 16]], act: (A, lt, u, T) => {
       A.fx(6, (g, c) => { blast(g, c, T - 376.75, 1.0, 0, 6, 2.4, 9, { debris: 26, ring: true }); for (let i = 0; i < 30; i++) { const k = T - 376.75; if (k < 0) break; const vx = (hash(i) - 0.5) * 6, vy = 6 + hash(i + 3) * 6, y = vy * k - 4.9 * k * k; if (y < 0) continue; const [sx, sy, s] = P(c, 1 + vx * k, y, 6); puff(g, sx, sy, (0.3 + k) * s, [200, 180, 140], 0.8 * clamp(1 - k / 2)); } });
-      A.sp("hedgehog", -3, 0, 5); runS(A, sol(GI, 100), 951, Math.max(0, T - 376.75), -3.5, 4, -2.5, { expr: "fear" }); A.fx(4, (g, c) => { const k = T - 376.75; if (k > 0.1) scorch(g, c, 1, 6, 1.6, 0.6); });
+      A.sp("hedgehog", -3, 0, 5); fall(A, sol(GI, 100), 951, 1.4, 6.2, T, 376.75, { dir: -1, blast: true, run: 2.2 }); A.fx(4, (g, c) => { const k = T - 376.75; if (k > 0.1) scorch(g, c, 1, 6, 1.6, 0.6); });
     } },
   // 58c "e obstáculos construídos nas praias." — Czech hedgehogs at low tide; men shelter behind the steel
   { t0: 377.15, fade: 0.15, L: () => loc(["#7a8494", "#c8c4bc"], { near: "#b8a484", far: "#c8b898", kind: "sand", seed: 190, zFar: 200 }, [cliffs("q42", 60, "#7a7468", "#4a5a32", 145, 16, 1.2)]),
@@ -315,7 +316,7 @@ export const SHOTS_3: Shot[] = [
       A.fx(2.0, (g, c) => flutter(g, c, lt, { n: 50, x0: -6, x1: 8, z0: 1.5, z1: 5, top: 5, cols: ["#e83a4a", "#f2d22a", "#f4f0f0", "#e86a9a", "#6a3aa8"], size: 0.1, fall: 0.7, wind: 0.2, loop: true, seed: 33 }));
     } },
   // 60 "Com os soviéticos avançando pelo leste e os Aliados pelo oeste," — teal map: two fronts close the vice on Germany
-  { t0: 386.42, fade: 0.25, L: () => europe("q46", ST.teal), cam: mv([0, 2, -16, 40], [-1, 2.2, -13, 40]), act: (A, lt, u, T) => {
+  { t0: 386.42, fade: 0.25, L: () => europe("q46", ST.teal), cam: mv([2, 1.5, -34, 40], [2, 1.5, -30, 40]), act: (A, lt, u, T) => {
       hl(A, "GER", 1, "#3a3a3a", 0.6); arrow(A, [30, 53], [17, 52.5], (T - 387.2) / 1.6, "#c0281e", 0.42); arrow(A, [27, 48.6], [17.5, 49], (T - 387.6) / 1.6, "#c0281e", 0.36);
       arrow(A, [-1, 48.5], [6.5, 50.4], (T - 388.8) / 1.5, "#2a6ac0", 0.42); arrow(A, [10, 44.5], [11, 47.4], (T - 389.2) / 1.5, "#2a6ac0", 0.34);
       A.fx(-0.1, (g, c) => { const k = clamp((T - 391.8) / 1.0); if (k <= 0) return; const [sx, sy, s] = P(c, MX(10.5), MY(51), 0); g.save(); g.globalAlpha = 0.4 * k; g.strokeStyle = "#ff4a3a"; g.lineWidth = 6; for (let r = 0; r < 3; r++) { g.beginPath(); g.arc(sx, sy, (3.4 - r * 0.6 - k * 0.8) * s, 0, 7); g.stroke(); } g.restore(); });
@@ -347,9 +348,9 @@ export const SHOTS_3: Shot[] = [
     } },
   // 63b "nas próprias ruas da cidade." — close-quarters: muzzle flashes across a barricade
   { t0: 406.0, fade: 0.1, L: () => loc(["#4a4246", "#8a7a70"], { near: "#4a4038", far: "#5a4e44", kind: "rubble", seed: 206 }, [ruins("q51", 16, ["#5e5048", "#524640"], 163, { hgt: [8, 14] })]),
-    cam: hand(mv([0, 1.3, -4, 42], [0, 1.3, -3.6, 40]), 0.025), lite: NIGHTFIRE, act: (A, lt) => {
+    cam: hand(mv([0, 1.3, -4, 42], [0, 1.3, -3.6, 40]), 0.025), lite: NIGHTFIRE, act: (A, lt, u, T) => {
       panel(A, 2.4, (w) => { for (let i = 0; i < 10; i++) w.poly([[-4 + i * 0.8, 0], [-3.4 + i * 0.8, 0], [-3.6 + i * 0.8, 0.6 + (i % 3) * 0.2], [-3.9 + i * 0.8, 0.5]], ["#5a4a3e", "#6a5848", "#4a3e34"][i % 3], 2); });
-      A.a(sol(REDH, 60), 1021, -1.5, 2.6, { expr: "shout", crouch: 0.4, prop: ["rifleUp", 1] }, { y: -0.2 }); A.a(sol(WEH, 160), 1022, 2.4, 6, { expr: "fear", crouch: 0.4, facing: -1 }, { dark: 0.3 });
+      A.a(sol(REDH, 60), 1021, -1.5, 2.6, { expr: "shout", crouch: 0.4, prop: ["rifleUp", 1] }, { y: -0.2 }); fall(A, sol(WEH, 160), 1022, 2.4, 6, T, 407.2, { dir: 1, expr: "fear" });
       for (const t of [0.3, 0.9, 1.5]) if (lt > t && lt < t + 0.07) A.fx(2.5, (g, c) => muzzle(g, c, -1.0, 1.6, 2.5, 0.4, 1)); for (const t of [0.6, 1.3]) if (lt > t && lt < t + 0.07) A.fx(5.9, (g, c) => muzzle(g, c, 2.0, 1.4, 5.9, 0.3, -1));
     } },
   // 64a "O exército alemão estava praticamente destruído," — old men and boys of the last levy, exhausted in the rubble

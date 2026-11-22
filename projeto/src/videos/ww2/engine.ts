@@ -22,6 +22,7 @@ export const mk = (w: number, h: number) => { const c = document.createElement("
 
 // ---------------- world painter (metres, y up) ----------------
 type Pt = number[];
+export const INKK = { k: 0.42 };
 export class WP {
   constructor(public g: Ctx, public ppm: number) {}
   lw(px: number) { return px / this.ppm; }
@@ -29,12 +30,12 @@ export class WP {
   poly(pts: Pt[], fill: string | CanvasGradient | null, ink = 2.5, inkCol = INK) {
     this.path(pts); const g = this.g;
     if (fill) { g.fillStyle = fill; g.fill(); }
-    if (ink) { g.lineWidth = this.lw(ink); g.strokeStyle = inkCol; g.lineJoin = "round"; g.stroke(); }
+    if (ink) { g.lineWidth = this.lw(ink * INKK.k); g.strokeStyle = inkCol === INK ? "rgba(24,16,22,0.7)" : inkCol; g.lineJoin = "round"; g.stroke(); }
   }
   rect(x: number, y: number, w: number, h: number, fill: string | CanvasGradient | null, ink = 2.5) { this.poly([[x, y], [x + w, y], [x + w, y + h], [x, y + h]], fill, ink); }
   ell(x: number, y: number, rx: number, ry: number, fill: string | CanvasGradient | null, ink = 2.5, a0 = 0, a1 = Math.PI * 2) {
     const g = this.g; g.beginPath(); g.ellipse(x, y, rx, ry, 0, a0, a1); if (a1 - a0 < 6.28) g.closePath();
-    if (fill) { g.fillStyle = fill; g.fill(); } if (ink) { g.lineWidth = this.lw(ink); g.strokeStyle = INK; g.stroke(); }
+    if (fill) { g.fillStyle = fill; g.fill(); } if (ink) { g.lineWidth = this.lw(ink * INKK.k); g.strokeStyle = "rgba(24,16,22,0.7)"; g.stroke(); }
   }
   line(pts: Pt[], px: number, col = INK) { this.path(pts, false); const g = this.g; g.lineWidth = this.lw(px); g.strokeStyle = col; g.lineCap = "round"; g.lineJoin = "round"; g.stroke(); }
   vgrad(y0: number, y1: number, c0: string, c1: string) { const gr = this.g.createLinearGradient(0, y0, 0, y1); gr.addColorStop(0, c0); gr.addColorStop(1, c1); return gr; }
@@ -90,6 +91,11 @@ const cardKey = (a: Act, tier: number) => { const seed = a.id ?? 1, fo = a.side 
 const baseCard = (a: Act, tier: number) => getCached(cardKey(a, tier), 600 * tier, 1000 * tier, (g) => {
   g.setTransform(tier, 0, 0, tier, 0, 0); const p = new Pen(g), seed = a.id ?? 1;
   if (a.side) bodySide(p, a.o, { ...a.s, seed } as SideOpts); else bodyFront(p, a.o, { ...a.f, seed } as FrontOpts);
+  // cloth & skin realism: soft top light, ambient occlusion toward the feet, fine fabric grain (inside the silhouette only)
+  g.setTransform(1, 0, 0, 1, 0, 0); g.globalCompositeOperation = "source-atop"; const W = 600 * tier, H = 1000 * tier;
+  const gr = g.createLinearGradient(0, 0, 0, H); gr.addColorStop(0, "rgba(255,248,235,0.10)"); gr.addColorStop(0.5, "rgba(0,0,0,0)"); gr.addColorStop(1, "rgba(12,8,16,0.28)"); g.fillStyle = gr; g.fillRect(0, 0, W, H);
+  const r = rng(seed * 13 + 5); for (let i = 0; i < 260 * tier; i++) { g.fillStyle = r() < 0.5 ? "rgba(0,0,0,0.05)" : "rgba(255,255,255,0.04)"; g.fillRect(r() * W, r() * H, 1 + r() * 2 * tier, 1 + r() * 2 * tier); }
+  g.globalCompositeOperation = "source-over";
 });
 export const drawAct = (ctx: Ctx, cam: Cam, a: Act) => {
   const sc = a.sc ?? 1, y = a.y ?? 0;
@@ -136,10 +142,15 @@ export const drawAct = (ctx: Ctx, cam: Cam, a: Act) => {
 
 // ---------------- sprites (vehicles, props): painted once in metres, placed per frame ----------------
 export type Sprite = { key: string; w: number; h: number; ppm: number; paint: (w: WP) => void };
-export const spriteCanvas = (S: Sprite) => getCached(S.key, S.w * S.ppm, S.h * S.ppm, (g) => { g.setTransform(S.ppm, 0, 0, -S.ppm, S.w * S.ppm / 2, S.h * S.ppm); S.paint(new WP(g, S.ppm)); });
+const grime = (g: Ctx, w: number, h: number, seed: string) => { g.setTransform(1, 0, 0, 1, 0, 0); let s = 0; for (const ch of seed) s = (s * 31 + ch.charCodeAt(0)) % 9973; const r = rng(s + 7);
+  g.globalCompositeOperation = "source-atop"; const gr = g.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, "rgba(255,250,235,0.16)"); gr.addColorStop(0.45, "rgba(255,255,255,0)"); gr.addColorStop(1, "rgba(10,8,12,0.38)"); g.fillStyle = gr; g.fillRect(0, 0, w, h);
+  const n = Math.min(900, (w * h) / 220); for (let i = 0; i < n; i++) { const x = r() * w, y = r() * h, rr = 0.6 + r() * Math.max(1.5, w / 260); g.fillStyle = r() < 0.6 ? `rgba(30,22,16,${0.05 + r() * 0.1})` : `rgba(255,245,225,${0.03 + r() * 0.06})`; g.beginPath(); g.ellipse(x, y, rr * (1 + r() * 2), rr, r() * 3, 0, 7); g.fill(); }
+  for (let i = 0; i < n / 8; i++) { const x = r() * w, y = r() * h * 0.7; g.fillStyle = `rgba(60,40,24,${0.06 + r() * 0.08})`; g.fillRect(x, y, Math.max(1, w / 900), r() * h * 0.25); }
+  g.globalCompositeOperation = "source-over"; };
+export const spriteCanvas = (S: Sprite) => getCached(S.key, S.w * S.ppm, S.h * S.ppm, (g) => { g.setTransform(S.ppm, 0, 0, -S.ppm, S.w * S.ppm / 2, S.h * S.ppm); S.paint(new WP(g, S.ppm)); grime(g, S.w * S.ppm, S.h * S.ppm, S.key); });
 export const drawSprite = (ctx: Ctx, cam: Cam, S: Sprite, x: number, y: number, z: number, o: { flip?: boolean; rot?: number; alpha?: number; sc?: number } = {}) => {
   if (z - cam.z < 0.3) return;
-  const c = getCached(S.key, S.w * S.ppm, S.h * S.ppm, (g) => { g.setTransform(S.ppm, 0, 0, -S.ppm, S.w * S.ppm / 2, S.h * S.ppm); S.paint(new WP(g, S.ppm)); });
+  const c = spriteCanvas(S);
   const [sx, sy, s0] = P(cam, x, y, z), s = s0 * (o.sc ?? 1), w = S.w * s, h = S.h * s;
   if (sx + w < 0 || sx - w > VW) return;
   ctx.save(); ctx.translate(sx, sy); if (o.rot) ctx.rotate(o.rot); if (o.flip) ctx.scale(-1, 1);
@@ -284,11 +295,12 @@ export const stamp = (ctx: Ctx, txt: string, t: number, x: number, y: number, ro
   ctx.strokeStyle = col; ctx.lineWidth = size * 0.09; ctx.strokeRect(-w / 2 - size * 0.3, -size * 0.75, w + size * 0.6, size * 1.5);
   ctx.fillStyle = col; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(txt, 0, 4); ctx.restore();
 };
+let TO: CanvasGradient | null = null;
 let VIG: HTMLCanvasElement | null = null, BL1: HTMLCanvasElement | null = null, BL2: HTMLCanvasElement | null = null, GR: HTMLCanvasElement | null = null;
 /** finishing: colour grade (vibrance + contrast), bloom on bright areas, warm-light lift, soft vignette. No grain. */
 export const post = (ctx: Ctx, t: number, vig = 0.42, bloom = 0.5, sat = 1.2) => {
   if (!GR) GR = mk(VW, VH);
-  const gg = GR.getContext("2d")!; gg.globalCompositeOperation = "copy"; gg.filter = `saturate(${sat}) contrast(1.13) brightness(0.98)`; gg.drawImage(ctx.canvas, 0, 0); gg.filter = "none";
+  const gg = GR.getContext("2d")!; gg.globalCompositeOperation = "copy"; gg.filter = `saturate(${sat * 0.96}) contrast(1.18) brightness(0.97)`; gg.drawImage(ctx.canvas, 0, 0); gg.filter = "none";
   ctx.save(); ctx.globalCompositeOperation = "copy"; ctx.drawImage(GR, 0, 0); ctx.restore();
   if (bloom > 0) {
     if (!BL1) { BL1 = mk(VW / 4, VH / 4); BL2 = mk(VW / 4, VH / 4); }
@@ -298,12 +310,16 @@ export const post = (ctx: Ctx, t: number, vig = 0.42, bloom = 0.5, sat = 1.2) =>
     ctx.save(); ctx.globalCompositeOperation = "screen"; ctx.globalAlpha = bloom; ctx.imageSmoothingQuality = "high"; ctx.drawImage(BL2!, 0, 0, VW, VH);
     ctx.globalAlpha = bloom * 0.6; b1.filter = "blur(3px)"; b1.globalCompositeOperation = "copy"; b1.drawImage(BL2!, 0, 0); b1.filter = "none"; ctx.restore();
   }
+  ctx.save(); ctx.globalCompositeOperation = "soft-light"; ctx.globalAlpha = 0.22; if (!TO) { TO = ctx.createLinearGradient(0, 0, 0, VH); TO.addColorStop(0, "#ffb070"); TO.addColorStop(0.55, "#808080"); TO.addColorStop(1, "#1e5a6a"); } ctx.fillStyle = TO; ctx.fillRect(0, 0, VW, VH); ctx.restore();
   if (!VIG) { VIG = mk(VW, VH); const g = VIG.getContext("2d")!, gr = g.createRadialGradient(VW / 2, VH * 0.48, VH * 0.42, VW / 2, VH / 2, VW * 0.64);
     gr.addColorStop(0, "rgba(0,0,0,0)"); gr.addColorStop(1, "rgba(20,10,24,1)"); g.fillStyle = gr; g.fillRect(0, 0, VW, VH); }
   ctx.save(); ctx.globalAlpha = vig; ctx.drawImage(VIG, 0, 0); ctx.restore();
 };
 /** god rays from a screen point (sun / window / flare) */
+export const HZ = { y: VH / 2 };
+export const skyY = (y: number, r = 20) => Math.min(y, HZ.y - r * 1.3);
 export const rays = (ctx: Ctx, x: number, y: number, len: number, a: number, col = "255,226,170", n = 14, t = 0, spread = Math.PI * 2, dir = Math.PI / 2) => {
+  y = skyY(y, 30);
   if (a <= 0) return; ctx.save(); ctx.globalCompositeOperation = "lighter";
   for (let i = 0; i < n; i++) { const ang = dir - spread / 2 + (spread * (i + 0.5)) / n + 0.04 * Math.sin(t * 0.7 + i * 2.1), w = 0.035 + 0.04 * hash(i + 7), L = len * (0.6 + 0.4 * hash(i + 3));
     const g = ctx.createLinearGradient(x, y, x + Math.cos(ang) * L, y + Math.sin(ang) * L); g.addColorStop(0, `rgba(${col},${a * (0.5 + 0.5 * hash(i))})`); g.addColorStop(1, `rgba(${col},0)`);
@@ -311,7 +327,7 @@ export const rays = (ctx: Ctx, x: number, y: number, len: number, a: number, col
   ctx.restore();
 };
 /** sun disc with halo */
-export const sun = (ctx: Ctx, x: number, y: number, r: number, col = "255,236,200") => { glow(ctx, x, y, r * 9, `rgba(${col},0.55)`, 0.8); glow(ctx, x, y, r * 3, `rgba(${col},1)`, 0.9); ctx.save(); ctx.fillStyle = `rgb(${col})`; ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.fill(); ctx.restore(); };
+export const sun = (ctx: Ctx, x: number, y: number, r: number, col = "255,236,200") => { y = skyY(y, r); glow(ctx, x, y, r * 9, `rgba(${col},0.55)`, 0.8); glow(ctx, x, y, r * 3, `rgba(${col},1)`, 0.9); ctx.save(); ctx.fillStyle = `rgb(${col})`; ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.fill(); ctx.restore(); };
 /** gas cloud: yellow-green rolling puffs drifting along +x at world z band */
 export const gas = (ctx: Ctx, cam: Cam, t: number, x0: number, z0: number, z1: number, front: number, a = 0.75, seed = 3) => {
   for (let i = 0; i < 46; i++) { const z = z0 + (z1 - z0) * hash(seed + i * 1.7), xx = x0 + front - hash(i + seed) * 26 + Math.sin(t * 0.6 + i) * 0.6, yy = 0.4 + hash(i * 3.3) * 1.6 + Math.sin(t * 0.8 + i * 1.3) * 0.2;

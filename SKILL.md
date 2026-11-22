@@ -234,6 +234,18 @@ Use este vídeo como modelo sempre que o usuário pedir "ultra realista", "com f
   demais viram riscos (sx ≤ 1,1); `source-atop` direto no canvas principal pinta a tela inteira (só usar em cache);
   bandeiras: `new WP(cg, 400)` senão a espessura do traço cobre tudo; câmera em cena com prédio/mesa grande: subir `y`
   e usar `shift` negativo; aviões no céu: `y ≈ 0,2 × z` e `shift` positivo para olhar para cima.
+- **Segunda rodada (crítica do usuário: "parece desenho, estático, ninguém morre, explosão amarela, sol no chão, mapa cortado"):**
+  - explosão = fumaça PRETA densa (44 nuvens, iluminadas por baixo pelo fogo no início), jatos de terra, bola de fogo turbulenta
+    de células pequenas (não uma bola amarela), destroços com rastro de fumaça, fogo residual na base;
+  - menos "desenho": contorno do mundo/veículos fino e translúcido (`INKK.k = 0.42`), textura de desgaste/sujeira e luz de cima
+    em todo sprite (`grime` no cache), pano e pele com sombreado e grão nos bonecos, grade de cinema (laranja em cima, azul-petróleo embaixo);
+  - nada parado: câmera viva em todo plano (deriva orgânica + push-in de 5 %), bonecos parados respiram, balançam, viram a cabeça,
+    mudam o peso e mexem o braço automaticamente (em `Sc.a`, quantizado para o cache);
+  - quando a narração fala de morte/batalha, mostrar soldados atingidos: `fall()` (desaba com gravidade ou é arremessado pela explosão,
+    gira, quica e fica no chão; poeira; sem sangue) + baque no som;
+  - sol/raios/flare nunca abaixo do horizonte (`skyY()` usa o horizonte real `HZ.y` do plano);
+  - mapas de invasão mostram a Europa inteira (câmera z ≈ −40 a −46, x perto de 0, rótulos ×1,5) — senão Noruega/URSS somem e aparece borda preta;
+  - carros, caminhões, ônibus e canhões sempre com rodas (pneu, aro, cubo, brilho); caneta grande e visível na mão de quem assina.
 - **Temas sensíveis:** sem suástica (águia abstrata), morte de Hitler só com sala vazia e luz apagando, bomba atômica de
   longe e ruínas (sem vítimas), Holocausto com trilhos/portão, sapatos vazios, velas e estelas.
 

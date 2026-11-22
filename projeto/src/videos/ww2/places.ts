@@ -98,7 +98,7 @@ export const europe = (K: string, st: MapStyle, labels = true) => loc(undefined,
   for (const a of [EUROPE_OUT, GB2, SCAN, [-6, 52.2, -6.3, 53.9, -7.3, 55.3, -9.9, 53.9, -10.4, 51.9, -8.5, 51.6]]) w.poly(geoP(a), st.land, 3, st.ink);
   for (const k of Object.keys(MAPCOL)) if (k !== "AXIS42") w.poly(geoP(R39[k]), mix(st.land, MAPCOL[k], 0.35), 1.8, st.ink);
   if (labels) { const lab: [string, number, number, number][] = [["ALEMANHA", 10.4, 51.4, 0.5], ["POLÔNIA", 19.6, 52.2, 0.46], ["FRANÇA", 2.4, 46.8, 0.56], ["INGLATERRA", -1.6, 52.6, 0.36], ["UNIÃO SOVIÉTICA", 36, 55.5, 0.62], ["ITÁLIA", 12.8, 42.6, 0.4], ["ESPANHA", -4, 40, 0.48], ["ÁUSTRIA", 14.2, 47.6, 0.3], ["TCHECOSLOVÁQUIA", 17.2, 49.4, 0.26], ["NORUEGA", 8.4, 61.4, 0.36], ["DINAMARCA", 9.4, 56.3, 0.24], ["BÉLGICA", 4.4, 50.5, 0.2], ["HOLANDA", 5.4, 52.4, 0.2]];
-    for (const [s, lo, la, sz] of lab) w.text(s, MX(lo), MY(la), sz, st.lab); }
+    for (const [s, lo, la, sz] of lab) w.text(s, MX(lo), MY(la), sz * 1.5, st.lab); }
   const g = w.g.createRadialGradient(0, 0, 8, 0, 0, 22); g.addColorStop(0, "rgba(0,0,0,0)"); g.addColorStop(1, st.vign); w.rect(-17, -12, 34, 24, g, 0);
 })], true);
 const CONT2: number[][] = [

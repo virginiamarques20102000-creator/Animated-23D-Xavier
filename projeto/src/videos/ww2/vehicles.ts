@@ -247,3 +247,7 @@ export const FLAGS: Record<string, (w: WP, W: number, H: number) => void> = {
 };
 add("cross", 1.2, 1.4, 220, (w) => { w.rect(-0.07, 0, 0.14, 1.2, w.vgrad(0, 1.2, "#cfcac0", "#f6f3ec"), 2.5); w.rect(-0.38, 0.78, 0.76, 0.13, "#f4f1ea", 2.5); });
 add("crate", 1.4, 1.2, 220, (w) => { w.rect(-0.55, 0, 1.1, 0.9, w.vgrad(0, 0.9, "#7a5a32", "#a8844e"), 2.5); w.line([[-0.55, 0], [0.55, 0.9]], 2, "#6a4a2a"); w.line([[-0.55, 0.9], [0.55, 0]], 2, "#6a4a2a"); w.rect(-0.4, 0.3, 0.8, 0.3, "#c8a86a", 1.5); w.text("U.S.A.", 0, 0.45, 0.16, "#2a1d16"); });
+// ---------------- wheels for wheeled vehicles (tyre, rim, hub, highlight) ----------------
+const wheel = (w: WP, x: number, r: number) => { w.ell(x, r, r, r, "#1a1818", 2.5); w.ell(x, r, r * 0.78, r * 0.78, "#2a2826", 0); w.ell(x, r, r * 0.5, r * 0.5, w.vgrad(0, r * 2, "#3a3e36", "#8a8e84"), 1.5); w.ell(x, r, r * 0.16, r * 0.16, "#1e1e1e", 0); w.ell(x - r * 0.25, r * 1.3, r * 0.18, r * 0.08, "rgba(255,255,255,0.35)", 0); };
+const WHEELS: Record<string, [number[], number]> = { truck: [[-2.6, -1.3, 2.4], 0.5], jeep: [[-1.15, 1.1], 0.38], staff: [[-1.6, 1.6], 0.45], bus: [[-2.8, 2.8], 0.55], cart: [[-0.6, 0.7], 0.55], katyusha: [[-2.2, -0.9, 2.4], 0.48], howitzer: [[-0.2], 0.62], flak88: [[-2.0, 2.0], 0.3] };
+for (const [k, [xs, r]] of Object.entries(WHEELS)) { const S = SPR[k], p0 = S.paint; S.paint = (w) => { p0(w); for (const x of xs) wheel(w, x, r); }; }

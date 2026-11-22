@@ -3,7 +3,7 @@ import { Outfit, FrontOpts, SideOpts, INK, mix, shade } from "./toon";
 import { Cam, Ctx, VW, VH, P, Act, drawAct, drawSprite, spriteCanvas, glow, puff, clamp, lerp, smooth, easeOut, easeIn, hash, rng, WP, mk, muzzle } from "./engine";
 import { SPR, MX, MY, WX, WY, GER as GERP, POL as POLP, C14 } from "./paint";
 import { TANKS, PLANES, PFS, FLAGS } from "./vehicles";
-import { dust, wake, exhaust, glint } from "./fx";
+import { dust, wake, exhaust, glint, bounce } from "./fx";
 
 // ---------------- cast (each scene gets its own variant via `v()`) ----------------
 export const v = (o: Outfit, p: Partial<Outfit>): Outfit => ({ ...o, ...p });
@@ -77,7 +77,14 @@ type Item = { z: number; d: () => void };
 export class Sc {
   items: Item[] = []; overs: ((g: Ctx) => void)[] = []; lights: ((g: Ctx) => void)[] = [];
   constructor(public g: Ctx, public cam: Cam, public t: number) {}
-  a(o: Outfit, id: number, x: number, z: number, f: FO = {}, extra: Partial<Act> = {}) { const t = this.t; this.items.push({ z, d: () => drawAct(this.g, this.cam, { o, id, x, z, f: { mode: "stand", blink: lid(t, id), ...f }, ...extra }) }); }
+  a(o: Outfit, id: number, x: number, z: number, f: FO = {}, extra: Partial<Act> = {}) { const t = this.t;
+    // always alive: breathing sway, head turns, glances and weight shifts layered on top of the pose (quantized to keep the card cache small)
+    const still = !f.mode || f.mode === "stand" || f.mode === "sit", ph = id * 1.37;
+    const live: FO = still ? { headTilt: Math.round((f.headTilt ?? 0) + 4 * Math.sin(t * 1.05 + ph) + 2 * Math.sin(t * 2.3 + ph * 2)),
+      look: f.look !== undefined ? Math.round((f.look + 0.18 * Math.sin(t * 0.7 + ph)) * 4) / 4 : Math.round(0.6 * Math.sin(t * 0.45 + ph) * 4) / 4,
+      hip: f.mode === "sit" ? f.hip : Math.round(((f.hip ?? 0) + 3 * Math.sin(t * 0.6 + ph)) * 2) / 2, armB: f.armB ?? (f.prop ? undefined : Math.round(0.35 * Math.sin(t * 0.9 + ph) * 8) / 8) } : {};
+    const rot = (extra.rot ?? 0) + (still ? 0.018 * Math.sin(t * 0.8 + ph) : 0);
+    this.items.push({ z, d: () => drawAct(this.g, this.cam, { o, id, x, z, f: { mode: "stand", blink: lid(t, id), ...f, ...live }, ...extra, rot }) }); }
   s(o: Outfit, id: number, x: number, z: number, so: SO = {}, extra: Partial<Act> = {}) { const t = this.t; this.items.push({ z, d: () => drawAct(this.g, this.cam, { o, id, x, z, side: true, s: { mode: "stand", blink: lid(t, id), ...so }, ...extra }) }); }
   sp(k: string, x: number, y: number, z: number, o: Parameters<typeof drawSprite>[6] = {}) { this.items.push({ z, d: () => drawSprite(this.g, this.cam, SPR[k], x, y, z, o) }); }
   fx(z: number, d: (g: Ctx, c: Cam) => void) { this.items.push({ z, d: () => d(this.g, this.cam) }); }
@@ -332,3 +339,17 @@ export const panel = (A: Sc, z: number, fn: (w: WP, g: Ctx) => void, o: { pivot?
   if (z - c.z < 0.3) return; const [ox, oy, s] = P(c, o.dx ?? 0, o.dy ?? 0, z); g.save(); if (o.alpha !== undefined) g.globalAlpha = clamp(o.alpha); g.translate(ox, oy); g.scale(s, -s);
   if (o.pivot && o.rot) { g.translate(o.pivot[0], o.pivot[1]); g.rotate(o.rot); g.translate(-o.pivot[0], -o.pivot[1]); } fn(new WP(g, s), g); g.restore();
 });
+
+/** a soldier is hit: `blast` throws him ballistically (spinning, lands, bounces, lies still); otherwise he buckles and collapses.
+ *  Before tHit he runs (dir) or stands. No blood — dust kicks where he lands. */
+export const fall = (A: Sc, o: Outfit, id: number, x: number, z: number, T: number, tHit: number, opt: { dir?: number; blast?: boolean; run?: number; expr?: FO["expr"] } = {}) => {
+  const dir = opt.dir ?? 1, k = T - tHit, run = opt.run ?? 0;
+  if (k < 0) { if (run) { const lt = T - (tHit - 3); runS(A, o, id, lt, x - run * 3, z, run, { expr: opt.expr ?? "shout" }); } else A.a(o, id, x, z, { expr: opt.expr ?? "nervous" }); return; }
+  const x0 = x;
+  if (opt.blast) { const vx = dir * 3.2, vy = 4.5, [hy, , nb] = bounce(k, 0.2, vy, 0.25), air = nb === 0, dx = vx * Math.min(k, 0.95 + nb * 0.08);
+    const rot = air ? dir * Math.min(Math.PI * 1.5, k * 7) : dir * Math.PI / 2; A.a(o, id, x0 + dx, z, { expr: "dazed", mode: "stand", armB: 1 }, { rot, y: Math.max(0, hy) + (air ? 0 : 0.05), shadow: 0.3, noCast: true });
+    if (!air) A.fx(z - 0.02, (g, c) => { const kk = k - 0.95; if (kk > 1.2) return; const [sx, sy, s] = P(c, x0 + dx, 0.2, z); puff(g, sx, sy, (0.3 + kk) * s, [150, 130, 110], 0.6 * clamp(1 - kk / 1.2)); });
+  } else { const fk = clamp(k / 0.55), rot = dir * (Math.PI / 2) * fk * fk + (fk >= 1 ? -dir * 0.06 * Math.exp(-(k - 0.55) * 8) * Math.sin((k - 0.55) * 30) : 0);
+    A.a(o, id, x0 + (run ? run * 0.4 * Math.min(k, 0.5) : 0), z, { expr: fk < 0.3 ? "pained" : "dazed", crouch: Math.min(0.8, k * 3), armB: 1 }, { rot, y: fk >= 1 ? 0.06 : undefined, noCast: fk > 0.4 });
+    if (fk >= 1) A.fx(z - 0.02, (g, c) => { const kk = k - 0.55; if (kk > 1.0) return; const [sx, sy, s] = P(c, x0 + dir * 1.0, 0.1, z); puff(g, sx, sy, (0.3 + kk) * s, [150, 130, 110], 0.55 * clamp(1 - kk)); }); }
+};

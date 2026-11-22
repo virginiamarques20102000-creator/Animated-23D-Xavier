@@ -70,7 +70,7 @@ export const SHOTS_4: Shot[] = [
     } },
   // 70a "Os Estados Unidos buscavam uma maneira de encerrar rapidamente a guerra" — Truman alone at his desk, the decision
   { t0: 440.3, fade: 0.3, L: () => loc(undefined, { near: "#3a4a6a", far: "#4a5a7a", kind: "none", zFar: 10 }, [wall("r7", 3.4, "#e8e0c8", { h: 5, wid: 9, win: 3, arch: true, winCol: "#f4f0e0", curtain: "#c8b46a" })], true),
-    cam: mv([0, 1.5, -3.2, 40], [0, 1.45, -2.6, 36]), lite: { ...BACK, rim: "#fff4d0" }, act: (A, lt) => {
+    cam: mv([0, 1.15, -3.8, 40, -40], [0, 1.15, -3.2, 36, -40]), lite: { ...BACK, rim: "#fff4d0" }, act: (A, lt) => {
       A.a(TRUMAN, 1131, 0, 2.2, { mode: "sit", expr: "nervous", prop: ["paper", 0], headTilt: 6 } as never, { y: 0.15 }); A.sp("desk", 0, 0, 1.8, { sc: 1 }); flag(A, "us", -2.4, 2.8, 3.0, 1.2, 0.75, { t: lt, wind: 0.1, droop: 0.5 });
     } },
   // 70b "...contra o Japão." — a test tower stands in the desert night, scientists wait

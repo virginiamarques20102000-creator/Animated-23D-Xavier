@@ -1,5 +1,5 @@
 // "A Segunda Guerra Mundial" — 16:9, 580 s, synced word by word to the narration (out/ww2/tempos_palavras.txt).
-import { Ctx, VW, VH, drawLayer, drawGround, skyGrad, weather, post, tint, clamp, smooth, mk, setLite } from "./engine";
+import { HZ, Ctx, VW, VH, drawLayer, drawGround, skyGrad, weather, post, tint, clamp, smooth, mk, setLite } from "./engine";
 import { Sc } from "./kit";
 import type { Shot } from "./types";
 import type { Loc } from "./places";
@@ -18,7 +18,11 @@ const place = (s: Shot) => { let L = LOCS.get(s); if (!L) { L = s.L(); LOCS.set(
 const shake = (sh: Shot, t: number): [number, number] => { let x = 0, y = 0; for (const [k, a] of sh.kicks ?? []) { const age = t - k; if (age < 0 || age > 0.8) continue; const e = a * Math.exp(-age * 6.5); x += e * Math.sin(age * 55 + k); y += e * Math.cos(age * 47 + k * 2); } return [x, y]; };
 let BUF: HTMLCanvasElement | null = null;
 const drawShot = (g: Ctx, sh: Shot, t: number) => {
-  const lt = t - sh.t0, u = clamp(lt / (sh.t1! - sh.t0)), cam = sh.cam(u, lt), L = place(sh);
+  const lt = t - sh.t0, u = clamp(lt / (sh.t1! - sh.t0)), c0 = sh.cam(u, lt), L = place(sh);
+  // living camera: continuous slow push-in + organic drift (never a frozen frame), scaled to the shot's distance
+  const ph = sh.t0 * 1.7, amp = L.interior ? 0.05 : 0.14;
+  const cam = { ...c0, x: c0.x + amp * (Math.sin(lt * 0.53 + ph) + 0.4 * Math.sin(lt * 1.31 + ph * 2)), y: c0.y + amp * 0.45 * Math.sin(lt * 0.71 + ph), fov: c0.fov * (1 - 0.05 * smooth(u)), shift: (c0.shift ?? 0) + 6 * Math.sin(lt * 0.43 + ph) };
+  HZ.y = VH / 2 + (cam.shift ?? 0);
   setLite(sh.lite);
   const [kx, ky] = shake(sh, t);
   g.save(); if (kx || ky) { g.translate(VW / 2 + kx, VH / 2 + ky); g.scale(1.03, 1.03); g.translate(-VW / 2, -VH / 2); }

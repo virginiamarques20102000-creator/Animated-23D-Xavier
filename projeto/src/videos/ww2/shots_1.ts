@@ -1,6 +1,6 @@
 // 0 – 135 s: opening, the questions, chapter 1 (Versailles → Hitler's rise → Munich). Every shot has its own place and palette.
 import { VW, VH, P, glow, fire, smokeCol, puff, tint, clamp, lerp, smooth, easeOut, easeIn, hash, rays, sun, beam } from "./engine";
-import { Sc, C, mv, path, hand, walkF, walkS, runS, marchF, marchCol, crowd, tank, plane, planeTop, ship, flag, signing, hl, arrow, pin, panel, caption, bigText, chapter, counter, calPage,
+import { fall, Sc, C, mv, path, hand, walkF, walkS, runS, marchF, marchCol, crowd, tank, plane, planeTop, ship, flag, signing, hl, arrow, pin, panel, caption, bigText, chapter, counter, calPage,
   civ, kid, sol, v, idle, lid, HIT_CIV, HIT_BROWN, HIT_GREY, HIT_CAP, HINDEN, CHAMBER, WEH, GI, TOMMY, RAF, GESTAPO, SA, FRENCH } from "./kit";
 import { blast, scorch, rubble, embers, flutter, coins, sparks, searchlight, lensFlare, glint, shards, birds, breath, dust, lightning, exhaust, trail, bounce, spring } from "./fx";
 import { loc, mtn, hillL, clouds, city, skyline, forest, wall, banners, ruins, field, wire, pier, europe, world, ST, MX, MY, WX, WY, facade, church, mix, shade } from "./places";
@@ -48,7 +48,11 @@ export const SHOTS_1: Shot[] = [
       tank(A, "t34", -14 + lt * 3.2, 26, { vel: 3.2, dustCol: [190, 160, 110], fire: T - 8.9 });
       tank(A, "t34", -24 + lt * 3.0, 36, { vel: 3.0, dustCol: [190, 160, 110], fire: T - 10.2 });
       for (const [at, x, z, s] of [[8.25, 10, 30, 3], [8.9, 3, 45, 4], [9.6, -8, 22, 2.6], [10.6, 16, 50, 4.5]] as number[][]) { A.fx(z, (g, c) => { blast(g, c, T - at, x, 0, z, s, x * 3 + 1); scorch(g, c, x, z, s * 1.4, clamp((T - at) * 2) * 0.6); }); }
-      for (let i = 0; i < 6; i++) runS(A, sol(v(WEH, { hat: "pilotka", cap: "#7a7244", jacket: "#7e744a", pants: "#6a6240" }), i), 60 + i, lt, -9 - i * 1.6 + hash(i) * 0.8, 6 + (i % 3) * 2.2, 3.6, { expr: "shout" });
+      const RS = (i: number) => sol(v(WEH, { hat: "pilotka", cap: "#7a7244", jacket: "#7e744a", pants: "#6a6240" }), i);
+      for (let i = 0; i < 6; i++) { const z = 6 + (i % 3) * 2.2, xAt = (th: number) => -9 - i * 1.6 + hash(i) * 0.8 + (th - 7.1) * 3.6;
+        if (i === 1) { fall(A, RS(i), 60 + i, xAt(9.6), z, T, 9.6, { dir: -1, blast: true, run: 3.6 }); A.fx(z + 0.4, (g, c) => blast(g, c, T - 9.6, xAt(9.6) + 0.8, 0, z + 0.4, 1.8, 91)); }
+        else if (i === 4) fall(A, RS(i), 60 + i, xAt(10.4), z, T, 10.4, { dir: 1, run: 3.6 });
+        else runS(A, RS(i), 60 + i, lt, -9 - i * 1.6 + hash(i) * 0.8, z, 3.6, { expr: "shout" }); }
       A.light((g) => { sun(g, VW * 0.12, VH * 0.3, 20, "255,226,170"); lensFlare(g, VW * 0.12, VH * 0.3, 0.6); });
     } },
   // 0d "que mudam o destino de países inteiros." — a border post pulled up and re-planted
@@ -135,7 +139,7 @@ export const SHOTS_1: Shot[] = [
       A.light((g) => { glow(g, VW * 0.3, VH * 0.1, 600, "rgba(255,60,40,1)", 0.25); glow(g, VW * 0.72, VH * 0.12, 300, "rgba(255,200,140,1)", 0.25); });
     } },
   // 4b "...tantos territórios?" — Europe floods dark red, country after country
-  { t0: 38.85, L: () => europe("o13", ST.night), cam: mv([2, 1, -20, 40], [3, 1.4, -17, 40]), act: (A, lt, u, T) => {
+  { t0: 38.85, L: () => europe("o13", ST.night), cam: mv([1, 2, -44, 40], [1, 2, -40, 40]), act: (A, lt, u, T) => {
       ["AUT", "CZE", "POL", "DEN", "NOR", "NLD", "BEL", "FR"].forEach((k, i) => hl(A, k, (T - 39.0 - i * 0.16) / 0.3, "#c0281e", 0.7)); hl(A, "GER", 1, "#8a1a14", 0.75);
     } },
   // 5a "E como uma guerra que parecia impossível de vencer" — rain, a foxhole at night

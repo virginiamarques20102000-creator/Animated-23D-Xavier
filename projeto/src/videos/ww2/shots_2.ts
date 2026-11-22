@@ -1,6 +1,6 @@
 // 105.9 – 254 s: persecution, expansion, Munich, invasion of Poland, Blitzkrieg, fall of France, Battle of Britain, Barbarossa, the Russian winter.
 import { VW, VH, P, glow, fire, smokeCol, puff, tint, clamp, lerp, smooth, easeOut, easeIn, hash, rays, sun, beam, muzzle } from "./engine";
-import { Sc, C, mv, path, hand, walkF, walkS, runS, marchF, marchCol, crowd, tank, plane, planeTop, ship, flag, signing, hl, arrow, pin, panel, caption, bigText, counter, frontLine,
+import { fall, Sc, C, mv, path, hand, walkF, walkS, runS, marchF, marchCol, crowd, tank, plane, planeTop, ship, flag, signing, hl, arrow, pin, panel, caption, bigText, counter, frontLine,
   civ, kid, sol, v, idle, HIT_CIV, HIT_BROWN, HIT_GREY, HIT_CAP, STALIN, STALIN_CAP, CHURCHILL, CHAMBER, MOLOTOV, RIBB, WEH, RED, REDH, REDW, TOMMY, RAF, LUFT, GESTAPO, SA, SSOFF, POLE, FRENCH, SAILOR_B } from "./kit";
 import { blast, scorch, rubble, embers, flutter, sparks, searchlight, lensFlare, glint, shards, birds, breath, dust, lightning, exhaust, trail, flak, sea, wake, splash, bounce, spring } from "./fx";
 import { loc, mtn, hillL, clouds, city, skyline, forest, wall, banners, ruins, field, wire, pier, cliffs, europe, ST, MX, MY, facade, church, mix, shade } from "./places";
@@ -64,7 +64,7 @@ export const SHOTS_2: Shot[] = [
       A.over((g) => caption(g, "MARÇO DE 1938 · ÁUSTRIA", T - 121.0, 3.2));
     } },
   // 16b "e, posteriormente, ocupou parte da Tchecoslováquia." — olive map, Austria then the Sudetenland fill
-  { t0: 124.0, fade: 0.2, L: () => europe("p6", ST.olive), cam: mv([0, 0.6, -13, 40], [1.2, 0.2, -11, 38]), act: (A, lt, u, T) => {
+  { t0: 124.0, fade: 0.2, L: () => europe("p6", ST.olive), cam: mv([1, 0.5, -26, 40], [1.5, 0.5, -23, 38]), act: (A, lt, u, T) => {
       hl(A, "GER", 1, "#4a4a3a", 0.55); hl(A, "AUT", 1, "#8a1e16", 0.7); hl(A, "CZE", (T - 125.6) / 0.6, "#b0281e", 0.7); arrow(A, [12.6, 51.2], [15.5, 50.2], (T - 124.75) / 0.8, "#8a1e16", 0.28);
     } },
   // 17a "As outras potências europeias tentaram evitar um novo conflito," — Chamberlain waves the paper at the airfield
@@ -108,7 +108,7 @@ export const SHOTS_2: Shot[] = [
       panel(A, 2.7, (w) => { w.rect(1.2, 1.5, 1.4, 0.55, "#f2efe6", 2.5); w.text("POLSKA", 1.9, 1.78, 0.24, "#c0302a"); w.rect(1.85, 0, 0.1, 1.5, "#5a4a3a", 2); });
     } },
   // 19c "utilizando uma estratégia militar" — steel map: three spearheads into Poland
-  { t0: 145.0, fade: 0.2, L: () => europe("p12", ST.steel), cam: mv([4, 1.6, -19, 40], [5, 1.4, -17, 40]), act: (A, lt, u, T) => {
+  { t0: 145.0, fade: 0.2, L: () => europe("p12", ST.steel), cam: mv([3, 1.5, -28, 40], [4, 1.5, -25, 40]), act: (A, lt, u, T) => {
       hl(A, "GER", 1, "#3a3e46", 0.55); hl(A, "POL", 1, "#c8b890", 0.4); arrow(A, [14, 53.5], [20, 53], (T - 145.3) / 1.4, "#2a2e36", 0.3); arrow(A, [14.5, 51.2], [20.2, 52.2], (T - 145.6) / 1.4, "#2a2e36", 0.3); arrow(A, [18.6, 49.6], [21, 51.6], (T - 145.9) / 1.4, "#2a2e36", 0.3);
       pin(A, 21, 52.23, T - 147.3, "fire");
     } },
@@ -145,6 +145,7 @@ export const SHOTS_2: Shot[] = [
     cam: hand(mv([0, 1.4, -5, 42], [0, 1.4, -4.4, 40]), 0.03), lite: DAY, kicks: [[156.2, 10], [156.9, 12], [157.6, 9]], act: (A, lt, u, T) => {
       panel(A, 2.2, (w) => { w.poly([[-8, -1], [8, -1], [8, 0.55], [-8, 0.55]], "#5a4a32", 3); for (let x = -7.6; x < 8; x += 0.75) w.ell(x, 0.65, 0.4, 0.18, "#b8a878", 2); });
       for (let i = 0; i < 5; i++) { const at = 156.2 + (i % 3) * 0.7, hit = T > at; if (hit && i % 2) runS(A, sol(POLE, i), 361 + i, T - at, -2 + i * 1.3, 2.8 + i * 0.3, (i % 2 ? 3.2 : -3.2), { expr: "fear" }); else A.a(sol(POLE, i), 361 + i, -3 + i * 1.5, 2.4, { expr: hit ? "shock" : "nervous", crouch: 0.5 }, { y: -0.35 }); }
+      fall(A, sol(POLE, 8), 368, -1.2, 3.6, T, 156.25, { dir: -1, blast: true }); fall(A, sol(POLE, 9), 369, 2.6, 3.0, T, 157.0, { dir: 1 }); A.fx(4.0, (g, c) => blast(g, c, T - 156.25, -0.6, 0, 4.0, 1.6, 93));
       for (const [at, x, z] of [[156.2, -2, 6], [156.9, 3, 4.5], [157.6, -5, 9]] as number[][]) A.fx(z, (g, c) => { blast(g, c, T - at, x, 0, z, 2.6, at); scorch(g, c, x, z, 2.4, clamp((T - at) * 3) * 0.6); });
     } },
   // 21a "Dois dias depois, Reino Unido" — a London family gathered round the wireless
@@ -192,7 +193,7 @@ export const SHOTS_2: Shot[] = [
       A.over((g) => caption(g, "ABRIL DE 1940 · NORUEGA", lt - 0.3, 2.6));
     } },
   // 24b "sobre Dinamarca, Noruega, Bélgica, Holanda e França." — parchment map, each name lights as it's spoken
-  { t0: 177.6, fade: 0.15, L: () => europe("p25", ST.parch), cam: mv([-2, 4.5, -18, 40], [-3, 3.5, -15, 40]), act: (A, lt, u, T) => {
+  { t0: 177.6, fade: 0.15, L: () => europe("p25", ST.parch), cam: mv([-1, 3, -46, 40], [-1, 3, -42, 40]), act: (A, lt, u, T) => {
       hl(A, "GER", 1, "#5a4a3a", 0.55); hl(A, "POL", 1, "#6a5a4a", 0.4);
       [["DEN", 177.7, [10, 53.8], [9.6, 56]], ["NOR", 178.55, [10.5, 54.2], [9, 60.5]], ["BEL", 179.25, [7, 51], [4.6, 50.7]], ["NLD", 179.9, [7.2, 52], [5.4, 52.3]], ["FR", 180.8, [7, 49.6], [2.5, 47.5]]].forEach(([k, at, a, b]) => {
         hl(A, k as string, (T - (at as number)) / 0.35, "#8a1a14", 0.6); arrow(A, a as number[], b as number[], (T - (at as number) + 0.2) / 0.6, "#6a1410", 0.24); });
@@ -323,7 +324,7 @@ export const SHOTS_2: Shot[] = [
       A.over((g) => counter(g, 3000000 * clamp((lt - 1.8) / 1.0), "SOLDADOS DO EIXO", lt - 1.7, 1.6, VH * 0.78, "#f6efe0", 86));
     } },
   // 34 "O ataque abriu uma gigantesca frente de batalha no leste europeu." — icy map: the front from the Baltic to the Black Sea, three spearheads
-  { t0: 228.87, fade: 0.2, L: () => europe("p42", ST.ice), cam: mv([9, 3, -24, 40], [10, 3.2, -21, 40]), act: (A, lt, u, T) => {
+  { t0: 228.87, fade: 0.2, L: () => europe("p42", ST.ice), cam: mv([2.5, 3, -40, 40], [2.5, 3, -36, 40]), act: (A, lt, u, T) => {
       hl(A, "USSR", 1, "#b84a3a", 0.28); frontLine(A, [21.2, 56.5, 22, 54.8, 23.6, 53.9, 24, 52, 24.2, 50.5, 23.6, 48.8, 25.5, 47.6, 28.2, 45.5], (T - 229.6) / 1.4, "#3a4a6a", 8);
       arrow(A, [22, 55], [30, 59.4], (T - 230.4) / 1.4, "#2a3a5a", 0.36); arrow(A, [24, 52.4], [36, 55.5], (T - 230.7) / 1.4, "#2a3a5a", 0.36); arrow(A, [24.5, 49], [34, 48], (T - 231.0) / 1.4, "#2a3a5a", 0.36);
     } },
