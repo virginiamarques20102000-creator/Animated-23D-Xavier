@@ -84,7 +84,7 @@ export type Lite = { sx: number; sy: number; sa: number; scol: string; rim: stri
 export const LITE_DEF: Lite = { sx: 0.6, sy: 0.32, sa: 0.34, scol: "#1c1426", rim: "#fff1d6", ra: 0.55, rdx: 1, rdy: -0.6, key: "#ffffff", ka: 0 };
 export let LITE: Lite = { ...LITE_DEF };
 export const setLite = (l: Partial<Lite> = {}) => { LITE = { ...LITE_DEF, ...l }; };
-const q = (v: number) => Math.round(v * 40) / 40;
+const q = (v: number) => Math.round(v * 120) / 120;
 export const CARD_H = 2.25;
 const cardKey = (a: Act, tier: number) => { const seed = a.id ?? 1, fo = a.side ? undefined : { ...a.f, seed }, so = a.side ? { ...a.s, seed } : undefined;
   return `${oid(a.o)}|${a.side ? 1 : 0}|${JSON.stringify(fo ?? so, (_k, v) => (typeof v === "number" ? q(v) : v))}|${tier}`; };

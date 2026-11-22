@@ -246,6 +246,13 @@ Use este vídeo como modelo sempre que o usuário pedir "ultra realista", "com f
   - sol/raios/flare nunca abaixo do horizonte (`skyY()` usa o horizonte real `HZ.y` do plano);
   - mapas de invasão mostram a Europa inteira (câmera z ≈ −40 a −46, x perto de 0, rótulos ×1,5) — senão Noruega/URSS somem e aparece borda preta;
   - carros, caminhões, ônibus e canhões sempre com rodas (pneu, aro, cubo, brilho); caneta grande e visível na mão de quem assina.
+- **Terceira rodada ("animação fluida e verdadeira, nada travado"):** poses contínuas (sem degraus de 1/24 na fase da caminhada;
+  cache com `q` de 1/120), bonecos parados respiram (crouch), gesticulam com antecipação → subida rápida → segura → acomodação em
+  mola (talkers e 1/3 da multidão), cabeça e quadril em tempos diferentes; desfoque de movimento de cinema (média de 2 subquadros
+  dentro do obturador de 180°, `renderFrame` em story.ts). Custo ~0,37 s/quadro (9 min 40 s ≈ 1,8 h com CONC=4).
+- **Blender (bpy 5.3 via `pip install bpy`, Cycles CPU ~28 s/quadro a 720p):** teste em `projeto/blender/hitler_walk_shoot.py`
+  (corpo por skin modifier + armature com pesos automáticos, ciclo de caminhada, mira, recuo, clarão, cápsulas balísticas).
+  Bom para cenas curtas; o vídeo inteiro no Blender sem GPU levaria ~100 h.
 - **Temas sensíveis:** sem suástica (águia abstrata), morte de Hitler só com sala vazia e luz apagando, bomba atômica de
   longe e ruínas (sem vítimas), Holocausto com trilhos/portão, sapatos vazios, velas e estelas.
 

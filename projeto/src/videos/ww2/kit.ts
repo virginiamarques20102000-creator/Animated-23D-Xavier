@@ -80,10 +80,15 @@ export class Sc {
   a(o: Outfit, id: number, x: number, z: number, f: FO = {}, extra: Partial<Act> = {}) { const t = this.t;
     // always alive: breathing sway, head turns, glances and weight shifts layered on top of the pose (quantized to keep the card cache small)
     const still = !f.mode || f.mode === "stand" || f.mode === "sit", ph = id * 1.37;
-    const live: FO = still ? { headTilt: Math.round((f.headTilt ?? 0) + 4 * Math.sin(t * 1.05 + ph) + 2 * Math.sin(t * 2.3 + ph * 2)),
-      look: f.look !== undefined ? Math.round((f.look + 0.18 * Math.sin(t * 0.7 + ph)) * 4) / 4 : Math.round(0.6 * Math.sin(t * 0.45 + ph) * 4) / 4,
-      hip: f.mode === "sit" ? f.hip : Math.round(((f.hip ?? 0) + 3 * Math.sin(t * 0.6 + ph)) * 2) / 2, armB: f.armB ?? (f.prop ? undefined : Math.round(0.35 * Math.sin(t * 0.9 + ph) * 8) / 8) } : {};
-    const rot = (extra.rot ?? 0) + (still ? 0.018 * Math.sin(t * 0.8 + ph) : 0);
+    // gesture pulses (talkers and a third of the crowd): anticipation dip → fast rise → hold → springy settle
+    const talker = f.expr === "shout" || f.expr === "stern" || f.expr === "grin" || f.expr === "smile" || id % 3 === 0, per = 2.4 + 1.3 * hash(id), gp = ((t + hash(id + 5) * per) % per) / per;
+    const gest = !talker ? 0 : gp < 0.08 ? -0.18 * Math.sin((gp / 0.08) * Math.PI) : gp < 0.2 ? 0.95 * smooth((gp - 0.08) / 0.12) : gp < 0.42 ? 0.95 + 0.06 * Math.sin((gp - 0.2) * 40) : 0.95 * (1 - smooth((gp - 0.42) / 0.25)) - 0.06 * Math.sin(clamp((gp - 0.42) / 0.25) * Math.PI * 2);
+    const breath = 0.5 + 0.5 * Math.sin(t * 1.9 + ph);
+    const live: FO = still ? { headTilt: (f.headTilt ?? 0) + 4 * Math.sin(t * 1.05 + ph) + 2 * Math.sin(t * 2.3 + ph * 2) + (talker ? 3 * gest : 0),
+      look: f.look !== undefined ? f.look + 0.18 * Math.sin(t * 0.7 + ph) : 0.6 * Math.sin(t * 0.45 + ph),
+      hip: f.mode === "sit" ? f.hip : (f.hip ?? 0) + 3 * Math.sin(t * 0.6 + ph), crouch: f.mode === "sit" ? f.crouch : (f.crouch ?? 0) + 0.035 * breath,
+      armB: f.armB ?? (f.prop ? undefined : 0.3 * Math.sin(t * 0.9 + ph) + gest) } : {};
+    const rot = (extra.rot ?? 0) + (still ? 0.018 * Math.sin(t * 0.8 + ph) + 0.012 * gest : 0);
     this.items.push({ z, d: () => drawAct(this.g, this.cam, { o, id, x, z, f: { mode: "stand", blink: lid(t, id), ...f, ...live }, ...extra, rot }) }); }
   s(o: Outfit, id: number, x: number, z: number, so: SO = {}, extra: Partial<Act> = {}) { const t = this.t; this.items.push({ z, d: () => drawAct(this.g, this.cam, { o, id, x, z, side: true, s: { mode: "stand", blink: lid(t, id), ...so }, ...extra }) }); }
   sp(k: string, x: number, y: number, z: number, o: Parameters<typeof drawSprite>[6] = {}) { this.items.push({ z, d: () => drawSprite(this.g, this.cam, SPR[k], x, y, z, o) }); }
@@ -100,16 +105,16 @@ export const hand = (c: (u: number, lt: number) => Cam, amp = 0.03) => (u: numbe
 /** front-view walk from p0 to p1 (natural stroll, feet planted) */
 export const walkF = (A: Sc, o: Outfit, id: number, lt: number, t0: number, t1: number, p0: [number, number], p1: [number, number], f: FO = {}, extra: Partial<Act> = {}) => {
   const k = clamp((lt - t0) / (t1 - t0)), x = lerp(p0[0], p1[0], k), z = lerp(p0[1], p1[1], k), d = Math.hypot(p1[0] - p0[0], p1[1] - p0[1]) * k;
-  A.a(o, id, x, z, { mode: k > 0 && k < 1 ? "stroll" : "stand", phase: Math.round(((d / 1.4) % 1) * 24) / 24, ...f }, extra);
+  A.a(o, id, x, z, { mode: k > 0 && k < 1 ? "stroll" : "stand", phase: (d / 1.4) % 1, ...f }, extra);
 };
 /** side-view walk at v m/s (stance foot planted, hip bob) */
 export const walkS = (A: Sc, o: Outfit, id: number, lt: number, x0: number, z: number, vel: number, so: SO = {}, extra: Partial<Act> = {}) => {
-  const x = x0 + vel * lt, ph = Math.round(((Math.abs(vel * lt) / 1.5 + hash(id)) % 1) * 24) / 24;
+  const x = x0 + vel * lt, ph = (Math.abs(vel * lt) / 1.5 + hash(id)) % 1;
   A.s(o, id, x, z, { mode: "march", phase: ph, stride: Math.min(1.2, Math.abs(vel) / 1.4), ...so }, { flip: vel < 0, ...extra });
 };
 /** running: longer stride, faster cadence, forward lean */
 export const runS = (A: Sc, o: Outfit, id: number, lt: number, x0: number, z: number, vel: number, so: SO = {}, extra: Partial<Act> = {}) => {
-  const x = x0 + vel * lt, ph = Math.round(((Math.abs(vel * lt) / 2.4 + hash(id)) % 1) * 24) / 24;
+  const x = x0 + vel * lt, ph = (Math.abs(vel * lt) / 2.4 + hash(id)) % 1;
   A.s(o, id, x, z, { mode: "march", phase: ph, stride: 1.35, ...so }, { flip: vel < 0, rot: (vel > 0 ? 1 : -1) * 0.13, ...extra });
 };
 export const marchF = (A: Sc, o: Outfit | ((i: number) => Outfit), lt: number, rows: number, cols: number, z0: number, vel: number, gapX = 1.25, gapZ = 1.6, id0 = 400, f: (r: number, c: number) => FO = () => ({}), extra: Partial<Act> = {}, x0 = 0) => {

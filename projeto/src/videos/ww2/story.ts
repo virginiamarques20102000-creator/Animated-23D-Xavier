@@ -39,7 +39,13 @@ const drawShot = (g: Ctx, sh: Shot, t: number) => {
   g.restore();
   A.overs.forEach((d) => d(g));
 };
+// cinematic motion blur: the frame is the average of two sub-frames inside a 180° shutter
+let MB: HTMLCanvasElement | null = null;
 export const renderFrame = (g: Ctx, t: number) => {
+  if (!MB) MB = mk(VW, VH); const m = MB.getContext("2d")!; m.setTransform(1, 0, 0, 1, 0, 0); renderOne(m, t - 1 / 60);
+  renderOne(g, t); g.save(); g.globalAlpha = 0.5; g.drawImage(MB, 0, 0); g.restore();
+};
+const renderOne = (g: Ctx, t: number) => {
   let i = SH.findIndex((s) => t >= s.t0 && t < s.t1!); if (i < 0) i = SH.length - 1;
   const sh = SH[i];
   drawShot(g, sh, t);
