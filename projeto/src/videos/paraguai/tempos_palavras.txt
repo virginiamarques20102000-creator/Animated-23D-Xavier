@@ -1,0 +1,93 @@
+0: O@0.14 Paraguai@0.25 entrou@0.75 nessa@1.05 guerra@1.40 acreditando@1.75 que@2.75 poderia@2.90 enfrentar@3.45 seus@4.00 vizinhos.@4.20
+1: Mas,@5.46 seis@5.60 anos@5.80 depois,@6.40 estaria@6.80 completamente@7.80 devastado.@9.00
+2: E@10.71 o@10.80 mais@10.95 impressionante?@11.05
+3: O@12.40 conflito@12.55 que@13.00 parecia@13.15 uma@13.65 guerra@13.95 rápida@14.25 acabou@14.95 se@15.40 transformando@15.55 em@16.20 uma@16.35 das@16.65 maiores@16.80 tragédias@17.20 da@17.65 história@17.80 da@18.35 América@18.50 do@19.15 Sul.@19.30
+4: Brasil,@20.25 Argentina@20.60 e@21.50 Uruguai@21.65 se@22.20 uniram@22.60 contra@23.15 os@23.50 paraguaios.@23.70
+5: Milhares@24.87 de@25.30 soldados@25.45 marcharam@25.95 para@26.45 os@26.75 campos@26.95 de@27.25 batalha,@27.40 fortalezas@28.40 foram@29.05 destruídas@29.40 e@29.95 até@30.45 crianças@30.90 acabaram@31.20 envolvidas@31.85 nos@32.55 últimos@32.70 momentos@33.25 da@33.80 guerra.@33.95
+6: Como@35.15 tudo@35.50 isso@35.75 aconteceu?@36.00
+7: Esta@37.23 é@37.55 a@37.70 história@37.85 da@38.35 Guerra@38.50 do@38.80 Paraguai,@38.95 de@39.40 1864@39.85 a@41.80 1870,@42.00 contada@43.50 em@44.35 apenas@44.50 10@45.00 minutos.@45.15
+8: Para@46.77 entender@47.00 essa@47.40 história,@47.70 precisamos@48.30 voltar@48.85 a@49.10 1864.@49.25
+9: Naquela@51.86 época,@52.25 a@52.85 América@53.00 do@53.55 Sul@53.70 ainda@53.80 era@54.10 marcada@54.35 por@54.85 disputas@54.95 territoriais@55.60 e@56.15 conflitos@56.25 políticos.@56.80
+10: Uma@58.28 das@58.55 regiões@58.75 mais@59.05 importantes@59.25 era@60.00 a@60.40 Bacia@60.55 do@60.90 Rio@61.05 da@61.20 Prata,@61.40 por@61.95 onde@62.45 passavam@62.85 rotas@63.35 comerciais@63.65 e@64.15 militares@64.35 fundamentais.@65.15
+11: O@66.54 Brasil,@66.65 governado@66.95 pelo@67.85 imperador@68.15 Dom@68.80 Pedro@69.00 II,@69.35 queria@70.20 garantir@70.55 a@71.00 navegação@71.20 pelos@71.80 rios@72.15 da@72.30 região@72.45 e@72.80 manter@73.25 sua@73.60 influência@73.75 sobre@74.30 os@74.60 países@74.85 vizinhos.@75.15
+12: Enquanto@76.38 isso,@76.80 o@77.40 Paraguai@77.55 era@78.00 governado@78.30 por@79.00 Francisco@79.15 Solano@79.60 López,@80.05 um@80.45 presidente@80.90 autoritário@81.50 que@82.40 desejava@82.55 transformar@83.25 seu@83.70 país@83.85 em@84.00 uma@84.15 potência@84.65 regional.@85.30
+13: Mas@86.58 uma@86.70 crise@87.10 no@87.40 Uruguai@87.55 mudaria@88.00 tudo.@88.60
+14: O@89.86 país@90.00 enfrentava@90.15 uma@90.80 guerra@91.10 civil@91.45 entre@91.75 dois@92.10 grupos@92.25 políticos:@92.55 os@93.85 Blancos@94.05 e@94.35 os@94.50 Colorados.@94.80
+15: O@96.19 Brasil@96.25 decidiu@96.55 apoiar@96.95 militarmente@97.30 os@98.05 Colorados,@98.20 intervindo@98.80 no@99.75 conflito@99.85 em@100.40 1864.@100.60
+16: Solano@103.11 López@103.55 considerou@103.90 essa@104.55 intervenção@104.85 uma@105.50 ameaça@105.80 aos@106.30 interesses@106.45 paraguaios@107.15 e@107.65 ao@107.95 equilíbrio@108.10 de@108.75 poder@108.95 na@109.25 região.@109.40
+17: A@110.34 tensão@110.50 aumentou@110.80 rapidamente.@111.30
+18: Em@113.16 novembro@113.25 de@113.70 1864,@113.85 o@116.05 Paraguai@116.20 apreendeu@116.65 o@117.10 navio@117.20 brasileiro@117.50 Marquês@118.10 de@118.55 Olinda.@118.70
+19: No@119.73 mês@119.85 seguinte,@120.00 tropas@120.80 paraguaias@121.10 invadiram@121.65 a@122.25 província@122.40 brasileira@122.95 de@123.55 Mato@123.70 Grosso.@124.05
+20: O@125.06 ataque@125.15 surpreendeu@125.70 o@126.25 Império.@126.35
+21: Mas@127.63 López@127.80 tinha@128.25 planos@128.70 ainda@129.10 maiores.@129.50
+22: Em@130.59 março@130.70 de@131.00 1865,@131.15 tropas@133.00 paraguaias@133.60 invadiram@134.10 a@134.70 província@134.85 argentina@135.30 de@135.95 Corrientes,@136.10 depois@136.55 que@136.85 a@137.30 Argentina@137.50 negou@138.15 autorização@138.45 para@139.20 a@139.50 passagem@139.65 de@140.10 seu@140.25 exército.@140.40
+23: Agora,@141.76 o@142.45 conflito@142.65 envolvia@143.20 diretamente@143.75 Brasil@144.60 e@144.95 Argentina.@145.20
+24: Em@146.87 primeiro@147.00 de@147.45 maio@147.60 de@147.75 1865,@147.90 os@150.15 três@150.30 países@150.50 assinaram@150.80 o@151.40 Tratado@151.55 da@152.05 Tríplice@152.20 Aliança.@152.85
+25: Brasil,@154.02 Argentina@154.30 e@155.15 Uruguai@155.30 agora@155.80 lutariam@156.50 juntos@157.05 contra@157.40 o@157.80 Paraguai.@158.00
+26: O@159.20 maior@159.30 conflito@159.45 armado@159.90 da@160.50 história@160.65 da@161.15 América@161.30 do@161.90 Sul@162.05 estava@162.20 oficialmente@162.85 em@163.80 andamento.@163.95
+27: No@165.04 início,@165.15 os@165.60 paraguaios@165.95 conseguiram@166.40 avançar@167.00 em@167.45 território@167.60 inimigo.@168.20
+28: Mas@169.62 uma@169.70 batalha@170.00 naval@170.45 mudaria@170.75 completamente@171.20 o@172.10 rumo@172.25 do@172.50 conflito.@172.65
+29: Em@174.37 11@174.50 de@174.80 junho@174.95 de@175.30 1865,@175.45 aconteceu@177.75 a@178.40 Batalha@178.55 do@179.15 Riachuelo.@179.30
+30: No@180.78 rio@180.85 Paraná,@181.00 a@181.45 Marinha@182.00 brasileira@182.45 enfrentou@183.05 a@183.65 frota@183.80 paraguaia@184.10 em@184.55 um@184.70 combate@184.85 decisivo.@185.35
+31: Os@187.06 brasileiros@187.15 conseguiram@187.75 uma@188.35 vitória@188.60 fundamental,@189.25 praticamente@190.30 destruindo@191.00 a@191.50 capacidade@191.65 naval@192.35 do@192.70 Paraguai.@192.85
+32: Isso@194.15 dificultou@194.45 o@195.15 transporte@195.40 de@195.90 soldados,@196.05 armas@196.65 e@197.00 suprimentos,@197.20 deixando@198.35 o@198.85 país@199.05 cada@199.25 vez@199.60 mais@199.75 isolado.@199.90
+33: Enquanto@201.79 isso,@202.25 no@202.70 sul@202.85 do@203.00 Brasil,@203.15 os@203.45 paraguaios@203.95 haviam@204.45 ocupado@204.80 a@205.45 cidade@205.60 de@206.05 Uruguaiana.@206.20
+34: Mas@207.54 as@207.65 forças@207.80 da@208.15 Tríplice@208.30 Aliança@208.85 cercaram@209.30 a@209.80 região@210.00 e,@210.30 em@210.45 setembro@211.00 de@211.55 1865,@211.70 os@213.70 paraguaios@214.20 se@214.65 renderam.@214.80
+35: A@216.21 partir@216.30 dali,@216.60 a@216.85 iniciativa@217.25 militar@217.95 passou@218.40 para@218.70 os@219.05 aliados.@219.15
+36: Em@220.39 abril@220.50 de@220.80 1866,@220.95 os@223.15 exércitos@223.30 brasileiros,@223.95 argentinos@224.60 e@225.35 uruguaios@225.50 atravessaram@225.95 o@226.95 rio@227.15 Paraná@227.30 e@227.80 invadiram@227.95 o@228.80 Paraguai.@228.95
+37: Mas@230.32 descobriram@230.40 que@231.00 conquistar@231.15 aquele@231.65 território@232.05 seria@233.00 muito@233.30 mais@233.60 difícil@233.70 do@234.15 que@234.45 imaginavam.@234.60
+38: O@236.24 Paraguai@236.30 havia@236.75 preparado@237.05 posições@237.65 defensivas@238.05 e@238.65 fortificações@238.80 para@239.60 impedir@239.85 o@240.55 avanço@240.70 inimigo.@241.10
+39: Uma@242.93 das@243.20 maiores@243.35 batalhas@243.70 aconteceu@244.25 em@244.90 24@245.05 de@245.95 maio@246.10 de@246.30 1866:@246.45 a@248.35 Batalha@248.95 de@249.55 Tuiuti.@249.80
+40: Milhares@251.04 de@251.50 soldados@251.65 se@252.20 enfrentaram@252.35 em@253.05 um@253.25 combate@253.40 brutal.@254.00
+41: Os@255.21 paraguaios@255.40 tentaram@255.85 surpreender@256.30 as@256.80 tropas@256.95 aliadas@257.25 com@257.70 um@257.85 grande@258.00 ataque,@258.30 mas@258.75 foram@258.95 derrotados.@259.80
+42: Foi@261.39 uma@261.55 das@261.85 batalhas@262.05 mais@262.50 sangrentas@262.65 da@263.10 história@263.25 sul-americana.@263.70
+43: Mesmo@265.58 assim,@265.80 os@266.10 aliados@266.60 não@267.05 conseguiram@267.20 avançar@267.75 rapidamente.@268.20
+44: Outra@270.14 posição@270.35 defensiva@270.75 importante@271.35 era@272.05 Curupaiti.@272.40
+45: Em@273.98 setembro@274.10 de@274.60 1866,@274.75 as@276.50 tropas@276.90 aliadas@277.30 tentaram@277.75 atacar@278.30 as@278.85 fortificações@279.05 paraguaias.@279.90
+46: O@280.98 resultado@281.10 foi@282.00 desastroso.@282.25
+47: Os@283.74 soldados@283.85 avançaram@284.30 sob@284.90 intenso@285.05 fogo@285.60 inimigo,@286.00 enfrentando@286.95 trincheiras@287.60 e@288.05 obstáculos@288.20 em@288.90 terreno@289.05 difícil.@289.50
+48: Os@290.90 paraguaios@291.10 conseguiram@291.55 uma@292.20 grande@292.55 vitória,@292.85 causando@293.70 milhares@294.15 de@294.65 baixas@294.80 aos@295.10 adversários.@295.30
+49: A@296.77 guerra,@296.90 que@297.55 muitos@297.70 acreditavam@298.00 que@298.85 terminaria@299.00 rapidamente,@299.60 já@300.80 durava@300.95 quase@301.50 dois@301.90 anos.@302.05
+50: E@303.13 o@303.35 pior@303.50 ainda@303.65 estava@304.25 por@304.75 vir.@304.95
+51: Um@306.28 dos@306.40 maiores@306.55 obstáculos@306.85 para@307.50 os@307.80 aliados@307.95 era@308.45 a@308.80 Fortaleza@308.95 de@309.80 Humaitá.@309.95
+52: Localizada@311.24 às@311.90 margens@312.05 do@312.30 rio@312.45 Paraguai,@312.60 ela@313.10 protegia@313.80 uma@314.20 posição@314.50 estratégica@314.90 e@315.80 dificultava@316.15 a@316.90 passagem@317.10 dos@317.50 navios@317.65 inimigos.@317.95
+53: Durante@319.32 muito@319.75 tempo,@320.00 os@320.30 aliados@320.80 tentaram@321.20 superar@321.70 aquela@322.15 defesa.@322.60
+54: Enquanto@323.83 isso,@324.35 os@325.00 soldados@325.20 enfrentavam@325.75 doenças,@326.45 fome,@327.10 exaustão@327.65 e@328.25 condições@328.65 extremamente@329.20 difíceis.@330.15
+55: O@331.60 comando@331.75 brasileiro@332.20 passou@332.85 a@333.20 ganhar@333.35 destaque@333.75 com@334.25 Luís@334.40 Alves@334.55 de@334.90 Lima@335.05 e@335.40 Silva,@335.55 o@336.25 Duque@336.45 de@336.80 Caxias.@336.95
+56: Ele@337.55 reorganizou@337.80 as@338.45 forças@338.60 brasileiras@339.00 e@339.65 preparou@339.80 novas@340.40 operações@340.70 militares.@341.35
+57: Em@342.86 agosto@343.00 de@343.50 1868,@343.65 após@345.95 uma@346.25 longa@346.55 campanha,@346.90 Humaitá@347.75 finalmente@348.45 caiu.@349.05
+58: A@350.04 partir@350.15 daquele@350.45 momento,@350.95 o@351.70 caminho@351.85 até@352.35 Assunção,@352.65 a@353.15 capital@353.40 paraguaia,@353.85 ficou@354.60 muito@354.90 mais@355.20 acessível.@355.35
+59: No@356.67 final@356.80 daquele@357.10 ano,@357.55 os@358.20 aliados@358.35 conquistaram@358.80 novas@359.45 vitórias@359.75 em@360.25 batalhas@360.40 como@360.90 Itororó@361.35 e@362.20 Lomas@362.40 Valentinas.@362.70
+60: O@363.99 exército@364.10 paraguaio@364.70 estava@365.20 cada@365.75 vez@366.10 mais@366.25 enfraquecido.@366.40
+61: Em@368.01 primeiro@368.15 de@368.60 janeiro@368.75 de@369.20 1869,@369.35 as@371.50 tropas@371.65 brasileiras@371.95 ocuparam@372.55 Assunção.@373.25
+62: Parecia@374.33 que@374.70 a@374.85 guerra@374.95 havia@375.30 terminado.@375.60
+63: Mas@376.90 Solano@377.05 López@377.55 ainda@378.05 não@378.40 havia@378.55 se@378.90 rendido.@379.05
+64: Mesmo@380.29 depois@380.55 da@380.95 queda@381.10 da@381.40 capital,@381.60 López@382.45 continuou@382.85 resistindo@383.35 no@384.00 interior@384.15 do@384.65 Paraguai.@384.80
+65: O@385.90 que@386.05 restava@386.20 de@386.70 suas@386.85 forças@387.05 estava@387.40 cada@387.95 vez@388.25 mais@388.40 debilitado.@388.55
+66: A@390.03 situação@390.15 do@390.60 país@390.85 era@391.00 desesperadora.@391.30
+67: A@392.97 população@393.10 sofria@393.80 com@394.25 a@394.40 destruição,@394.60 a@395.10 fome@395.65 e@396.00 as@396.25 doenças.@396.45
+68: Homens@397.50 adultos@397.80 haviam@398.30 sido@398.60 mortos@398.90 ou@399.30 estavam@399.45 ausentes,@399.90 e@400.35 o@400.50 recrutamento@400.95 passou@401.70 a@402.05 atingir@402.20 até@402.65 adolescentes@403.00 e@403.75 crianças@403.90 nos@404.20 últimos@404.35 estágios@404.80 do@405.25 conflito.@405.40
+69: Em@406.74 abril@406.85 de@407.15 1869,@407.30 o@409.55 comando@409.70 das@410.15 tropas@410.30 brasileiras@410.65 passou@411.30 para@411.65 o@412.00 Conde@412.15 d'Eu,@412.45 genro@412.95 de@413.25 Dom@413.40 Pedro@413.55 II.@413.90
+70: A@415.04 perseguição@415.20 a@415.80 Solano@415.95 López@416.45 continuou.@416.80
+71: Em@417.95 agosto@418.05 daquele@418.50 ano,@418.90 aconteceu@419.40 a@419.95 Batalha@420.15 de@420.55 Acosta@420.80 Ñu,@421.25 também@421.75 conhecida@422.05 como@422.65 Campo@423.00 Grande.@423.35
+72: Foi@424.28 um@424.45 dos@424.60 episódios@424.75 mais@425.40 trágicos@425.55 da@426.10 guerra,@426.25 marcado@426.65 pela@427.40 participação@427.75 de@428.55 numerosos@428.70 combatentes@429.35 muito@430.05 jovens@430.45 nas@430.75 forças@430.90 paraguaias.@431.45
+73: O@432.65 Paraguai@432.80 já@433.25 não@433.40 tinha@433.55 condições@433.85 de@434.35 enfrentar@434.50 seus@435.00 inimigos@435.15 em@435.80 igualdade@435.95 de@436.55 condições.@436.70
+74: Mas@437.81 López@437.95 continuava@438.35 fugindo@439.05 e@439.55 resistindo.@439.75
+75: Até@441.30 que@441.65 chegou@441.75 o@442.05 último@442.20 capítulo@442.60 dessa@443.25 história.@443.50
+76: Em@444.58 primeiro@444.70 de@445.15 março@445.30 de@445.65 1870,@445.80 as@447.65 tropas@447.80 brasileiras@448.10 alcançaram@448.75 Solano@449.40 López@449.90 na@450.25 região@450.40 de@450.75 Cerro@450.90 Corá.@451.20
+77: O@452.17 confronto@452.30 foi@452.80 decisivo.@453.00
+78: Cercado@454.43 pelas@454.90 forças@455.20 brasileiras,@455.55 o@456.15 presidente@456.50 paraguaio@457.05 foi@457.50 morto@457.65 durante@457.95 o@458.50 combate.@458.65
+79: Com@459.71 sua@459.85 morte,@460.00 terminou@460.30 a@461.10 resistência@461.25 organizada@461.95 do@462.70 governo@462.85 paraguaio.@463.30
+80: Depois@464.47 de@464.75 quase@464.90 seis@465.25 anos,@465.40 a@465.75 Guerra@465.90 do@466.50 Paraguai@466.70 chegava@467.25 ao@467.75 fim.@467.90
+81: Mas@468.88 a@469.00 vitória@469.15 dos@469.65 aliados@469.80 havia@470.25 deixado@470.55 marcas@471.05 profundas@471.40 em@472.00 toda@472.15 a@472.55 região.@472.70
+82: O@473.67 Paraguai@473.80 saiu@474.30 da@474.45 guerra@474.60 completamente@474.95 transformado.@475.95
+83: Sua@477.35 economia@477.50 estava@478.15 arrasada,@478.60 cidades@479.60 e@480.10 infraestrutura@480.25 haviam@481.15 sido@481.50 destruídas@481.80 e@482.55 sua@482.70 população@482.85 sofreu@483.55 perdas@484.05 humanas@484.35 enormes.@484.85
+84: O@486.09 número@486.15 exato@486.60 de@487.05 mortos@487.20 continua@487.60 sendo@488.00 debatido@488.30 pelos@488.90 historiadores,@489.25 mas@490.40 a@490.55 dimensão@490.70 da@491.10 tragédia@491.30 é@491.75 incontestável.@491.95
+85: O@493.57 Brasil@493.70 também@494.05 pagou@494.50 um@494.85 preço@495.00 muito@495.40 alto.@495.75
+86: A@496.65 guerra@496.80 consumiu@497.10 enormes@497.60 recursos@498.10 financeiros,@498.65 fortaleceu@499.30 politicamente@500.40 o@501.40 Exército@501.55 e@502.20 contribuiu@502.65 para@503.10 aumentar@503.45 as@503.95 tensões@504.20 que@504.50 enfraqueceriam@504.65 o@505.45 Império@505.65 nos@506.15 anos@506.30 seguintes.@506.65
+87: Argentina@507.78 e@508.35 Uruguai@508.50 também@508.95 enfrentaram@509.30 consequências@509.90 políticas@510.55 e@511.25 econômicas@511.40 importantes.@512.15
+88: A@513.62 Guerra@513.70 do@514.00 Paraguai@514.15 não@514.60 foi@514.75 apenas@514.90 uma@515.40 disputa@515.80 entre@516.25 quatro@516.65 países.@516.95
+89: Foi@517.72 um@517.90 conflito@518.05 que@518.50 mudou@518.65 o@518.95 equilíbrio@519.10 de@519.70 poder@519.85 na@520.15 América@520.30 do@520.90 Sul@521.05 e@521.45 deixou@521.60 consequências@521.90 que@522.55 atravessaram@522.75 gerações.@523.50
+90: E@524.66 talvez@524.80 a@525.10 maior@525.30 lição@525.45 dessa@525.80 história@526.10 seja@526.65 esta:@527.05 guerras@527.35 podem@528.25 começar@528.55 com@529.10 decisões@529.30 políticas,@529.80 disputas@530.60 territoriais@531.35 e@532.05 ambições@532.20 de@532.70 poder,@532.85 mas@533.20 quem@533.35 paga@534.05 o@534.45 preço@534.60 mais@535.05 alto@535.20 quase@535.55 sempre@536.25 é@536.60 a@536.75 população.@536.95
+91: Essa@538.78 foi@539.05 a@539.25 Guerra@539.40 do@539.75 Paraguai.@539.90
+92: Um@541.05 dos@541.20 conflitos@541.35 mais@541.85 devastadores@542.00 da@542.80 história@542.95 da@543.50 América@543.65 Latina.@544.35
