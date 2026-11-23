@@ -1,2 +1,2 @@
 { "compilerOptions": { "target": "ES2022", "module": "ESNext", "moduleResolution": "Bundler", "jsx": "react-jsx", "strict": true, "noEmit": true, "skipLibCheck": true, "lib": ["ES2022", "DOM"], "types": [] },
-  "files": ["/home/user/Animated-23D-Xavier/projeto/src/videos/paraguai/Paraguai.tsx"] }
+  "files": ["/home/user/Animated-23D-Xavier/projeto/src/videos/paraguai/Paraguai.tsx", "/home/user/Animated-23D-Xavier/projeto/src/videos/paraguai/Capa.tsx"] }
