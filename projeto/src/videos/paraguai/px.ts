@@ -19,14 +19,14 @@ export const FLORES: Outfit = { jacket: "#3a2e28", pants: "#3a2e28", boots: "#2a
 export const AGUIRRE: Outfit = { jacket: "#2a2a2c", pants: "#2a2a2c", boots: "#141414", hat: "hair", hair: "#5a4a3a", moustache: "#4a3a2a", scarf: "#f2efe6" };
 export const BARROSO: Outfit = { jacket: "#1a2240", pants: "#1a2240", boots: "#121212", hat: "peaked", cap: "#1a2240", moustache: "#cfc8bc", hair: "#cfc8bc", medals: true, buttons: "#d6b04a", build: "stout" };
 // armies (each scene re-tones them with `tone()` so no two scenes share the same soldier)
-export const BR: Outfit = { jacket: "#26314e", pants: "#dcd6c6", boots: "#1a1614", hat: "kepi", cap: "#26314e", rifle: true, belt: "#e8e2d2", sash: "#3a2a1c" };
-export const BRV: Outfit = { jacket: "#3a3a2e", pants: "#c8bfa6", boots: "#2a1e16", hat: "kepi", cap: "#2a2a24", rifle: true, belt: "#d8ceb4", sash: "#4a3a24" }; // Voluntários da Pátria
-export const AR: Outfit = { jacket: "#3b4f78", pants: "#8a8f9a", boots: "#1a1614", hat: "kepi", cap: "#3b4f78", rifle: true, belt: "#e8e2d2", sash: "#2a2a34" };
-export const UY: Outfit = { jacket: "#2c3046", pants: "#bdb39c", boots: "#1e1a16", hat: "kepi", cap: "#8a2620", rifle: true, belt: "#d8d2c0", sash: "#3a2a1c" };
-export const PY: Outfit = { jacket: "#a3241d", pants: "#e4dfd0", boots: "#a8714a", hat: "shako", cap: "#1d1b1e", rifle: true, skin: "#d9a57c", belt: "#2a1e14", sash: "#2a1e14" };
-export const PYK: Outfit = { jacket: "#a3241d", pants: "#e4dfd0", boots: "#a8714a", hat: "cap", cap: "#a3241d", rifle: true, skin: "#d9a57c", belt: "#2a1e14" };
-export const SAILBR: Outfit = { jacket: "#22304e", pants: "#e8e4da", boots: "#141414", hat: "cap", cap: "#f2efe6", scarf: "#1a1a2a" };
-export const SAILPY: Outfit = { jacket: "#b02a22", pants: "#d8d2c2", boots: "#a8714a", hat: "cap", cap: "#2a2420", skin: "#d9a57c" };
+export const BR: Outfit = { hair: "#2a1d16", jacket: "#26314e", pants: "#dcd6c6", boots: "#1a1614", hat: "kepi", cap: "#26314e", rifle: true, belt: "#e8e2d2", sash: "#3a2a1c" };
+export const BRV: Outfit = { hair: "#2a1d16", jacket: "#3a3a2e", pants: "#c8bfa6", boots: "#2a1e16", hat: "kepi", cap: "#2a2a24", rifle: true, belt: "#d8ceb4", sash: "#4a3a24" }; // Voluntários da Pátria
+export const AR: Outfit = { hair: "#2a1d16", jacket: "#3b4f78", pants: "#8a8f9a", boots: "#1a1614", hat: "kepi", cap: "#3b4f78", rifle: true, belt: "#e8e2d2", sash: "#2a2a34" };
+export const UY: Outfit = { hair: "#2a1d16", jacket: "#2c3046", pants: "#bdb39c", boots: "#1e1a16", hat: "kepi", cap: "#8a2620", rifle: true, belt: "#d8d2c0", sash: "#3a2a1c" };
+export const PY: Outfit = { hair: "#2a1d16", jacket: "#a3241d", pants: "#e4dfd0", boots: "#a8714a", hat: "shako", cap: "#1d1b1e", rifle: true, skin: "#d9a57c", belt: "#2a1e14", sash: "#2a1e14" };
+export const PYK: Outfit = { hair: "#2a1d16", jacket: "#a3241d", pants: "#e4dfd0", boots: "#a8714a", hat: "cap", cap: "#a3241d", rifle: true, skin: "#d9a57c", belt: "#2a1e14" };
+export const SAILBR: Outfit = { hair: "#2a1d16", jacket: "#22304e", pants: "#e8e4da", boots: "#141414", hat: "cap", cap: "#f2efe6", scarf: "#1a1a2a" };
+export const SAILPY: Outfit = { hair: "#2a1d16", jacket: "#b02a22", pants: "#d8d2c2", boots: "#a8714a", hat: "cap", cap: "#2a2420", skin: "#d9a57c" };
 export const tone = (o: Outfit, p: number, rifle = o.rifle ?? true): Outfit => ({ ...o, jacket: mix(o.jacket, p % 2 ? "#000000" : "#ffffff", 0.035 * (p % 5)), pants: mix(o.pants, p % 3 ? "#5a4a3a" : "#ffffff", 0.05 * (p % 4)), cap: o.cap ? mix(o.cap, "#2a2a2a", 0.05 * (p % 3)) : o.cap, moustache: p % 4 === 1 ? ["#2a1d16", "#4a3020", "#6a4a2a"][p % 3] : o.moustache, beard: p % 7 === 3 ? "#3a2a1c" : o.beard, rifle });
 const PYS = ["#d9a57c", "#c99068", "#e2b48c", "#b98058"];
 /** Paraguayan civilians: women in white typoi with rebozo shawls, men in ponchos/hats; palette p keeps every scene distinct */
