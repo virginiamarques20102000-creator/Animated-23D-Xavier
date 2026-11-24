@@ -1,0 +1,108 @@
+0: Imagine@0.00 perder@0.75 a@1.15 casa@1.35 onde@1.65 sua@2.00 família@2.20 vive@2.70 há@3.05 gerações.@3.20
+1: Imagine@4.48 descobrir@5.05 que@5.60 uma@5.75 empresa@6.05 estrangeira@6.55 agora@7.45 é@7.95 dona@8.15 das@8.50 terras@8.65 onde@8.95 você@9.25 nasceu,@9.80 cresceu@10.10 e@10.65 construiu@10.90 sua@11.20 vida.@11.35
+2: E,@12.29 quando@12.40 você@13.00 tenta@13.40 resistir,@13.75 em@14.20 vez@14.70 de@14.85 receber@15.05 ajuda,@15.50 encontra@16.40 soldados@16.85 armados@17.30 enviados@17.80 pelo@18.25 próprio@18.65 governo@19.10 para@19.65 expulsá-lo.@19.95
+3: Parece@21.49 uma@21.90 história@22.20 de@22.60 outro@22.75 país.@23.10
+4: Mas@23.86 aconteceu@24.00 no@24.60 Brasil.@24.75
+5: Entre@25.74 1912@26.00 e@27.35 1916,@27.50 milhares@28.95 de@29.85 brasileiros@30.00 enfrentaram@30.65 uma@31.30 guerra@31.60 contra@31.95 as@32.25 forças@32.40 do@32.80 governo.@32.95
+6: Não@34.07 eram@34.20 soldados@34.50 de@34.95 outro@35.10 país,@35.45 nem@35.70 um@36.05 exército@36.20 estrangeiro.@36.80
+7: Eram@38.02 sertanejos,@38.30 trabalhadores@39.00 e@40.15 famílias@40.30 pobres@40.85 que@41.25 estavam@41.45 perdendo@42.00 suas@42.45 terras@42.65 e@43.00 tentando@43.20 sobreviver.@43.90
+8: Mas@45.28 como@45.40 uma@45.75 simples@46.10 disputa@46.45 territorial@47.00 se@47.70 transformou@47.85 em@48.35 uma@48.50 guerra@48.80 tão@49.35 violenta?@49.50
+9: E@50.65 por@50.85 que@51.10 o@51.25 governo@51.45 precisou@51.95 mobilizar@52.40 milhares@53.10 de@53.55 soldados@53.75 para@54.50 derrotar@54.80 pessoas@55.35 que,@55.75 em@55.90 muitos@56.05 casos,@56.40 mal@56.70 tinham@57.20 o@57.55 que@57.75 comer?@57.90
+10: Para@59.00 entender@59.25 essa@59.60 história,@59.95 precisamos@60.50 voltar@61.05 ao@61.35 início@61.45 do@61.85 século@62.00 XX.@62.35
+11: Naquela@63.32 época,@63.70 existia@64.25 uma@64.65 região@64.90 disputada@65.20 entre@65.95 os@66.20 estados@66.35 do@66.75 Paraná@66.90 e@67.35 de@67.70 Santa@67.80 Catarina.@68.10
+12: Como@69.21 os@69.45 dois@69.60 governos@69.75 reivindicavam@70.20 o@71.00 controle@71.10 daquele@71.55 território,@72.00 ele@72.95 ficou@73.20 conhecido@73.50 como@74.10 Contestado.@74.50
+13: Mas,@75.77 enquanto@75.90 os@76.55 políticos@76.75 discutiam@77.55 fronteiras,@78.05 milhares@78.95 de@79.45 famílias@79.65 viviam@80.15 naquela@80.50 região.@81.05
+14: Eram@81.97 principalmente@82.25 caboclos@83.05 e@83.55 sertanejos@83.70 que@84.35 trabalhavam@84.55 na@85.20 agricultura,@85.35 criavam@86.45 animais@86.80 e@87.45 sobreviviam@87.60 com@88.25 poucos@88.40 recursos.@88.85
+15: Muitos@90.10 não@90.40 possuíam@90.55 documentos@90.85 oficiais@91.50 das@92.00 terras,@92.15 mas@92.45 suas@92.65 famílias@92.85 ocupavam@93.60 aquele@94.25 território@94.80 havia@95.55 décadas.@95.85
+16: Tudo@97.06 começou@97.30 a@97.75 mudar@97.90 quando@98.25 o@98.55 Brasil@98.70 decidiu@99.00 expandir@99.50 sua@99.95 rede@100.10 ferroviária.@100.40
+17: Uma@101.58 empresa@101.90 estrangeira@102.35 chamada@102.95 Brazil@103.40 Railway@103.70 Company,@104.00 ligada@104.55 ao@105.25 empresário@105.40 norte-americano@106.00 Percival@107.00 Farquhar,@107.55 recebeu@107.90 concessões@108.75 para@109.25 construir@109.55 uma@109.90 ferrovia@110.20 que@110.70 atravessaria@110.85 a@111.60 região.@111.75
+18: A@112.69 promessa@112.85 era@113.45 levar@113.75 desenvolvimento@114.10 ao@115.05 interior@115.20 do@115.70 país.@115.85
+19: Mas@116.63 havia@116.75 um@117.05 detalhe@117.30 que@117.80 teria@117.95 consequências@118.40 devastadoras.@119.05
+20: A@120.50 empresa@120.70 recebeu@121.20 grandes@121.70 extensões@122.05 de@122.55 terras@122.70 próximas@123.10 aos@123.70 trilhos.@123.90
+21: E,@124.81 com@124.95 isso,@125.25 muitos@125.55 moradores@126.20 começaram@126.80 a@127.40 perder@127.60 o@127.90 direito@128.05 de@128.55 permanecer@128.75 em@129.35 lugares@129.50 onde@130.15 suas@130.45 famílias@130.60 sempre@131.05 viveram.@131.35
+22: Imagine@132.44 a@132.95 situação:@133.10 pessoas@134.10 que@134.40 passaram@134.55 a@135.00 vida@135.15 inteira@135.40 trabalhando@136.00 em@136.55 uma@136.75 pequena@137.20 propriedade,@137.70 de@138.60 repente,@139.00 eram@139.50 tratadas@139.75 como@140.20 invasoras@140.50 de@141.05 suas@141.30 próprias@141.50 casas.@141.80
+23: Mas@142.74 a@142.80 situação@142.95 ficou@143.40 ainda@143.75 pior@144.05 quando@144.25 a@144.60 construção@144.75 da@145.30 ferrovia@145.45 terminou.@145.95
+24: Milhares@147.01 de@147.45 trabalhadores@147.60 contratados@148.40 para@149.10 construir@149.40 os@149.80 trilhos@149.95 ficaram@150.30 desempregados.@150.85
+25: Muitos@152.28 não@152.50 tinham@152.65 dinheiro,@152.95 emprego@153.40 ou@154.10 qualquer@154.20 perspectiva@154.70 de@155.55 futuro.@155.75
+26: Ao@156.68 mesmo@156.80 tempo,@157.10 uma@157.75 madeireira@158.10 ligada@158.75 ao@159.20 grupo@159.40 empresarial,@159.75 a@160.55 Southern@160.70 Brazil@161.00 Lumber,@161.30 começou@161.65 a@162.40 explorar@162.60 as@163.10 florestas@163.30 da@163.85 região.@164.00
+27: Árvores@164.99 eram@165.40 derrubadas@165.75 em@166.40 grande@166.55 escala,@166.85 a@167.35 madeira@167.80 era@168.30 transportada@168.65 para@169.40 longe@169.70 e@170.35 os@170.55 antigos@170.70 moradores@171.20 assistiam@171.90 à@172.40 transformação@172.60 de@173.25 suas@173.40 terras.@173.60
+28: A@174.69 revolta@174.80 crescia.@175.45
+29: Mas@176.67 aquelas@176.80 pessoas@177.35 não@177.65 tinham@177.85 influência@178.15 política@178.70 nem@179.45 condições@179.60 de@180.10 enfrentar@180.25 os@180.80 grandes@181.00 empresários.@181.30
+30: Foi@182.72 nesse@182.90 cenário@183.20 que@183.65 surgiu@183.90 um@184.20 homem@184.35 que@184.65 mudaria@184.80 completamente@185.25 o@186.25 destino@186.40 daquela@186.90 população.@187.35
+31: Seu@188.72 nome@188.85 era@189.20 José@189.75 Maria.@190.10
+32: Ele@191.14 era@191.35 um@191.65 curandeiro@191.80 e@192.40 rezador@192.55 conhecido@193.30 como@193.90 monge.@194.20
+33: Percorria@195.13 comunidades@195.55 oferecendo@196.40 conselhos,@197.25 benzimentos@197.80 e@198.50 remédios@198.65 preparados@199.15 com@199.90 ervas.@200.05
+34: Para@201.13 uma@201.35 população@201.65 pobre,@202.25 sem@202.60 acesso@202.75 adequado@203.20 à@203.80 medicina@203.95 e@204.60 abandonada@204.75 pelas@205.50 autoridades,@205.90 José@207.00 Maria@207.30 representava@207.65 esperança.@208.50
+35: Seus@209.78 seguidores@209.90 começaram@210.50 a@211.10 se@211.25 reunir@211.40 ao@211.70 seu@211.85 redor.@212.00
+36: Eram@212.98 pessoas@213.25 que@213.55 haviam@213.70 perdido@214.00 suas@214.45 terras,@214.60 trabalhadores@215.00 desempregados@215.95 e@216.75 famílias@216.90 que@217.45 já@217.60 não@217.75 acreditavam@217.90 que@218.65 o@218.85 governo@219.00 faria@219.60 alguma@219.95 coisa@220.40 por@220.80 elas.@221.00
+37: Em@222.07 pouco@222.25 tempo,@222.60 aquele@223.15 grupo@223.60 cresceu.@223.95
+38: As@224.90 autoridades@225.00 começaram@225.75 a@226.30 enxergar@226.45 a@226.90 concentração@227.05 de@227.65 pessoas@227.80 como@228.10 uma@228.45 ameaça.@228.75
+39: Afinal,@229.78 José@230.20 Maria@230.80 estava@231.10 reunindo@231.60 uma@232.10 população@232.45 que@233.10 não@233.25 obedecia@233.45 aos@234.10 interesses@234.25 dos@234.95 grandes@235.10 proprietários@235.45 e@236.15 dos@236.35 políticos@236.50 locais.@237.20
+40: Em@238.15 1912,@238.30 seus@239.50 seguidores@239.85 estavam@240.45 reunidos@240.90 em@241.35 Taquaruçu,@241.50 em@242.20 Santa@242.55 Catarina.@242.85
+41: Mas,@244.08 diante@244.20 da@244.50 pressão@244.65 das@245.00 autoridades,@245.15 José@246.00 Maria@246.35 deixou@246.95 o@247.25 local@247.45 e@247.75 seguiu@247.90 com@248.30 seus@248.60 seguidores@248.75 até@249.40 Irani,@249.70 uma@250.25 região@250.65 disputada@251.35 entre@252.05 Paraná@252.45 e@253.05 Santa@253.20 Catarina.@253.65
+42: A@254.91 chegada@255.00 daquele@255.45 grupo@255.90 provocou@256.35 uma@256.80 reação@257.10 imediata.@257.40
+43: O@258.65 governo@258.75 paranaense@259.20 interpretou@259.75 a@260.40 movimentação@260.55 como@261.25 uma@261.60 possível@261.95 tentativa@262.35 de@262.95 ocupação@263.10 catarinense@263.75 e@264.85 decidiu@264.95 enviar@265.40 tropas@265.80 para@266.10 enfrentar@266.40 os@266.85 sertanejos.@267.00
+44: Em@268.38 22@268.50 de@269.10 outubro@269.25 de@269.85 1912,@270.00 aconteceu@271.60 o@272.25 primeiro@272.40 grande@272.90 combate@273.20 da@273.65 Guerra@273.85 do@274.15 Contestado.@274.30
+45: De@275.68 um@275.80 lado@275.95 estavam@276.25 soldados@276.80 armados.@277.25
+46: Do@278.35 outro,@278.45 seguidores@278.75 de@279.55 José@279.70 Maria,@280.00 que@280.30 acreditavam@280.45 estar@281.60 defendendo@281.90 sua@282.55 comunidade@282.70 e@283.65 sua@283.80 fé.@284.05
+47: O@284.80 confronto@285.00 terminou@285.60 com@286.15 mortes@286.30 dos@286.70 dois@286.90 lados.@287.05
+48: Entre@288.17 as@288.45 vítimas@288.60 estavam@289.10 o@289.65 próprio@289.90 José@290.20 Maria@290.50 e@291.10 o@291.25 comandante@291.40 das@292.10 forças@292.25 paranaenses,@292.65 João@293.45 Gualberto.@293.60
+49: O@294.82 governo@294.90 acreditava@295.35 que,@296.15 com@296.35 a@296.50 morte@296.65 do@297.00 monge,@297.15 o@297.70 movimento@297.85 perderia@298.45 sua@298.90 força.@299.10
+50: Mas@300.04 aconteceu@300.15 exatamente@300.75 o@301.65 contrário.@301.80
+51: Para@303.01 muitos@303.25 seguidores,@303.55 José@304.15 Maria@304.55 não@304.85 havia@305.00 desaparecido.@305.30
+52: Eles@306.88 acreditavam@307.10 que@307.85 ele@308.00 retornaria@308.35 acompanhado@309.00 de@309.75 um@309.90 exército@310.05 encantado,@310.75 liderado@311.70 por@312.35 São@312.50 Sebastião.@312.65
+53: A@313.69 morte@313.80 do@314.15 líder@314.35 não@314.75 destruiu@314.95 a@315.30 resistência.@315.45
+54: Transformou@316.90 José@317.40 Maria@317.75 em@318.10 um@318.30 símbolo@318.45 religioso@319.00 ainda@319.75 mais@320.10 poderoso.@320.25
+55: Em@321.35 1913,@321.50 seus@323.05 seguidores@323.20 começaram@323.85 a@324.50 se@324.65 reunir@324.80 novamente@325.15 em@325.80 Taquaruçu.@326.00
+56: Uma@327.46 menina@327.75 chamada@328.30 Teodora,@328.85 de@329.60 apenas@329.75 11@330.40 anos,@331.10 dizia@331.40 receber@331.75 mensagens@332.30 do@332.80 monge@333.00 em@333.35 seus@333.50 sonhos.@333.70
+57: Essas@334.70 mensagens@335.00 ajudaram@335.50 a@336.15 fortalecer@336.35 a@337.05 esperança@337.30 de@337.95 milhares@338.10 de@338.60 pessoas.@338.75
+58: Novas@339.75 lideranças@340.05 surgiram@340.75 e@341.25 os@341.65 chamados@341.85 redutos@342.35 santos@342.90 começaram@343.30 a@344.00 crescer.@344.20
+59: Eram@345.18 comunidades@345.40 onde@346.15 os@346.45 sertanejos@346.65 compartilhavam@347.25 alimentos,@348.00 organizavam@348.95 sua@349.75 própria@349.90 vida@350.25 e@350.90 acreditavam@351.05 estar@351.90 construindo@352.25 uma@352.70 sociedade@353.00 mais@353.60 justa.@353.75
+60: Mas@354.76 o@354.85 governo@355.00 não@355.40 enxergava@355.55 aquilo@356.10 como@356.60 uma@356.90 tentativa@357.25 de@357.85 sobrevivência.@358.00
+61: Enxergava@359.26 como@359.80 uma@360.15 ameaça@360.45 que@360.90 precisava@361.15 ser@361.80 eliminada.@361.95
+62: Em@363.35 1914,@363.45 as@365.10 forças@365.25 militares@365.55 atacaram@366.15 Taquaruçu@366.85 e@367.45 destruíram@367.80 o@368.25 reduto.@368.40
+63: Mas@369.66 os@369.80 sobreviventes@369.95 fugiram@370.70 e@371.30 se@371.45 reorganizaram@371.60 em@372.40 outras@372.55 comunidades.@372.85
+64: O@374.23 movimento@374.35 continuava@375.00 vivo.@375.60
+65: Em@376.79 setembro@376.85 daquele@377.35 ano,@377.80 os@378.30 sertanejos@378.45 atacaram@379.10 a@379.70 madeireira@379.85 Lumber,@380.45 um@381.00 dos@381.15 principais@381.30 símbolos@381.80 da@382.25 exploração@382.40 econômica@383.05 na@383.80 região.@383.95
+66: A@384.94 situação@385.05 havia@385.55 se@385.90 tornado@386.10 muito@386.60 mais@386.95 grave.@387.15
+67: O@388.16 conflito@388.30 já@388.80 ameaçava@388.95 interesses@389.60 empresariais@390.20 e@390.85 políticos.@391.00
+68: Foi@392.40 então@392.60 que@392.95 o@393.15 governo@393.30 federal@393.80 decidiu@394.25 intervir.@394.70
+69: Milhares@395.88 de@396.30 soldados@396.45 foram@396.95 enviados@397.25 para@397.70 a@398.10 região,@398.25 sob@398.55 o@398.95 comando@399.15 do@399.60 general@399.75 Fernando@400.35 Setembrino@400.80 de@401.45 Carvalho.@401.60
+70: Agora,@402.85 os@403.30 sertanejos@403.55 enfrentariam@404.25 uma@404.90 força@405.30 militar@405.65 muito@406.20 superior,@406.50 equipada@407.40 com@408.00 metralhadoras,@408.20 artilharia@409.20 e@409.85 outros@410.20 recursos@410.50 modernos.@411.05
+71: Mas@412.31 os@412.45 soldados@412.60 encontraram@413.05 uma@413.65 dificuldade:@413.95 os@415.30 combatentes@415.45 do@416.10 Contestado@416.25 conheciam@416.95 profundamente@417.40 aquelas@418.40 matas.@418.85
+72: Sabiam@419.80 utilizar@420.10 trilhas,@420.85 esconderijos@421.15 e@422.00 caminhos@422.15 que@422.80 dificultavam@423.00 o@423.90 avanço@424.05 das@424.55 tropas.@424.70
+73: Então,@425.82 o@426.10 Exército@426.20 adotou@426.95 uma@427.40 estratégia@427.65 diferente.@428.30
+74: Em@429.61 vez@429.70 de@429.85 depender@430.00 apenas@430.45 de@430.95 ataques@431.10 diretos,@431.55 começou@432.40 a@432.80 cercar@432.95 os@433.30 redutos@433.45 e@433.90 impedir@434.25 que@434.70 alimentos@434.90 e@435.45 mantimentos@435.60 chegassem@436.15 até@436.60 a@436.85 população.@437.05
+75: E@438.25 essa@438.40 decisão@438.75 foi@439.35 devastadora.@439.50
+76: Sem@441.06 comida@441.20 suficiente,@441.70 sem@442.35 medicamentos@442.60 e@443.45 sem@443.65 condições@443.85 de@444.35 escapar,@444.55 milhares@445.15 de@446.05 pessoas@446.20 começaram@446.55 a@447.25 enfrentar@447.40 a@447.95 fome@448.30 e@448.75 as@448.90 doenças.@449.10
+77: Um@450.16 dos@450.30 maiores@450.45 redutos@450.80 era@451.35 Santa@451.65 Maria,@452.00 que@452.30 chegou@452.75 a@453.05 reunir@453.25 milhares@453.55 de@454.05 sertanejos.@454.20
+78: Mas,@455.64 em@455.75 1915,@455.90 depois@457.30 de@457.85 intensas@458.05 operações@458.55 militares,@459.15 aquela@459.80 comunidade@460.65 foi@461.50 destruída.@461.70
+79: O@462.95 lugar@463.10 que@463.45 havia@463.60 representado@463.90 esperança@464.75 para@465.45 tantas@465.80 famílias@466.10 se@466.75 transformou@466.95 em@467.40 cenário@467.55 de@468.00 morte@468.20 e@468.60 desespero.@468.80
+80: Muitos@470.18 morreram.@470.50
+81: Outros@471.62 fugiram@472.00 para@472.45 as@472.75 matas.@472.90
+82: Famílias@473.91 foram@474.35 separadas@474.75 e@475.40 os@475.80 sobreviventes@475.95 passaram@476.75 a@477.25 enfrentar@477.45 uma@477.95 perseguição@478.25 cada@478.95 vez@479.30 mais@479.45 intensa.@479.65
+83: Mesmo@480.90 depois@481.20 da@481.60 destruição@481.80 dos@482.35 principais@482.55 redutos,@483.20 a@483.85 guerra@484.30 ainda@484.65 não@485.05 havia@485.25 terminado.@485.60
+84: Grupos@486.70 armados@487.00 conhecidos@487.55 como@488.20 vaqueanos@488.55 também@489.05 participaram@489.55 da@490.40 perseguição@490.60 aos@491.25 sertanejos.@491.45
+85: A@493.04 resistência@493.15 foi@493.75 perdendo@493.95 força,@494.50 enquanto@494.80 seus@495.60 integrantes@495.80 enfrentavam@496.40 fome,@497.25 doenças@497.75 e@498.05 a@498.20 falta@498.70 de@499.15 qualquer@499.35 proteção.@499.85
+86: Um@501.56 dos@501.70 últimos@501.85 grandes@502.35 líderes@502.65 do@503.15 movimento@503.30 era@504.15 Adeodato@504.50 Ramos.@505.20
+87: Ele@506.31 continuou@506.60 resistindo@507.05 mesmo@507.70 quando@508.00 praticamente@508.35 todas@509.40 as@509.70 principais@509.90 comunidades@510.45 já@511.25 haviam@511.45 sido@511.75 destruídas.@512.05
+88: Mas@513.31 a@513.45 situação@513.60 era@514.10 cada@514.65 vez@515.00 mais@515.15 difícil.@515.35
+89: Sem@516.98 apoio@517.10 suficiente@517.45 e@518.10 com@518.25 seus@518.55 seguidores@518.70 dispersos,@519.35 a@519.85 resistência@520.40 acabou@521.00 sendo@521.55 derrotada.@521.90
+90: Em@523.46 1916,@523.55 Adeodato@524.90 foi@525.80 capturado.@526.00
+91: Depois@527.69 de@528.00 quatro@528.25 anos@528.60 de@528.90 violência,@529.05 a@529.50 Guerra@529.65 do@530.30 Contestado@530.45 finalmente@531.10 chegava@531.90 ao@532.35 fim.@532.55
+92: No@533.93 mesmo@534.00 ano,@534.30 Paraná@534.60 e@535.20 Santa@535.40 Catarina@535.70 chegaram@536.25 a@536.65 um@536.80 acordo@536.95 sobre@537.45 suas@537.70 fronteiras,@537.85 encerrando@538.35 oficialmente@539.20 uma@539.95 disputa@540.25 territorial@540.75 que@541.40 se@541.60 arrastava@541.75 havia@542.35 décadas.@542.65
+93: Mas@544.25 a@544.40 guerra@544.55 deixou@544.90 uma@545.20 pergunta@545.55 que@546.10 continua@546.25 importante@546.75 até@547.60 hoje:@548.50 quem@548.85 realmente@549.00 venceu?@549.50
+94: O@550.82 governo@550.95 conseguiu@551.40 destruir@551.90 os@552.30 redutos@552.45 e@553.00 derrotar@553.20 os@553.80 principais@554.00 líderes@554.55 da@555.00 resistência.@555.20
+95: Porém,@556.47 milhares@557.20 de@557.80 pessoas@558.00 perderam@558.45 suas@559.05 vidas,@559.30 suas@559.90 casas@560.05 e@560.50 suas@560.95 famílias.@561.15
+96: As@562.69 estimativas@562.75 de@563.50 mortos@563.65 variam@564.00 conforme@564.30 os@564.75 estudos.@564.90
+97: Algumas@566.06 apontam@566.55 cerca@567.10 de@567.50 6@567.65 mil@567.80 vítimas,@568.00 enquanto@568.95 outras@569.45 chegam@569.85 a@570.20 10@570.40 mil@570.55 ou@570.75 mais,@570.90 incluindo@571.05 aqueles@571.95 que@572.50 morreram@572.65 de@573.15 fome@573.55 e@574.00 doenças.@574.20
+98: E@575.51 existe@575.60 uma@576.00 ironia@576.25 difícil@576.65 de@577.15 ignorar.@577.30
+99: Enquanto@578.39 milhares@578.80 de@579.20 brasileiros@579.35 eram@579.90 perseguidos@580.15 e@580.70 mortos,@580.85 os@581.15 interesses@581.25 econômicos@582.30 que@583.10 ajudaram@583.25 a@583.80 provocar@584.00 a@584.45 crise@584.60 continuavam@584.85 sendo@585.60 atendidos.@585.90
+100: A@587.17 ferrovia@587.30 permaneceu.@587.75
+101: A@588.97 exploração@589.05 econômica@589.65 continuou.@590.45
+102: E@591.50 a@591.65 população@591.80 pobre@592.55 da@592.85 região@593.00 teve@593.45 que@593.75 reconstruir@593.95 sua@594.50 vida@594.70 depois@595.20 de@595.50 uma@595.65 tragédia@596.00 que@596.45 marcou@596.75 gerações.@597.10
+103: A@598.57 Guerra@598.65 do@598.95 Contestado@599.10 não@599.70 foi@599.80 apenas@599.95 uma@600.45 disputa@600.75 entre@601.25 dois@601.55 estados@601.65 brasileiros.@602.10
+104: Foi@603.39 também@603.50 o@603.80 resultado@603.95 de@604.55 uma@604.70 população@605.05 abandonada,@605.65 de@606.85 famílias@607.00 expulsas@607.45 de@607.90 suas@608.05 terras@608.20 e@608.45 de@608.90 interesses@609.05 econômicos@609.65 que@610.35 tiveram@610.50 mais@610.90 força@611.15 do@611.50 que@611.65 a@611.85 vida@612.00 de@612.25 milhares@612.40 de@612.85 pessoas.@613.05
+105: No@614.34 final,@614.45 aqueles@614.75 sertanejos@615.55 não@616.15 estavam@616.30 tentando@616.75 conquistar@617.25 o@617.75 Brasil.@617.90
+106: Muitos@618.90 só@619.25 queriam@619.55 continuar@619.90 vivendo@620.50 na@621.00 terra@621.15 onde@621.60 suas@622.05 famílias@622.20 haviam@622.70 construído@623.10 suas@623.65 histórias.@623.80
+107: E@625.27 talvez@625.40 essa@625.70 seja@626.00 a@626.30 parte@626.45 mais@626.80 triste@626.95 de@627.40 toda@627.55 essa@627.95 guerra:@628.25 para@628.60 milhares@629.55 de@630.05 brasileiros,@630.20 lutar@631.20 para@631.60 não@631.95 perder@632.10 tudo@632.40 significou@633.25 enfrentar@633.95 o@634.60 próprio@634.75 país.@635.25

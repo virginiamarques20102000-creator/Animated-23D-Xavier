@@ -12,6 +12,7 @@ import { TrincheirasFilm, TRINCHEIRAS_FRAMES } from "./videos/trincheiras/Trinch
 import { TrincheirasCapa } from "./videos/trincheiras/Capa";
 import { Ww2Film, WW2_FRAMES } from "./videos/ww2/Ww2";
 import { Ww2Test3D, TEST3D_FRAMES } from "./videos/ww2/Test3D";
+import { ContestadoFilm, CONTESTADO_FRAMES } from "./videos/contestado/Contestado";
 import { Ww2Film3D } from "./videos/ww2/three/Film3D";
 // Cada desenho novo: copie templates/pisa/ para src/videos/<nome>/, renomeie e registre aqui.
 export const Root: React.FC = () => (
@@ -28,6 +29,7 @@ export const Root: React.FC = () => (
     <Composition id="Ww2Film" component={Ww2Film} durationInFrames={WW2_FRAMES} fps={30} width={1920} height={1080} />
     <Composition id="Ww2Film3D" component={Ww2Film3D} durationInFrames={WW2_FRAMES} fps={30} width={1920} height={1080} />
     <Composition id="Ww2Test3D" component={Ww2Test3D} durationInFrames={TEST3D_FRAMES} fps={30} width={1920} height={1080} />
+    <Composition id="ContestadoFilm" component={ContestadoFilm} durationInFrames={CONTESTADO_FRAMES} fps={30} width={1920} height={1080} />
     <Composition id="HitlerShort" component={HitlerShort} durationInFrames={HITLER_FRAMES} fps={30} width={1920} height={1080} />
   </>
 );
