@@ -32,34 +32,30 @@ const TEAR = [[1010, 0], [930, 150], [1020, 300], [920, 470], [1010, 640], [915,
 const tearPath = (g: Ctx, side: "L" | "R") => { g.beginPath(); if (side === "L") { g.moveTo(0, 0); TEAR.forEach(([x, y]) => g.lineTo(x, y)); g.lineTo(0, VH); } else { g.moveTo(VW, 0); TEAR.forEach(([x, y]) => g.lineTo(x, y)); g.lineTo(VW, VH); } g.closePath(); };
 
 export const renderCapa = (g: Ctx) => {
-  const B = mk(VW, VH), b = B.getContext("2d")!;
-  // LEFT — 1912: the family smiling in front of their wooden house, golden sun
-  setLite(GOLD);
-  scene(b, plat("capaL", "gold", { fence: 12 }), C(-2.3, 1.35, -2.6, 40, 70), (A) => {
-    A.sp("casa", -3.0, 0, 13);
-    A.a(PAI, 11, -2.9, 1.1, { expr: "laugh", look: 0, headTilt: -4 });
-    A.a(MAE, 12, -1.7, 1.9, { expr: "smile", look: -0.4 }); A.a(FILHO, 13, -3.9, 1.6, { expr: "laugh", look: 0.5 }); A.a(FILHA, 14, -1.2, 1.5, { expr: "smile", look: -0.6 });
-    A.light((gg) => { sun(gg, 170, 130, 46, "255,220,160"); rays(gg, 170, 130, 1500, 0.3, "255,226,170", 18, 0); });
+  // clean split portrait: the same caboclo, 1912 at peace (left) / 1916 at war (right); straight cut, flat light, no bloom
+  const B = mk(VW, VH), b = B.getContext("2d")!, cam = C(0, 1.42, -1.1, 40, 175);
+  setLite({ ...GOLD, ra: 0.25, ka: 0.05 });
+  scene(b, plat("capaL2", "day", { fence: 10 }), cam, (A) => {
+    A.sp("casa", -6.5, 0, 26); A.sp("rancho", 5.5, 0, 30);
+    A.a(PAI, 11, 0, 1.25, { expr: "smile_closed", look: 0, headTilt: 0, armB: 0 }, { shadow: 0, noCast: true });
   });
-  g.save(); tearPath(g, "L"); g.clip(); g.drawImage(B, 0, 0); g.restore();
-  // RIGHT — 1916: the same man in shock, his house on fire, soldiers advancing
-  b.setTransform(1, 0, 0, 1, 0, 0); setLite(NIGHTFIRE);
-  scene(b, plat("capaR", "fire", { dense: 0.8 }), C(2.3, 1.35, -2.6, 40, 70), (A) => {
-    A.sp("casa", 3.6, 0, 13);
-    A.fx(12.9, (gg, c) => { fire(gg, c, 1.3, 1.6, 2.8, 12.8, 2.2, 3); fire(gg, c, 1.7, 4.8, 3.4, 12.8, 2.6, 5); fire(gg, c, 2.1, 3.6, 4.8, 12.8, 2.2, 7); fire(gg, c, 2.6, 6.4, 1.4, 12.8, 1.6, 9); smokeCol(gg, c, 2, 3.6, 5.5, 13, { h: 16, w: 3, seed: 4, col: [30, 26, 28] }); embers(gg, c, 2, 3.6, 10, 10, 70, 8, 3); });
-    for (let i = 0; i < 4; i++) A.a(sold(i), 30 + i, 4.2 + i * 1.1, 3.6 + (i % 2) * 0.6, { expr: "stern", look: -1, facing: -1, prop: ["rifleUp", 0] }, { dark: 0.75, darkCol: "#160a08" });
-    A.a(PAI, 11, 2.9, 1.1, { expr: "shock", look: -1, armB: 1, headTilt: 6 });
-    
-    A.light((gg) => { glow(gg, VW * 0.72, VH * 0.32, 900, "rgba(255,120,40,0.55)", 0.85); tint(gg, "#3a1010", 0.12, "multiply"); });
-  }, ["ash", 160, 0.6]);
-  g.save(); tearPath(g, "R"); g.clip(); g.drawImage(B, 0, 0); g.restore();
-  g.save(); g.globalCompositeOperation = "lighter"; g.strokeStyle = "rgba(255,200,120,0.9)"; g.lineWidth = 22; g.filter = "blur(10px)"; g.beginPath(); TEAR.forEach(([x, y], i) => (i ? g.lineTo(x, y) : g.moveTo(x, y))); g.stroke(); g.restore();
-  g.save(); g.strokeStyle = "#fff6e0"; g.lineWidth = 9; g.lineJoin = "round"; g.beginPath(); TEAR.forEach(([x, y], i) => (i ? g.lineTo(x, y) : g.moveTo(x, y))); g.stroke(); g.restore();
-  post(g, 0, 0.35, 0.45, 1.3);
-  label(g, "1912", 230, 120, 150, "#ffffff");
-  label(g, "1916", VW - 230, 120, 150, "#ff3b2f");
-  g.save(); g.fillStyle = "rgba(10,6,4,0.55)"; g.beginPath(); g.ellipse(VW / 2, VH - 150, 920, 150, 0, 0, 7); g.filter = "blur(30px)"; g.fill(); g.restore();
-  label(g, "GUERRA ESQUECIDA", VW / 2, VH - 150, 150, "#ffe14a", "#140c0a", -0.03);
+  g.save(); g.beginPath(); g.rect(0, 0, VW / 2, VH); g.clip(); g.drawImage(B, 0, 0); g.restore();
+  b.setTransform(1, 0, 0, 1, 0, 0); setLite({ ...NIGHTFIRE, ra: 0.5, ka: 0.18 });
+  scene(b, plat("capaR2", "dusk", { dense: 0.7 }), cam, (A) => {
+    A.sp("casa", 6.5, 0, 26);
+    A.fx(25.9, (gg, c) => { fire(gg, c, 1.3, 5.3, 3.0, 25.8, 1.8, 3); fire(gg, c, 1.7, 7.7, 3.6, 25.8, 2.0, 5); smokeCol(gg, c, 2, 6.5, 6, 26, { h: 22, w: 3, seed: 4, col: [46, 40, 44], a: 0.7 }); });
+    for (let i = 0; i < 4; i++) A.a(sold(i), 30 + i, 2.2 + i * 1.3, 12 + (i % 2) * 1.0, { expr: "stern", look: -1, facing: -1, prop: ["rifleUp", 0] }, { dark: 0.55, darkCol: "#1a1016" });
+    A.a(PAI, 11, 0, 1.25, { expr: "fear", look: 0, headTilt: 0, armB: 0 }, { shadow: 0, noCast: true });
+  });
+  g.save(); g.beginPath(); g.rect(VW / 2, 0, VW / 2, VH); g.clip(); g.drawImage(B, 0, 0); g.restore();
+  post(g, 0, 0.18, 0, 1.08);
+  g.fillStyle = "#f4efe6"; g.fillRect(VW / 2 - 3, 0, 6, VH);
+  // title: bold sans, wide tracking, white with a dark outline and soft shadow
+  const title = (s: string, y: number, size: number) => { g.save(); g.font = `bold ${size}px "DejaVu Sans", sans-serif`; g.textAlign = "center"; g.textBaseline = "middle";
+    if ("letterSpacing" in g) (g as unknown as { letterSpacing: string }).letterSpacing = `${Math.round(size * 0.1)}px`;
+    g.shadowColor = "rgba(0,0,0,0.45)"; g.shadowBlur = 18; g.shadowOffsetY = 6; g.lineJoin = "round"; g.lineWidth = size * 0.16; g.strokeStyle = "#1c1820"; g.strokeText(s, VW / 2, y);
+    g.shadowColor = "transparent"; g.fillStyle = "#ffffff"; g.fillText(s, VW / 2, y); g.restore(); };
+  title("GUERRA DO", 95, 100); title("CONTESTADO", 205, 118);
 };
 
 export const ContestadoCapa: React.FC = () => {
