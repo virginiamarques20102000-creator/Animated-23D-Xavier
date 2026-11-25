@@ -1,6 +1,6 @@
 ---
 name: desenho-animado
-description: Faz um short vertical de ~15-70 s contando uma história no estilo "bonecos 2D num mundo 3D colorido" (bonecos chapados de cabeça de feijão com contorno, cidade/mundo 3D pintado com contorno preto, céu saturado, fundo desfocado, câmera deslizando, narração, sons e música feitos por código), renderizado com three.js dentro do Remotion. Exemplos prontos: a Torre de Pisa (templates/pisa) e a ponte (templates/bridge). Use quando pedirem "faz um desenho animado contando a história de…", "um short animado nesse estilo", "igual ao da Torre de Pisa", uma história de história/ciência com bonecos em 3D, ou "usa a skill de desenho animado".
+description: Faz um short vertical de ~15-70 s contando uma história no estilo "bonecos 2D num mundo 3D colorido" (bonecos chapados de cabeça de feijão com contorno, cidade/mundo 3D pintado com contorno preto, céu saturado, fundo desfocado, câmera deslizando, narração, sons e música feitos por código), renderizado com three.js dentro do Remotion. Exemplos prontos: a Torre de Pisa (templates/pisa) e a ponte (templates/bridge). Use quando pedirem "faz um desenho animado contando a história de…", "um short animado nesse estilo", "igual ao da Torre de Pisa", uma história de história/ciência com bonecos em 3D, ou "usa a skill de desenho animado", ou no "estilo palito" (personagem plano num mundo 3D, câmera sempre andando, legenda de uma palavra) a partir de um short de referência: "faz igual a esse short", "o próximo da série" (HyperFrames + Three.js, `templates/palito/`).
 ---
 
 # Desenho animado 2D/3D (three.js + Remotion)
@@ -9,6 +9,7 @@ Exemplos prontos:
 - **O inferno das trincheiras** (`projeto/src/videos/trincheiras/`, composição `TrincheirasFilm`, 16:9, 10 min): documentário longo feito do áudio + roteiro do usuário, sincronizado palavra a palavra.
 - **A Torre de Pisa** (`templates/pisa/`, composição `PisaShort`, 1080x1920, 30 fps): 12,6 s na voz do narrador, 6 cenas.
 - **A ponte** (`templates/bridge/`, composição `BridgeShort`): 67 s, o primeiro exemplo do estilo.
+- **Lula em 27 s, estilo palito** (`projeto/palito-lula/`, HyperFrames + Three.js puro, 1080x1920, 30 fps): o teste do modo palito (seção "Modo estilo palito").
 - Estudo do estilo: `references/` (STYLE_BIBLE.md, reports/*.md, frames/, sheets/).
 
 As referências são material de estudo.
@@ -360,3 +361,90 @@ Pedido do usuário: "animação fluida e verdadeira, nada estático", rodas de t
 - **Câmera**: caminhos Catmull-Rom por chaves (sem parar nas chaves), câmera de perseguição (`track`), mão leve + tremor por explosão (`S.shake`). Nunca ponha a câmera a menos de ~3 m de um card (vira silhueta preta tapando a tela) nem dentro de prédios — confira prévias no meio de cada shot (`scripts/stills3d.mjs`, ~8 s por quadro a 0,5×).
 - **Custo**: ~2,5–3,5 s/quadro em 1920×1080 com swangle e concorrência 4 (~3 h para ~140 s de ação).
 - **Som**: cada estouro/tiro/baque sorteia parâmetros (frequência, decaimento, estalo, cauda de destroços, eco) e cada som entra no estéreo com pan próprio; acrescente apito de chegada antes do impacto, chuva de destroços depois, ricochetes e rangido de esteira.
+
+## Modo estilo palito (HyperFrames + Three.js) — copiar a fórmula de um short de referência
+Vem da skill "estilo-palito" (estudada por inteiro). Kit: `templates/palito/` (ferramentas, modelo, exemplo, LEIA-ME),
+guias: `references/palito/` (estilo-palito, receita, roteiro, voz, render, som + o SKILL original). Teste aprovado:
+`projeto/palito-lula/` (Lula em 27 s). Use quando a pessoa manda o link de um short e diz "faz igual a esse".
+
+**O estilo:** personagem PLANO (cabeça redonda grande, olhos de ponto, boca simples, corpo e membros de palito, roupa de cor
+forte, contorno escuro grosso) num mundo 3D com profundidade, luz e sombra; câmera NUNCA parada; legenda de UMA palavra
+por vez, branca com contorno escuro, no meio-baixo da tela (amarela nas frases-chave); etiquetas amarelas que seguem a peça
+(ponto 3D projetado na tela, entram em 3 quadros); a história começa na primeira frase, sem apresentação.
+
+**Régua medida num short de 15 s (a referência da pessoa é que manda):** 450 quadros a 30 fps; 5 cortes fortes (2,4 · 3,6 ·
+9,9 · 10,5 · 14,2 s); cada movimento sai rápido e freia em ~14 quadros (expo out) e emenda num deslize lento; voos de
+drone, aproximações no rosto, travellings de lado; câmera nunca parada mais de 0,5 s.
+
+**As 8 regras (seguir sempre):**
+1. Número, nunca "ficou bonito": toda observação com o segundo ou o quadro.
+2. Estude no fps REAL do vídeo (`yt-dlp -F`): estudar a 60 um vídeo de 30 só repete quadro.
+3. Custo antes de gastar: `voz.py --custo` mostra os caracteres; esperar o ok. Chave só no `.env` da pasta, nunca no chat.
+4. Não copie: da referência vêm fórmula, ritmo, câmera e jeito de desenhar; frases, personagens, história e arquivos são da
+   pessoa. Nunca use quadros nem áudio da referência no vídeo.
+5. Fatos conferidos (escrever `FATOS.md`); o que for inventado, dizer que é.
+6. Testes curtos: fotos soltas / 5 s antes do vídeo inteiro; nunca sobrescrever um render (`v1`, `v2`…).
+7. Abra as imagens você mesmo (folhas, mapa de cenas, lado a lado).
+8. `registro.md` na pasta do vídeo: uma linha por passo, o que foi feito e quanto tempo levou.
+
+**Começar:** numa mensagem só, perguntar (1) link + quantos segundos (começar com 15), (2) assunto e língua, (3) voz
+(ElevenLabs clonada, voz pronta ou gravada), (4) ideia de personagem (foto/desenho) ou se eu proponho.
+
+**Passo a passo** (`$K = templates/palito/ferramentas`, pasta atual = pasta do vídeo):
+1. **Estudar:** `python3 $K/baixar.py <link> --pasta referencia` (`--cookies chrome` se pedir login; escreve numeros.md com
+   views/curtidas) → `transcrever.py referencia --saida transcricoes` (Whisper, palavra com tempo) → `camera.py
+   referencia/<v>.mp4 --saida camera` (por quadro: cortes, movimentos rápidos/min, % parado/lento/rápido, zoom in/out; ignora a
+   faixa da legenda) → `quadros.py <v> --por-segundo 6 --ate 15 --saida quadros` (folhas 10x5; 1/s = história, 6/s = ritmo,
+   30/s com `--de/--ate` nos cortes) → escrever `estudo.md` / `receita.md` (fórmula do roteiro, câmera, visual, como cada
+   peça entra — crescendo/voando/de repente, em quantos quadros, antes/na/depois da palavra —, textos na tela, som, LUFS).
+   Receita = o que se repete em TODOS os vídeos do perfil; o que aparece em um só é escolha daquele vídeo.
+2. **Roteiro:** uma frase da pessoa para cada frase da referência, mesma FUNÇÃO (não as mesmas palavras), cabendo no mesmo
+   tempo (3 s ≈ 8 palavras); tabela tempo | frase da referência | frase nova; nome de cada peça numa frase curta só dele
+   (ali a etiqueta aparece e a legenda fica amarela); pedido final próprio ("comenta uma palavra"). `roteiro.txt` = só o que é
+   falado, uma frase por linha. Ler em voz alta antes de aprovar.
+3. **Voz:** `voz.py roteiro.txt --voz <ID> [--custo]` (ElevenLabs com timestamps; não gera de novo se o roteiro não mudou)
+   ou gravada + `transcrever.py`. **Sem rede/sem chave:** `voz_offline.py roteiro.txt --saida voz` (espeak-ng, robótica,
+   tempos por sílaba dentro do trecho com voz) só para testar a sincronia; depois trocar e rodar o montar de novo.
+4. **Montar:** `montar.py --tempos voz/tempos.json --voz voz/voz.wav --cena cena [--local]` (copia o modelo uma vez, escreve
+   `cena/js/tempos.js` e `index.html`; `--local` troca o CDN por `js/three.module.js`+`three.core.js`+`gsap.min.js` do npm:
+   `npm i three@0.181.2 gsap@3.14.2`). Depois reescrever `cena/js/cena.js` com o mundo do vídeo:
+   - **tudo é função de `t`** (nada de `Math.random`/relógio/estado do quadro anterior; aleatório = `hash(i)`);
+   - **tudo entra numa palavra:** `Wd("palavra", n)` = segundo da n-ésima vez que ela é falada (sem acento/maiúscula);
+   - cortes em `inicioDaFrase − 0,07 s`; câmera por chaves `K(t, alvo, giro, inclinação, distância, lente)` por cenário;
+     alvo pode ser função de `t` (seguir o caminhão); curva = `0,88·expoOut((t−t0)/0,55) + 0,12·u` (sai rápido, freia em
+     ~14 quadros, depois desliza) + deriva lenta senoidal + encolher a distância 0,6 %/s → nunca parada;
+   - personagem = canvas 512x1024 redesenhado por quadro (respira, pisca a cada ~3 s, pose e emoção mudam na palavra) num
+     `PlaneGeometry` com pé em y=0, `MeshBasicMaterial` sem tone map, girando só em Y para a câmera + sombra de contato;
+   - mundo = `MeshToonMaterial` (gradiente de 3 degraus) + contorno por casco invertido (normal × 0,035, BackSide, quase
+     preto), céu em domo com degradê, névoa = cor do horizonte, sol com sombra seguindo o alvo da câmera;
+   - efeitos por tempo: prensa/impacto com tremida (troca de lado a cada quadro, some em 7), flash branco de 0,25 s, faíscas
+     e confete balísticos (posição = v·t − g·t²), bandeira de pano por vértices, peças com `pop()`/`voar()` do kit.js.
+5. **Conferir antes de renderizar:** fotos no meio de cada frase (`mapa.py --cena cena` com HyperFrames, ou
+   `node $K/render_playwright.mjs cena out/mapa --fotos 2.3,7.4,…`) e montar uma tira com ffmpeg `xstack`; olhar tudo.
+6. **Render:** `cd cena && npx --yes hyperframes@0.8.181 render . --output ../video-v1.mp4` (preview: `… preview`;
+   foto: `… snapshot cena --at 12.5 --no-end --describe false`). **Sem HyperFrames** (CDN/npx bloqueado, sem Chrome):
+   `node $K/render_playwright.mjs cena out/video-v1.mp4` — mesmo contrato (`hf-seek` → `quadro(t)`), Chromium do Playwright
+   + ffmpeg; ~0,3 s/quadro (27 s = 4 min).
+7. **Som:** whoosh curto em cada aproximação/corte, pop quando peça/etiqueta aparece, batida grave em impacto, música calma
+   e baixa sob a voz (no HyperFrames: `<audio data-start data-duration data-track-index data-volume>`; música 0,15).
+   Bibliotecas grátis: Biblioteca de áudio do YouTube, Pixabay; ou sintetizar (`projeto/palito-lula/som.py`, `templates/audio/`).
+   Final em −14 LUFS: `ffmpeg -i v.mp4 -c:v copy -af loudnorm=I=-14:TP=-1.5:LRA=7 v-final.mp4`.
+8. **Comparar e corrigir:** `lado_a_lado.py referencia.mp4 video-v1.mp4 --saida lado-a-lado-v1.mp4` + `quadros.py` dos dois
+   nos mesmos segundos; `conferir.py video-v1.mp4` (em branco, piscando sozinho, travado > 1 s, cortes); rodar também
+   `camera.py` no NOSSO vídeo e comparar os números com os da referência. Dizer o que está igual/diferente com o segundo;
+   a cada pedido ("na hora do X falta…"), voltar à referência naquele segundo, listar o que tem lá e refazer só aquilo.
+
+**O que conferir:** nada tampando o que importa (parede, coluna, cacto, grade do caminhão na frente das crianças); os
+personagens que a referência mostra numa cena também estão na nossa; ritmo dos cortes batendo segundo a segundo.
+**Quando dá errado:** tela preta → abrir o preview e ler o console; peça antes da hora → a palavra aparece antes no roteiro
+(`Wd("palavra", 1)`); câmera atravessa parede → afastar o alvo ou esconder a parede.
+
+**Lições do teste do Lula (v1, 27 s):**
+- Barba cheia cobrindo o rosto inteiro vira uma bola preta em boneco de cabelo escuro: barba só no terço de baixo
+  (elipse em 0,86·r) com bigode separado, olhos e bochechas de pele à mostra.
+- Grade alta da carroceria esconde crianças: duas ripas baixas e crianças com 1,3 m de cartão.
+- Objeto de cena entre a câmera e o personagem (poste, cacto na beira da estrada do lado da câmera): tirar do lado da câmera.
+- Prédio de colunas grandes engole o personagem: câmera a 4–6 m dele com o alvo na altura do peito.
+- Números do v1 pelo `camera.py`: 7 cortes, 58 movimentos rápidos/min (~12 quadros cada), um evento a cada 0,8 s.
+- Este modo também serve ao fluxo Remotion: `camera.py`, `quadros.py`, `conferir.py` e `lado_a_lado.py` medem e conferem
+  qualquer vídeo (referência ou nosso).

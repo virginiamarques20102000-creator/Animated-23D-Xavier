@@ -4,6 +4,7 @@
 Uso:
   python3 montar.py --tempos voz/tempos.json --voz voz/voz.wav --cena cena
   python3 montar.py --exemplo --cena cena-exemplo          (o exemplo do skill, sem voz, para testar)
+  python3 montar.py ... --local       (sem internet para o CDN: usa three e gsap do npm, copiados para cena/js/)
 
 Na primeira vez, copia o modelo do skill para a pasta `cena` (depois o Claude edita cena/js/cena.js
 com as peças e o cenário do seu vídeo; o montar.py nunca escreve por cima dele). A cada vez, escreve
@@ -57,6 +58,7 @@ def main():
     ap.add_argument("--voz")
     ap.add_argument("--cena", default="cena")
     ap.add_argument("--exemplo", action="store_true")
+    ap.add_argument("--local", action="store_true", help="three.js e gsap da pasta cena/js (npm), sem CDN")
     a = ap.parse_args()
     cena = Path(a.cena)
     if not (cena / "js" / "cena.js").exists():
@@ -76,6 +78,13 @@ def main():
         shutil.copy(a.voz, cena / "assets" / "voz.wav")
         audio = f'      <audio id="voz" src="assets/voz.wav" data-start="0" data-duration="{dur}" data-track-index="1" data-volume="1"></audio>'
     html = (SKILL / "modelo" / "index.template.html").read_text().replace("@@DURACAO@@", str(dur)).replace("@@AUDIO@@", audio)
+    if a.local:
+        html = html.replace("https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js", "js/gsap.min.js")
+        html = html.replace("https://cdn.jsdelivr.net/npm/three@0.181.2/build/three.module.js", "./js/three.module.js")
+        faltam = [f for f in ("three.module.js", "three.core.js", "gsap.min.js") if not (cena / "js" / f).exists()]
+        if faltam:
+            print("faltam em cena/js/: " + ", ".join(faltam) + "\n  npm i three@0.181.2 gsap@3.14.2 && cp node_modules/three/build/three.{module,core}.js "
+                  "node_modules/gsap/dist/gsap.min.js cena/js/")
     (cena / "index.html").write_text(html)
     (cena / "hyperframes.json").write_text(json.dumps({"$schema": "https://hyperframes.heygen.com/schema/hyperframes.json", "paths": {"assets": "assets"}}, indent=1))
     print(f"projeto pronto em {cena}/: {len(frases)} frases, {dur:.1f} s{'' if a.voz else ', sem voz'}")
