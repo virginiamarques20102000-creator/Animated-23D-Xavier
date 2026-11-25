@@ -138,6 +138,37 @@ câmera nunca parada mais de 0,5 s; um flash branco curto (0,25 s) só nos impac
 um `index.html` com `<div id="raiz">` e o script, e `node templates/palito/ferramentas/render_playwright.mjs <pasta> saida.mp4
 --largura 1920 --altura 1080 --pagina "index.html#depois"` (`#antes` = câmera original). ~0,43 s/quadro com o desfoque de movimento.
 
+## Física dos objetos — PADRÃO junto com a câmera dinâmica (aprendida no vídeo do Lula, aprovada pelo usuário)
+Pedido do usuário: "pega só a movimentação de câmera dinâmica e a física dos objetos e põe na skill dos vídeos de 10 min
+sobre as guerras" — bonecos, cenários e acabamento continuam os da skill. Matemática: `projeto/src/videos/fisica.ts`
+(sem motor); desenhos 2.5D: `projeto/src/videos/ww2/fx_palito.ts`. Demo aprovada (7 s): `projeto/src/videos/ww2/demo_fisica.ts`.
+Continuam valendo os do `ww2/fx.ts`: `bounce`, `spring`, `sparks` (solda contínua), `flutter`, `flag`, `fall`, `blast`.
+
+| Função | O que faz | Onde usar nos filmes de guerra |
+|---|---|---|
+| `pancada(T, tHit, {queda, amp, volta})` | cai ACELERANDO (u², chega exatamente em tHit), vibra amortecido (sin·exp), recolhe devagar | prensa de munição, martelo, porta de aço/escotilha, culatra do canhão, comporta, carimbo pesado |
+| `amassa(T, tHit, fica)` | o que foi prensado achata em 3 quadros com um quique | cartucho, lata, capacete sob a esteira, carro amassado |
+| `pop(T, t0, d)` | 0 → 1,12 → 1 em 0,3 s | data/legenda, carimbo, X vermelho, alfinete no mapa, medalha, ícone |
+| `sobe(T, t0, d)` | sai rápido e freia (ease out) | bandeira no mastro (+ mola pequena no topo), placa erguida, cortina, holofote ligando |
+| `faiscasImpacto(g, c, idade, x, y, z)` | estouro único: riscos alinhados à velocidade, gravidade real, clarão de 4 quadros | bala no metal, prensa, baioneta, estilhaço no tanque, ferradura |
+| `confeteEstouro(g, c, idade, x, y, z)` | lançado para cima, abre com arrasto, na velocidade terminal cai balançando e girando | Dia da Vitória, desfile, libertação de cidade, volta dos pracinhas (papel picado) |
+| `lancado(i, idade)` | a trajetória de cada pedaço (para outras partículas lançadas) | panfletos jogados de avião, cartas, chapéus jogados para o alto |
+| `flash(T, [hits])` + `flashTela` | branco 0,2–0,25 s, alfa 0,45–0,7 | só nos impactos grandes (não em todo tiro) |
+| `giroRoda(dist, raio)` / `suspensao(T, vel)` | roda pela distância (nunca pelo tempo), quique e balanço do veículo | caminhões, jipes, carroças, motos (os tanques já fazem isso) |
+| `tremida(lt, [[t, px]])` | troca de lado a cada quadro, some em 7 quadros | alternativa aos `kicks` nos impactos secos |
+
+**Receita de um impacto (tudo no MESMO quadro da palavra):** `pancada`/`amassa` no objeto + `faiscasImpacto` + `kicks: [[tHit, 10–14]]`
++ `soco(cam, [[tHit, 0.12–0.15]])` + `flash` 0,7 + reação do boneco 0–3 quadros depois (`shock` → `relief_open`, `crouch`
+que volta em exp) + som no mesmo instante (pancada grave + clangor metálico + chiado das faíscas).
+**Receita de comemoração:** `sobe` da bandeira (1,1 s) com mola pequena no topo, data com `pop`, multidão com `laugh`/`grin`,
+pulinhos (`y` = |sen|·0,18) e braço erguido (`armB` 1,6 ± 0,5), 1–2 `confeteEstouro` de lados diferentes com 0,7 s entre eles.
+**Cuidados vistos na demo:** `city(..., banner: true)` desenha faixas vermelhas com emblema — nunca em cena de vitória/libertação;
+a peça que bate precisa ENCOSTAR no que é prensado (curso calculado até o topo do objeto amassado); bandeira subindo não
+pode sair do quadro (curso ≤ altura visível, câmera com `shift` positivo para olhar para cima).
+**Render rápido de uma demo/trecho sem Remotion:** `npx esbuild projeto/src/videos/ww2/demo_fisica_entry.ts --bundle --format=esm
+--outfile=<pasta>/demo.js` + `index.html` com `<div id="raiz">` + `render_playwright.mjs <pasta> saida.mp4 --largura 1920 --altura 1080`
+(~0,55 s/quadro). Para economizar: fotos soltas (`--fotos`) antes, vídeo de 5–8 s, um render só.
+
 ## Animação dos personagens (estudo de referência — detalhes em references/estudo_animacao_shorts.md)
 - A imagem muda a cada 0,5–2 s. Cada palavra-chave tem uma imagem própria: plano geral → médio → close de reação, e insertos de objetos.
 - Corpo vivo o tempo todo: respiração, piscar a cada 2–4 s e cabeça mudando de ângulo. Poses assimétricas, com o peso numa perna.
@@ -208,6 +239,7 @@ um `index.html` com `<div id="raiz">` e o script, e `node templates/palito/ferra
 ## Vídeo longo a partir de áudio + roteiro ("O inferno das trincheiras", 10 min, aprovado pelo usuário)
 Código: `projeto/src/videos/trincheiras/` (composição `TrincheirasFilm`, 1920x1080). Som: `projeto/audio/trincheiras_mix.py`.
 Use este vídeo como modelo para qualquer documentário longo (história, guerras, biografias).
+- **Câmera e física:** em todo filme longo, usar a "Câmera dinâmica" (golpes nas palavras) e a "Física dos objetos" (seções acima).
 - **Pedido padrão do usuário:** "bem sincronizado" (se fala "assinando", mostra assinando; se fala "assassinado", mostra o
   atentado sem sangue) e "mais brilhoso, mais bonito". Ele manda o áudio primeiro e o roteiro depois; esperar os dois.
 - **Alinhamento sem transcrição (a rede bloqueia modelos de ASR/TTS):**
