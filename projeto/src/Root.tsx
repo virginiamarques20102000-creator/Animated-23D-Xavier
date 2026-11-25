@@ -7,6 +7,7 @@ import { LutadorShort, LUTADOR_FRAMES } from "./videos/lutador/Lutador";
 import { BatidaShort, BATIDA_FRAMES } from "./videos/batida/Batida";
 import { SepeShort, SEPE_FRAMES } from "./videos/sepe/Sepe";
 import { HitlerShort, HITLER_FRAMES } from "./videos/hitler/Hitler";
+import { ElserFilm, ELSER_FRAMES } from "./videos/elser/Elser";
 import { BridgeShort, BRIDGE_FRAMES } from "./videos/bridge/Bridge";
 import { TrincheirasFilm, TRINCHEIRAS_FRAMES } from "./videos/trincheiras/Trincheiras";
 import { TrincheirasCapa } from "./videos/trincheiras/Capa";
@@ -29,5 +30,6 @@ export const Root: React.FC = () => (
     <Composition id="Ww2Film3D" component={Ww2Film3D} durationInFrames={WW2_FRAMES} fps={30} width={1920} height={1080} />
     <Composition id="Ww2Test3D" component={Ww2Test3D} durationInFrames={TEST3D_FRAMES} fps={30} width={1920} height={1080} />
     <Composition id="HitlerShort" component={HitlerShort} durationInFrames={HITLER_FRAMES} fps={30} width={1920} height={1080} />
+    <Composition id="ElserFilm" component={ElserFilm} durationInFrames={ELSER_FRAMES} fps={30} width={1920} height={1080} />
   </>
 );

@@ -1,0 +1,109 @@
+0: Imagine@0.00 conseguir@0.70 mudar@1.20 o@1.55 destino@1.70 do@2.20 mundo@2.35 inteiro…@2.70 mas@3.90 falhar@4.10 por@4.40 apenas@4.70 treze@5.45 minutos.@5.75
+1: Em@7.22 1939,@7.30 um@8.90 homem@9.35 conseguiu@9.65 chegar@10.05 tão@10.35 perto@10.45 de@11.10 assassinar@11.25 Adolf@11.90 Hitler@12.20 que@12.70 uma@13.30 pequena@13.80 diferença@14.20 no@14.75 horário@14.90 foi@15.60 suficiente@15.75 para@16.30 separar@16.60 a@17.00 história@17.15 que@17.65 conhecemos@17.75 de@18.35 uma@18.45 realidade@19.10 completamente@19.65 diferente.@20.70
+2: E@22.10 o@22.20 mais@22.35 surpreendente@22.45 é@23.00 que@23.10 ele@23.55 não@23.80 era@23.95 um@24.20 militar,@24.30 não@24.75 fazia@25.25 parte@25.50 de@25.80 uma@25.95 organização@26.20 secreta@26.85 e@27.35 não@27.75 tinha@27.90 um@28.20 exército@28.35 ao@28.85 seu@29.05 lado.@29.15
+3: Era@30.10 apenas@30.45 um@30.95 carpinteiro.@31.15
+4: Seu@32.55 nome@32.75 era@33.30 Georg@33.70 Elser.@34.05
+5: E@34.98 ele@35.10 estava@35.40 prestes@36.00 a@36.30 realizar@36.45 um@37.00 dos@37.15 atentados@37.30 mais@37.95 impressionantes@38.10 contra@38.95 Hitler@39.30 durante@39.65 a@40.15 Segunda@40.30 Guerra@40.80 Mundial.@41.10
+6: Mas,@42.17 antes@42.30 de@42.60 entender@42.85 como@43.35 tudo@43.65 aconteceu,@44.00 precisamos@44.80 voltar@45.85 ao@46.20 momento@46.35 em@46.85 que@47.00 ele@47.15 decidiu@47.45 que@48.00 Adolf@48.15 Hitler@48.55 precisava@49.10 morrer.@49.70
+7: Em@50.96 1938,@51.05 a@53.00 Alemanha@53.15 estava@53.75 cada@54.25 vez@54.55 mais@54.70 dominada@54.85 pelo@55.40 regime@55.75 nazista.@56.20
+8: Hitler@57.33 acumulava@57.60 poder,@58.40 perseguia@59.00 seus@59.50 adversários@59.65 e@60.25 expandia@60.40 o@61.15 território@61.30 alemão.@62.00
+9: Para@63.17 muitos,@63.40 ele@63.65 era@64.10 um@64.35 líder@64.50 admirado.@64.75
+10: Para@65.88 outros,@66.15 representava@66.50 uma@67.50 ameaça@67.80 que@68.25 poderia@68.50 levar@68.95 toda@69.50 a@69.80 Europa@69.95 à@70.50 destruição.@70.65
+11: Georg@71.92 Elser@72.00 estava@72.30 entre@72.80 aqueles@73.25 que@73.80 enxergavam@73.95 o@74.60 perigo.@74.75
+12: Nascido@75.96 em@76.35 1903,@76.45 ele@77.45 era@78.00 um@78.25 trabalhador@78.40 habilidoso,@78.90 especializado@79.80 em@80.60 marcenaria.@80.75
+13: Levava@81.90 uma@82.25 vida@82.55 simples@82.80 e@83.10 não@83.35 ocupava@83.45 nenhuma@84.00 posição@84.35 importante@84.80 na@85.45 sociedade@85.55 alemã.@86.10
+14: Mas@87.14 acompanhava@87.20 os@87.90 acontecimentos@88.05 políticos@88.95 e@89.75 acreditava@89.90 que@90.65 Hitler@90.75 estava@91.25 conduzindo@91.70 o@92.25 país@92.40 para@92.60 uma@92.85 guerra@93.15 devastadora.@93.45
+15: Elser@94.83 chegou@95.10 a@95.40 uma@95.55 conclusão@95.85 radical:@96.35 se@96.85 Hitler@97.00 e@97.90 os@98.05 principais@98.30 líderes@98.85 nazistas@99.40 fossem@99.85 eliminados,@100.15 talvez@101.00 fosse@101.70 possível@102.00 impedir@102.45 que@103.00 aquela@103.15 tragédia@103.80 continuasse.@104.25
+16: E@105.55 foi@105.70 então@105.85 que@106.20 tomou@106.50 uma@106.80 decisão@107.10 que@107.55 mudaria@107.70 sua@108.15 vida@108.30 para@108.80 sempre.@109.05
+17: Ele@110.15 tentaria@110.50 matar@111.00 Hitler@111.40 sozinho.@111.85
+18: Mas@113.24 como@113.35 um@113.70 simples@113.85 carpinteiro@114.25 conseguiria@114.95 chegar@115.60 perto@115.95 de@116.45 um@116.60 dos@116.75 homens@116.90 mais@117.25 protegidos@117.40 do@118.10 planeta?@118.25
+19: A@119.44 resposta@119.55 estava@120.05 em@120.70 um@120.85 evento@121.00 que@121.40 acontecia@121.55 todos@122.35 os@122.65 anos.@122.80
+20: No@123.84 dia@123.90 8@124.05 de@124.35 novembro,@124.50 Hitler@124.95 costumava@125.55 participar@126.25 de@126.90 uma@127.05 cerimônia@127.35 no@127.90 Bürgerbräukeller,@128.05 uma@128.80 cervejaria@129.15 localizada@130.05 em@130.80 Munique.@130.95
+21: O@132.10 encontro@132.20 celebrava@132.65 o@133.20 aniversário@133.35 da@134.05 tentativa@134.25 de@134.85 golpe@135.00 realizada@135.35 pelos@135.95 nazistas@136.25 em@136.70 1923.@136.85
+22: Era@138.91 uma@139.10 tradição.@139.30
+23: Hitler@140.19 fazia@140.50 um@140.85 discurso@141.00 diante@141.50 de@141.80 integrantes@141.95 importantes@142.55 do@143.30 partido@143.45 e,@143.95 geralmente,@144.40 permanecia@145.10 bastante@145.70 tempo@146.20 no@146.55 local.@146.70
+24: Elser@147.70 percebeu@147.95 que@148.45 aquela@148.60 rotina@149.10 poderia@149.55 representar@150.05 uma@150.65 oportunidade@150.95 única.@151.90
+25: Se@152.93 Hitler@153.05 aparecia@153.40 todos@154.20 os@154.50 anos@154.65 no@155.00 mesmo@155.15 lugar,@155.45 seria@155.75 possível@156.35 preparar@156.85 um@157.40 atentado@157.55 sem@158.20 precisar@158.35 se@158.80 aproximar@159.00 diretamente@159.60 dele.@160.40
+26: Mas@161.38 o@161.50 plano@161.75 exigia@162.25 paciência.@162.85
+27: Durante@163.78 1939,@164.20 Elser@166.35 trabalhou@166.75 para@167.20 conseguir@167.50 explosivos@168.00 e@168.65 desenvolveu@168.85 um@169.50 mecanismo@169.65 de@170.30 temporização.@170.55
+28: Sua@172.09 experiência@172.25 com@172.90 ferramentas@173.15 e@173.75 mecanismos@173.90 seria@174.55 fundamental@175.00 para@175.75 preparar@176.10 tudo.@176.55
+29: Em@177.95 agosto,@178.05 mudou-se@178.50 para@179.05 Munique@179.35 e@179.85 começou@180.15 a@180.55 frequentar@180.75 a@181.20 cervejaria.@181.35
+30: Durante@182.59 o@183.00 dia,@183.15 observava@183.30 o@184.05 ambiente.@184.20
+31: À@185.37 noite,@185.45 quando@185.80 o@186.35 estabelecimento@186.45 fechava,@187.55 escondia-se@188.25 no@188.85 local@188.95 e@189.30 trabalhava@189.45 discretamente@190.00 em@190.75 uma@190.90 coluna@191.15 de@191.65 madeira@191.80 e@192.25 alvenaria@192.40 localizada@192.95 atrás@194.05 do@194.35 púlpito@194.55 onde@195.10 Hitler@195.35 costumava@195.80 discursar.@196.35
+32: Foram@197.58 mais@197.90 de@198.10 trinta@198.40 noites@198.75 de@199.05 trabalho.@199.25
+33: Imagine@200.52 o@200.95 risco@201.10 que@201.30 aquele@201.45 homem@201.80 estava@202.05 correndo.@202.40
+34: Qualquer@203.45 funcionário@203.80 poderia@204.45 encontrá-lo.@204.85
+35: Qualquer@206.01 barulho@206.40 poderia@206.90 despertar@207.40 suspeitas.@208.00
+36: E,@209.21 se@209.35 fosse@209.65 descoberto,@210.05 estaria@211.15 nas@211.65 mãos@211.80 de@211.95 um@212.10 regime@212.25 que@212.85 não@213.00 demonstrava@213.15 piedade@213.80 com@214.35 seus@214.50 inimigos.@214.70
+37: Mesmo@216.23 assim,@216.55 continuou.@216.90
+38: Pouco@218.36 a@218.65 pouco,@218.85 preparou@219.30 um@219.70 espaço@219.85 dentro@220.25 da@220.50 coluna@220.65 para@221.10 esconder@221.35 o@221.75 explosivo.@221.90
+39: Também@223.25 instalou@223.55 um@224.00 mecanismo@224.15 de@224.75 relógio@224.90 que@225.40 permitiria@225.55 programar@226.20 a@226.65 detonação@226.80 com@227.40 antecedência.@227.55
+40: Seu@229.06 objetivo@229.20 era@229.80 fazer@230.30 a@230.60 bomba@230.70 explodir@231.10 durante@231.55 o@232.00 discurso,@232.15 exatamente@233.00 quando@233.85 Hitler@234.15 estivesse@234.50 diante@235.10 dela.@235.40
+41: No@236.42 início@236.50 de@236.95 novembro,@237.10 o@237.70 plano@237.90 estava@238.20 praticamente@238.70 concluído.@239.40
+42: Agora,@240.59 tudo@240.95 dependia@241.60 de@242.10 uma@242.25 única@242.55 noite.@243.00
+43: O@244.18 dia@244.30 8@244.45 de@244.80 novembro@244.95 de@245.45 1939@245.60 chegou.@247.50
+44: Naquela@248.58 noite,@249.05 o@249.65 Bürgerbräukeller@249.85 estava@250.85 cheio.@251.40
+45: Integrantes@252.26 do@252.80 Partido@253.00 Nazista@253.45 se@253.90 reuniram@254.05 para@254.50 acompanhar@254.80 o@255.40 tradicional@255.60 discurso@256.20 de@256.70 Hitler.@256.85
+46: O@257.95 líder@258.05 alemão@258.35 chegou@258.75 e@259.05 começou@259.35 a@259.75 falar.@259.95
+47: Tudo@260.94 parecia@261.15 acontecer@261.60 conforme@262.20 o@262.85 planejamento@262.95 de@263.65 Elser.@263.80
+48: A@264.75 bomba@264.85 estava@265.10 escondida.@265.45
+49: O@266.50 mecanismo@266.60 estava@267.10 funcionando.@267.50
+50: E@268.56 Hitler@268.65 estava@269.00 exatamente@269.55 no@270.30 local@270.45 que@270.80 o@270.95 atentado@271.10 pretendia@271.65 atingir.@272.20
+51: Mas@273.43 havia@273.55 um@273.85 detalhe@274.00 que@274.70 Elser@274.85 não@275.15 poderia@275.35 prever.@275.85
+52: Naquela@277.00 noite,@277.40 Hitler@277.70 tinha@278.50 pressa.@278.90
+53: Por@279.88 causa@280.00 da@280.30 situação@280.45 militar@280.90 e@281.40 dos@281.60 compromissos@281.75 em@282.35 Berlim,@282.50 seu@282.80 discurso@283.30 foi@283.80 mais@284.00 curto@284.15 do@284.45 que@284.65 o@284.90 habitual.@285.05
+54: Normalmente,@286.17 ele@286.75 permanecia@287.10 muito@287.75 mais@288.05 tempo@288.20 na@288.55 cervejaria.@288.70
+55: Mas,@289.95 naquela@290.05 ocasião,@290.55 decidiu@291.00 encerrar@291.70 a@292.10 cerimônia@292.25 antes@292.85 do@293.25 esperado.@293.40
+56: Por@294.78 volta@294.90 das@295.25 21h07,@295.40 Hitler@297.80 deixou@298.10 o@298.40 salão@298.55 acompanhado@298.85 de@299.65 outros@299.80 líderes@300.15 nazistas.@300.60
+57: E@301.71 então@301.80 aconteceu@302.15 algo@302.95 que@303.20 entraria@303.35 para@303.85 a@304.10 história.@304.30
+58: Às@305.55 21h20,@305.65 apenas@308.15 treze@308.65 minutos@308.95 depois@309.50 da@309.85 saída@310.00 de@310.30 Hitler,@310.45 a@311.15 bomba@311.30 explodiu.@311.60
+59: A@312.90 força@313.10 da@313.45 detonação@313.65 destruiu@314.35 parte@314.70 do@315.15 salão.@315.30
+60: O@316.28 teto@316.50 desabou,@316.80 estruturas@317.60 foram@318.35 destruídas@318.65 e@319.15 pessoas@319.55 foram@319.90 atingidas@320.25 pelos@320.90 destroços.@321.30
+61: Oito@322.52 pessoas@322.90 morreram@323.25 e@323.75 dezenas@324.05 ficaram@324.55 feridas.@325.05
+62: O@326.27 atentado@326.35 havia@326.90 acontecido.@327.25
+63: A@328.67 bomba@328.75 funcionou@329.05 exatamente@329.55 como@330.40 planejado.@330.75
+64: Mas@331.87 Hitler@332.00 não@332.40 estava@332.60 mais@333.20 ali.@333.40
+65: Ele@334.47 havia@334.70 escapado@334.95 por@335.60 apenas@335.70 treze@336.25 minutos.@336.55
+66: Pense@337.88 nisso:@338.20 meses@339.05 de@339.35 preparação,@339.50 dezenas@340.15 de@340.85 noites@341.00 escondido,@341.30 um@341.95 mecanismo@342.10 cuidadosamente@343.15 construído@344.15 e@344.65 uma@344.80 oportunidade@345.15 praticamente@346.50 perfeita.@347.45
+67: Tudo@349.08 terminou@349.35 porque@349.80 Hitler@350.35 decidiu@350.75 sair@351.25 mais@351.40 cedo.@351.55
+68: Mas@352.97 a@353.10 história@353.25 ainda@353.75 tinha@354.10 outra@354.45 reviravolta.@354.80
+69: Enquanto@356.46 a@356.90 explosão@357.10 acontecia@357.55 em@358.15 Munique,@358.35 Georg@359.15 Elser@359.30 já@359.60 estava@359.75 sendo@360.20 interrogado@360.50 em@361.25 outro@361.40 lugar.@361.70
+70: Naquela@362.82 mesma@363.15 noite,@363.40 ele@363.65 havia@364.25 tentado@364.50 atravessar@364.85 a@365.40 fronteira@365.55 para@366.05 a@366.30 Suíça.@366.40
+71: Por@367.33 volta@367.45 das@367.75 20h45,@367.90 antes@370.30 mesmo@370.60 da@370.95 explosão,@371.10 foi@371.60 detido@371.75 por@372.55 agentes@372.70 da@373.20 alfândega@373.35 em@374.05 Constança.@374.20
+72: A@375.35 princípio,@375.45 sua@375.95 prisão@376.10 não@376.40 parecia@376.55 relacionada@376.95 ao@377.70 atentado.@377.85
+73: Mas@379.20 os@379.35 agentes@379.50 encontraram@379.95 objetos@380.60 suspeitos@381.05 em@381.60 seus@381.75 pertences,@381.90 incluindo@382.50 peças@383.25 relacionadas@383.60 a@384.40 mecanismos@384.55 de@385.20 explosivos@385.35 e@386.00 uma@386.40 imagem@386.70 do@387.20 Bürgerbräukeller.@387.35
+74: Quando@389.06 a@389.30 notícia@389.45 da@389.90 explosão@390.00 chegou,@390.45 as@390.95 suspeitas@391.10 aumentaram.@391.55
+75: Elser@392.83 acabou@393.05 sendo@393.50 identificado@393.75 como@394.70 o@394.95 responsável.@395.10
+76: A@396.56 Gestapo,@396.65 a@397.20 polícia@397.60 secreta@398.00 nazista,@398.45 iniciou@399.25 uma@399.65 investigação@399.95 brutal.@400.65
+77: Os@401.81 líderes@401.95 do@402.40 regime@402.55 não@403.00 queriam@403.15 acreditar@403.45 que@404.10 um@404.35 homem@404.50 comum@404.85 tivesse@405.10 conseguido@405.60 planejar@406.20 sozinho@406.65 uma@407.10 operação@407.60 daquela@408.20 dimensão.@408.75
+78: A@409.88 primeira@409.95 suspeita@410.35 era@410.85 de@411.20 que@411.30 existisse@411.45 uma@412.00 organização@412.25 poderosa@413.00 por@413.55 trás@413.75 dele,@413.90 talvez@414.65 até@414.95 agentes@415.25 britânicos@415.65 envolvidos.@416.30
+79: Mas@417.71 a@417.85 verdade@418.00 era@418.65 muito@419.00 mais@419.35 impressionante.@419.50
+80: Georg@421.08 Elser@421.20 havia@421.60 planejado@421.95 e@422.80 executado@423.00 o@424.05 atentado@424.20 sozinho.@425.00
+81: Ele@426.22 não@426.45 tinha@426.60 um@426.85 exército,@427.00 não@427.80 recebia@427.95 ordens@428.35 de@428.60 uma@428.75 potência@429.00 estrangeira@429.55 e@430.05 não@430.50 fazia@430.65 parte@430.90 de@431.20 uma@431.40 conspiração@431.65 internacional.@432.25
+82: Era@433.54 um@433.80 homem@433.95 que@434.25 havia@434.40 decidido@434.70 tentar@435.45 impedir@435.80 a@436.30 guerra@436.50 eliminando@437.00 os@437.80 principais@438.05 líderes@438.55 nazistas.@439.00
+83: Durante@440.20 os@440.60 interrogatórios,@440.75 sofreu@441.75 violência@442.10 e@442.55 foi@442.80 pressionado@442.95 a@443.65 revelar@443.80 supostos@444.25 cúmplices.@444.80
+84: Mas@446.12 as@446.25 investigações@446.40 históricas@447.20 posteriores@448.00 confirmaram@448.65 sua@449.30 atuação@449.45 independente.@449.90
+85: E@451.51 enquanto@451.65 o@452.15 mundo@452.30 mergulhava@452.65 cada@453.30 vez@453.60 mais@453.80 profundamente@454.00 na@454.95 Segunda@455.10 Guerra@455.60 Mundial,@455.90 Elser@456.75 permanecia@457.10 preso.@457.85
+86: A@459.11 Alemanha@459.25 invadiu@459.90 outros@460.35 países,@460.75 milhões@461.05 de@461.70 pessoas@461.85 morreram@462.15 e@462.65 o@462.80 regime@463.00 nazista@463.70 continuou@464.20 espalhando@464.75 destruição@465.45 pela@465.95 Europa.@466.30
+87: O@467.59 homem@467.65 que@467.95 havia@468.10 tentado@468.40 impedir@468.85 aquela@469.30 catástrofe@469.85 não@470.75 conseguiu@470.90 sequer@471.35 acompanhar@471.70 o@472.35 fim@472.60 da@472.75 guerra@472.85 em@473.15 liberdade.@473.30
+88: Durante@474.66 anos,@475.15 permaneceu@475.50 sob@476.20 custódia@476.40 nazista.@476.95
+89: Até@478.22 que,@478.55 em@478.70 abril@478.95 de@479.25 1945,@479.35 quando@481.00 o@481.70 regime@481.85 de@482.25 Hitler@482.40 estava@482.70 praticamente@483.10 derrotado,@483.95 chegou@484.55 o@485.20 último@485.35 capítulo@485.75 de@486.40 sua@486.55 história.@486.65
+90: No@487.88 dia@488.00 9@488.15 de@488.45 abril@488.65 de@488.95 1945,@489.10 Georg@491.50 Elser@491.70 foi@492.05 assassinado@492.35 no@493.15 campo@493.35 de@493.70 concentração@493.85 de@494.50 Dachau.@494.65
+91: Faltavam@495.38 poucas@495.80 semanas@496.15 para@496.60 o@496.95 fim@497.10 da@497.30 guerra@497.45 na@497.75 Europa.@497.90
+92: Ele@499.19 morreu@499.45 sem@499.80 ver@499.95 a@500.15 derrota@500.30 do@500.80 regime@501.00 que@501.50 havia@501.65 tentado@502.05 destruir.@502.55
+93: Sem@503.61 saber@503.75 que@504.05 Hitler@504.25 também@504.60 estava@505.00 próximo@505.45 do@506.05 fim.@506.20
+94: E@507.25 sem@507.35 receber,@507.50 durante@507.95 sua@508.50 vida,@508.65 o@508.95 reconhecimento@509.50 que@510.40 sua@510.55 história@510.70 merecia.@511.20
+95: Hoje,@512.75 Georg@513.05 Elser@513.40 é@513.75 lembrado@513.90 como@514.40 um@514.75 dos@514.95 grandes@515.10 nomes@515.45 da@515.80 resistência@515.95 alemã@516.65 contra@517.15 o@517.55 nazismo.@517.70
+96: E@518.98 existe@519.05 uma@519.50 pergunta@519.80 que@520.20 continua@520.35 intrigando@520.80 historiadores:@521.35
+97: O@522.74 que@522.80 teria@522.95 acontecido@523.25 se@523.95 Hitler@524.10 tivesse@524.35 morrido@524.80 naquela@525.20 noite@525.65 de@525.90 novembro@526.05 de@526.50 1939?@526.60
+98: A@528.94 Segunda@529.00 Guerra@529.35 Mundial@529.60 teria@529.85 sido@530.15 evitada?@530.40
+99: O@531.48 regime@531.55 nazista@532.00 teria@532.55 sobrevivido@532.85 sem@533.65 seu@533.80 principal@533.95 líder?@534.45
+100: Milhões@535.36 de@535.70 pessoas@535.85 poderiam@536.20 ter@536.80 sido@536.95 poupadas?@537.35
+101: Não@538.66 existe@538.75 uma@539.10 resposta@539.35 definitiva.@539.80
+102: Mas@541.06 existe@541.20 algo@541.65 que@542.00 jamais@542.15 poderá@542.45 ser@543.00 ignorado.@543.15
+103: Um@544.49 simples@544.60 carpinteiro@544.90 conseguiu@545.70 chegar@546.40 a@546.70 poucos@546.85 minutos@547.30 de@547.75 eliminar@548.00 Adolf@548.60 Hitler.@549.05
+104: Ele@550.30 não@550.55 tinha@550.65 poder@550.95 político,@551.25 não@552.15 comandava@552.25 soldados@552.80 e@553.20 não@553.60 possuía@553.70 uma@554.00 estrutura@554.25 militar.@554.90
+105: Tinha@555.93 apenas@556.30 uma@556.80 convicção:@557.10 precisava@558.10 fazer@558.75 alguma@559.10 coisa@559.55 antes@560.00 que@560.30 fosse@560.45 tarde@560.90 demais.@561.20
+106: E,@562.21 naquela@562.30 noite,@562.70 treze@563.40 minutos@563.65 fizeram@564.10 toda@564.55 a@564.95 diferença.@565.10
+107: O@566.36 nome@566.50 dele@566.85 era@567.40 Georg@567.70 Elser.@568.10
+108: O@568.98 homem@569.10 que@569.40 quase@569.65 matou@570.10 Hitler.@570.50
