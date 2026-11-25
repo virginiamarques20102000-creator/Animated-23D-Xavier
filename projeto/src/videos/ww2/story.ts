@@ -17,7 +17,7 @@ const place = (s: Shot) => { let L = LOCS.get(s); if (!L) { L = s.L(); LOCS.set(
 
 const shake = (sh: Shot, t: number): [number, number] => { let x = 0, y = 0; for (const [k, a] of sh.kicks ?? []) { const age = t - k; if (age < 0 || age > 0.8) continue; const e = a * Math.exp(-age * 6.5); x += e * Math.sin(age * 55 + k); y += e * Math.cos(age * 47 + k * 2); } return [x, y]; };
 let BUF: HTMLCanvasElement | null = null;
-const drawShot = (g: Ctx, sh: Shot, t: number) => {
+export const drawShot = (g: Ctx, sh: Shot, t: number) => {
   const lt = t - sh.t0, u = clamp(lt / (sh.t1! - sh.t0)), c0 = sh.cam(u, lt), L = place(sh);
   // living camera: continuous slow push-in + organic drift (never a frozen frame), scaled to the shot's distance
   const ph = sh.t0 * 1.7, amp = L.interior ? 0.05 : 0.14;

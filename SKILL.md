@@ -97,6 +97,47 @@ Regras padrão (o usuário pode mudar):
 - Quando a narração diz uma ação (ex.: "cercaram"), mostre a ação de fato (policiais vindo de todos os lados e fechando o círculo).
 - Usuário usa só celular e pede economia: poucas prévias (folha de quadros soltos), um render final em blocos retomáveis (`projeto/scripts/render_chunks.sh` + `finalize.sh`), reaproveitar blocos que não mudaram, mensagens curtas.
 
+## Câmera dinâmica — PADRÃO em todo vídeo de história (aprovada pelo usuário)
+Pedido do usuário: "pega só o dinamismo e a movimentação de câmera do estilo palito" — os bonecos (toon.ts), os cenários
+(paint.ts/places.ts), a luz e o acabamento continuam os da skill. Código: `projeto/src/videos/dinamica.ts` (não depende
+de nenhum motor). Demonstração aprovada: `projeto/src/videos/ww2/demo_dinamica.ts` (os 13,5 s iniciais da WW2, antes x depois).
+
+**A ideia:** a câmera não desliza num ritmo só do começo ao fim do plano (`mv` com smoothstep). Ela dá um **golpe na
+palavra-chave**: sai rápido, faz ~88 % do caminho em ~0,55 s (14–16 quadros, curva expo out) e desliza devagar o resto
+até a próxima palavra. Cada palavra que importa ganha um golpe; entre eles a câmera nunca para (o `drawShot` do story.ts
+ainda soma a deriva orgânica e o push-in de 5 %).
+
+**Como escrever um plano (2.5D: trincheiras, ww2, hitler):**
+```ts
+import { din, dinT, soco } from "../dinamica";
+// tempos absolutos das palavras (tempos_palavras.txt); destino = [x, y, z, fov, shift] como no mv
+cam: soco(dinT(7.1, [-9, 1.4, -9, 46], [
+  [7.20, (lt) => [-9 + lt * 3.0, 1.2, -5.5, 42]],   // "soldados": entra e corre junto (alvo função do tempo do plano)
+  [8.25, (lt) => [-8 + lt * 3.2, 1.1, -4.3, 38]],   // "batalhas": golpe baixo e fechado
+  [9.10, [3, 2.6, -10, 46, -25]],                  // "gigantescas": abre e revela
+]), [[1.15, 0.1]]),                                // soco de lente 10 % no impacto (segundo dentro do plano)
+```
+- `din(inicio, chaves)` com segundos DENTRO do plano; `dinT(t0, inicio, chaves)` com os tempos do filme (já tira 0,05 s:
+  o golpe começa um pouco antes da palavra). `hand(...)` e `kicks` continuam valendo por cima.
+- three.js (Pisa, ww2/three): `din3(inicio, chaves)(t)` devolve `{pos, look, fov, roll}` para vetores `[px,py,pz, lx,ly,lz, fov, roll]`.
+- `tremida(lt, [[t, px]])`: a tremida do palito (troca de lado a cada quadro, some em 7 quadros), alternativa aos `kicks`.
+
+**O vocabulário de golpes (escolher pelo que a frase diz):**
+- **abertura de drone:** 1º plano começa alto e longe (`y` 5–7, `z` −15, `shift` −100) e desce no 1º substantivo;
+- **aproximação no assunto:** `z` +3 a +4 m e `fov` −4 a −6 na palavra que nomeia a pessoa/objeto;
+- **travelling de lado:** destino função do tempo (`x0 + lt × velocidade de quem anda`), a câmera corre junto;
+- **revelar:** na palavra de escala ("gigantescas", "milhões", "inteiros") recua 4–6 m, sobe, `shift` negativo;
+- **golpe baixo:** `y` ~1,1 e `fov` 38 na ação ("batalhas", "atacou") + `soco` de 8–15 % + `kicks`;
+- **respiro:** a última palavra da frase volta um pouco (`z` −1, `fov` +3) antes do corte.
+
+**Ritmo (régua medida):** um golpe a cada ~0,8–1,5 s (3–4 por plano de 3–4 s); corte no começo da frase − 0,07 s;
+câmera nunca parada mais de 0,5 s; um flash branco curto (0,25 s) só nos impactos grandes.
+**Conferir:** fotos no meio de cada golpe (nada de câmera dentro de parede/boneco, ninguém cortado na borda), e
+`python3 templates/palito/ferramentas/camera.py video.mp4` para medir movimentos rápidos/min e % parado.
+**Render da demo sem Remotion:** `npx esbuild projeto/src/videos/ww2/demo_entry.ts --bundle --format=esm --outfile=<pasta>/demo.js`,
+um `index.html` com `<div id="raiz">` e o script, e `node templates/palito/ferramentas/render_playwright.mjs <pasta> saida.mp4
+--largura 1920 --altura 1080 --pagina "index.html#depois"` (`#antes` = câmera original). ~0,43 s/quadro com o desfoque de movimento.
+
 ## Animação dos personagens (estudo de referência — detalhes em references/estudo_animacao_shorts.md)
 - A imagem muda a cada 0,5–2 s. Cada palavra-chave tem uma imagem própria: plano geral → médio → close de reação, e insertos de objetos.
 - Corpo vivo o tempo todo: respiração, piscar a cada 2–4 s e cabeça mudando de ângulo. Poses assimétricas, com o peso numa perna.
@@ -310,8 +351,9 @@ story.ts, no layout do build.ts/world.ts e nos papéis do cast.ts.
 - **Bonecos:** cabeça h/w .94, contorno ameixa #241726, olhos .26 W de distância, sem blush, 14 expressões; adultos com
   3,5 cabeças de altura; balanço da caminhada 5 %, inclinação 1-7°, passo de 0,8 m; piscadas a cada 0,5-2,3 s; sombra de
   contato ~.5 sob os pés.
-- **Câmera:** corta nos saltos grandes, desliza 18-40 quadros (smootherstep), toda espera avança devagar (nenhuma parada
-  ≥ 4 quadros), tremida que troca de lado a cada quadro e some em 7 quadros nos impactos, rolagens de 4-4,6°.
+- **Câmera:** golpes nas palavras com `din`/`dinT`/`din3` (ver "Câmera dinâmica"; substitui o deslize de 18-40 quadros em
+  smootherstep), toda espera avança devagar (nenhuma parada ≥ 4 quadros), tremida que troca de lado a cada quadro e some em
+  7 quadros nos impactos, rolagens de 4-4,6°.
 
 ## Metas medidas na referência (detalhes em references/reports/)
 - **Contorno:** ~3 px a 1080 de largura, quase preto #0b0a0c, quase constante com a distância. Só silhuetas, saltos de
@@ -363,7 +405,8 @@ Pedido do usuário: "animação fluida e verdadeira, nada estático", rodas de t
 - **Som**: cada estouro/tiro/baque sorteia parâmetros (frequência, decaimento, estalo, cauda de destroços, eco) e cada som entra no estéreo com pan próprio; acrescente apito de chegada antes do impacto, chuva de destroços depois, ricochetes e rangido de esteira.
 
 ## Modo estilo palito (HyperFrames + Three.js) — copiar a fórmula de um short de referência
-Vem da skill "estilo-palito" (estudada por inteiro). Kit: `templates/palito/` (ferramentas, modelo, exemplo, LEIA-ME),
+Vem da skill "estilo-palito" (estudada por inteiro). **Nos vídeos de história do usuário, usar só a câmera/dinamismo
+(seção "Câmera dinâmica") com os bonecos da skill; o boneco palito deste modo só quando ele pedir o estilo palito inteiro.** Kit: `templates/palito/` (ferramentas, modelo, exemplo, LEIA-ME),
 guias: `references/palito/` (estilo-palito, receita, roteiro, voz, render, som + o SKILL original). Teste aprovado:
 `projeto/palito-lula/` (Lula em 27 s). Use quando a pessoa manda o link de um short e diz "faz igual a esse".
 

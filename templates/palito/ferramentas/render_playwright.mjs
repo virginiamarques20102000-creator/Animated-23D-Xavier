@@ -5,6 +5,7 @@
 // Uso:
 //   node render_playwright.mjs cena video.mp4 [--fps 30] [--de 0] [--ate 27] [--audio cena/assets/voz.wav] [--escala 1]
 //   node render_playwright.mjs cena fotos/ --fotos 2.0,5.5,9.1          (só imagens soltas, PNG)
+//   --largura 1920 --altura 1080 (16:9)   --pagina "index.html#antes" (outra página/variante da mesma pasta)
 //
 // Precisa: playwright (require('playwright') já resolve no ambiente da nuvem) e ffmpeg.
 import { createServer } from "node:http";
@@ -35,11 +36,11 @@ const srv = createServer(async (req, res) => {
 const porta = srv.address().port;
 
 const nav = await chromium.launch({ args: ["--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--ignore-gpu-blocklist"] });
-const pag = await nav.newPage({ viewport: { width: 1080, height: 1920 }, deviceScaleFactor: escala });
+const pag = await nav.newPage({ viewport: { width: +opt("largura", 1080), height: +opt("altura", 1920) }, deviceScaleFactor: escala });
 const erros = [];
 pag.on("pageerror", (e) => erros.push(String(e)));
 pag.on("console", (m) => { if (m.type() === "error") erros.push(m.text()); });
-await pag.goto(`http://127.0.0.1:${porta}/index.html`);
+await pag.goto(`http://127.0.0.1:${porta}/${opt("pagina", "index.html")}`);
 await pag.waitForFunction(() => window.__hf && window.__hf.buildReady && window.__hf.buildReady.cena, null, { timeout: 30000 });
 await pag.evaluate(() => window.__hf.buildReady.cena);
 if (erros.length) { console.error("erros na página:\n" + erros.join("\n")); }
