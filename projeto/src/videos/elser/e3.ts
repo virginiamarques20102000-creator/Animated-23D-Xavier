@@ -9,14 +9,14 @@ import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
 import type { Cam } from "../ww2/engine";
 import { VW, VH, focal, spriteCanvas } from "../ww2/engine";
 import { SPR } from "../ww2/paint";
-import type { Outfit } from "../ww2/toon";
-import { drawPerson, Pose, Extra } from "./rig";
+import { Pen, bodyFront, bodySide, FrontOpts, SideOpts } from "../ww2/toon";
+import type { Act } from "../ww2/engine";
 import { World, WState, LIGHTS, moodOf, buildHall, buildStreet, buildPlaza, buildRoom, buildOutdoor, prop3, at, RoomP } from "./e3world";
 import { radial } from "./e3tex";
 import type { Loc } from "../ww2/paint";
 
 export const E3 = { on: false, enabled: true, state: { mood: "day" } as WState };
-export type ActorRec = { o: Outfit; id: number; x: number; z: number; pose: Pose; ex: Extra };
+export type ActorRec = Act;
 export type PropRec = { k: string; x: number; y: number; z: number; o: { flip?: boolean; rot?: number; alpha?: number; sc?: number } };
 export type S3Spec = { t: "hall"; dark?: number; banner?: boolean; ruin?: boolean } | { t: "street"; night?: boolean; dusk?: boolean; sepia?: boolean; banner?: boolean; seed?: number; pal: string[] } | { t: "plaza"; night: boolean } | ({ t: "room" } & RoomP);
 
@@ -50,10 +50,10 @@ export const worldFor = (L: Loc & { s3?: S3Spec }, lite: Record<string, unknown>
   return W;
 };
 
-// ---------------- personagens como cartões ----------------
-type Card = { mesh: THREE.Mesh; blob: THREE.Mesh; cv: HTMLCanvasElement; tex: THREE.CanvasTexture; mat: THREE.MeshBasicMaterial; dm: THREE.MeshDepthMaterial; k: number };
-const CW = 1.9, CH = 2.6, FOOT = 0.15;
-const GEO = (() => { const g = new THREE.PlaneGeometry(CW, CH); g.translate(0, CH / 2 - FOOT, 0); return g; })();
+// ---------------- personagens (bonecos originais da skill) como cartões dentro do 3D ----------------
+type Card = { mesh: THREE.Mesh; blob: THREE.Mesh; cv: HTMLCanvasElement; tex: THREE.CanvasTexture; mat: THREE.MeshBasicMaterial; dm: THREE.MeshDepthMaterial };
+const CW = 1.35, CH = 2.25;
+const GEO = (() => { const g = new THREE.PlaneGeometry(CW, CH); g.translate(0, CH / 2 - CH * 0.025, 0); return g; })();
 const BLOB = new THREE.PlaneGeometry(1, 1);
 const cards: Card[] = [];
 const card = (i: number, scene: THREE.Scene): Card => {
@@ -62,21 +62,23 @@ const card = (i: number, scene: THREE.Scene): Card => {
     const mat = new THREE.MeshBasicMaterial({ map: tex, transparent: true, alphaTest: 0.35, toneMapped: false, side: THREE.DoubleSide }), dm = new THREE.MeshDepthMaterial({ depthPacking: THREE.RGBADepthPacking, map: tex, alphaTest: 0.5 });
     const mesh = new THREE.Mesh(GEO, mat); mesh.castShadow = true; mesh.customDepthMaterial = dm;
     const blob = new THREE.Mesh(BLOB, new THREE.MeshBasicMaterial({ map: radial("blob", "rgba(10,6,12,0.55)", "rgba(10,6,12,0)"), transparent: true, depthWrite: false })); blob.rotation.x = -Math.PI / 2;
-    c = cards[i] = { mesh, blob, cv, tex, mat, dm, k: 0 }; }
-  if (c.mesh.parent !== scene) { scene.add(c.mesh, c.blob); }
+    c = cards[i] = { mesh, blob, cv, tex, mat, dm }; }
+  if (c.mesh.parent !== scene) scene.add(c.mesh, c.blob);
   return c;
 };
-const placeActors = (W: World, cam: Cam, list: ActorRec[]) => {
+const TIERS = [0.08, 0.12, 0.17, 0.24, 0.34, 0.48, 0.66, 0.9, 1.2, 1.5];
+const placeActors = (W: World, cam: Cam, list: Act[]) => {
   list.forEach((a, i) => {
-    const c = card(i, W.scene), d = Math.max(0.4, a.z - cam.z), s = focal(cam) / d, S = (a.ex.sc ?? 1) * (a.o.build === "kid" ? 0.68 : 1), Sx = Math.max(1, S);
-    const kk = Math.min(560, Math.max(36, Math.pow(1.2, Math.round(Math.log(s * Sx * 1.15) / Math.log(1.2)))));
-    const w = Math.round(CW * kk), h = Math.round(CH * kk); if (c.cv.width !== w || c.cv.height !== h) { c.cv.width = w; c.cv.height = h; c.tex.dispose(); c.tex = new THREE.CanvasTexture(c.cv); c.tex.colorSpace = THREE.SRGBColorSpace; c.mat.map = c.tex; c.dm.map = c.tex; c.mat.needsUpdate = true; c.dm.needsUpdate = true; }
-    const g = c.cv.getContext("2d")!; g.setTransform(1, 0, 0, 1, 0, 0); g.clearRect(0, 0, w, h); g.translate(w / 2, h - FOOT * kk);
-    drawPerson(g, cam, a.o, 0, 0, a.pose, { ...a.ex, rot: undefined, y: undefined, sc: (a.ex.sc ?? 1) / Sx, local: kk } as Extra);
-    c.tex.needsUpdate = true; c.mat.color.copy(W.tint); c.mat.opacity = a.ex.alpha ?? 1;
-    c.mesh.visible = true; c.mesh.scale.set(Sx, Sx, 1); c.mesh.rotation.set(0, 0, -(a.ex.rot ?? 0)); at(c.mesh, a.x, a.ex.y ?? 0, a.z);
-    c.mesh.castShadow = (a.ex.alpha ?? 1) > 0.6 && !a.ex.noCast;
-    const gy = a.ex.y ?? 0; c.blob.visible = Math.abs(gy) < 0.6 && (a.ex.shadow ?? 1) > 0; c.blob.scale.set(0.9 * Sx, 0.55 * Sx, 1); at(c.blob, a.x, Math.max(0.012, gy + 0.012), a.z); (c.blob.material as THREE.MeshBasicMaterial).opacity = (a.ex.alpha ?? 1);
+    const c = card(i, W.scene), d = Math.max(0.4, a.z - cam.z), s = focal(cam) / d, sc = a.sc ?? 1, px = CH * sc * s, k = TIERS.find((q) => q >= (px / 1000) * 1.05) ?? 1.5;
+    const w = Math.round(600 * k), h = Math.round(1000 * k); if (c.cv.width !== w || c.cv.height !== h) { c.cv.width = w; c.cv.height = h; c.tex.dispose(); c.tex = new THREE.CanvasTexture(c.cv); c.tex.colorSpace = THREE.SRGBColorSpace; c.mat.map = c.tex; c.dm.map = c.tex; c.mat.needsUpdate = true; c.dm.needsUpdate = true; }
+    const g = c.cv.getContext("2d")!; g.setTransform(1, 0, 0, 1, 0, 0); g.clearRect(0, 0, w, h); g.setTransform(k, 0, 0, k, 0, 0);
+    const p = new Pen(g); if (a.side) bodySide(p, a.o, { ...a.s, seed: a.id ?? 1 } as SideOpts); else bodyFront(p, a.o, { ...a.f, seed: a.id ?? 1 } as FrontOpts);
+    g.setTransform(1, 0, 0, 1, 0, 0); g.globalCompositeOperation = "source-atop"; const gr = g.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, "rgba(255,248,235,0.10)"); gr.addColorStop(0.5, "rgba(0,0,0,0)"); gr.addColorStop(1, "rgba(12,8,16,0.25)"); g.fillStyle = gr; g.fillRect(0, 0, w, h);
+    if (a.dark) { g.globalAlpha = a.dark; g.fillStyle = a.darkCol ?? "#140f1e"; g.fillRect(0, 0, w, h); g.globalAlpha = 1; } g.globalCompositeOperation = "source-over";
+    c.tex.needsUpdate = true; c.mat.color.copy(W.tint).lerp(new THREE.Color(1, 1, 1), 0.35); c.mat.opacity = a.alpha ?? 1;
+    c.mesh.visible = true; c.mesh.scale.set((a.flip ? -1 : 1) * sc, sc, 1); c.mesh.rotation.set(0, 0, -(a.rot ?? 0)); at(c.mesh, a.x, a.y ?? 0, a.z);
+    c.mesh.castShadow = (a.alpha ?? 1) > 0.6 && !a.noCast;
+    const gy = a.y ?? 0; c.blob.visible = Math.abs(gy) < 0.6 && (a.shadow ?? 1) > 0; c.blob.scale.set(0.95 * sc, 0.5 * sc, 1); at(c.blob, a.x, Math.max(0.012, gy + 0.012), a.z); (c.blob.material as THREE.MeshBasicMaterial).opacity = a.alpha ?? 1;
   });
   for (let i = list.length; i < cards.length; i++) { cards[i].mesh.visible = false; cards[i].blob.visible = false; }
 };
