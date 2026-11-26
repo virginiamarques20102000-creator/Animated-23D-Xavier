@@ -1,0 +1,31 @@
+0: Luiz@0.00 Inácio@0.40 Lula@0.92 da@1.20 Silva@1.40 estava@1.92 no@2.40 meio@2.60 de@2.76 uma@2.76 das@2.88 maiores@3.00 crises@3.00 diplomáticas@3.12 da@3.44 América@3.52 do@4.00 Sul@4.16 quando@4.44 recebeu@4.88 notícias@5.20 que@5.64 poderiam@5.68 mudar@5.88 completamente@6.12 o@6.56 rumo@6.60 daquela@6.88 história.@7.24
+1: Hugo@7.72 Chávez@8.00 ameaçava@8.68 a@9.32 Colômbia.@9.52
+2: Rafael@10.28 Correa@10.68 acusava@11.28 o@11.88 governo@12.08 colombiano@12.48 de@12.96 invadir@13.20 seu@13.80 território.@14.08
+3: E@14.92 Álvaro@15.16 Uribe@15.48 se@15.72 recusava@15.96 a@16.56 aceitar@16.80 as@17.60 acusações@17.88 sem@18.64 defender@19.20 sua@20.16 operação@20.48 militar.@21.08
+4: Lula@21.76 precisava@22.56 tomar@23.44 uma@23.84 posição.@24.08
+5: Mas@25.24 como@25.64 o@25.96 presidente@26.16 brasileiro@27.04 foi@27.72 parar@28.12 no@28.64 centro@29.24 de@29.68 uma@29.92 crise@30.28 envolvendo@30.92 ameaças@31.60 militares,@32.20 guerrilheiros@33.04 e@34.32 três@34.52 países@34.76 sul-americanos?@35.32
+6: Para@36.44 entender@36.64 essa@37.20 história,@37.92 precisamos@38.84 voltar@40.60 a@41.36 março@41.56 de@42.04 2008.@42.24
+7: Naquele@43.52 momento,@44.56 Lula@45.32 estava@46.04 em@46.60 seu@46.76 segundo@47.08 mandato@47.56 como@48.12 presidente@48.32 do@48.92 Brasil.@49.04
+8: Ele@49.92 havia@50.16 chegado@50.56 ao@51.04 poder@51.32 pelo@51.64 Partido@52.16 dos@52.68 Trabalhadores@53.00 e@53.68 defendia@54.04 uma@54.92 política@55.16 externa@55.96 de@56.40 aproximação@56.60 entre@57.48 os@57.80 países@57.96 da@58.52 América@58.76 Latina.@59.20
+9: Entre@60.04 seus@60.16 aliados@60.48 políticos@60.92 estava@61.44 Hugo@61.72 Chávez,@61.92 presidente@62.40 da@63.12 Venezuela.@63.40
+10: Também@64.28 mantinha@64.80 relações@65.84 com@66.68 Rafael@66.92 Correa,@67.52 presidente@68.44 do@69.08 Equador.@69.32
+11: Mas@70.20 havia@70.68 outro@71.16 personagem@72.04 importante@73.00 nessa@73.64 história:@73.88 Álvaro@74.44 Uribe,@74.92 presidente@75.20 da@75.84 Colômbia,@76.16 que@76.80 tinha@77.04 uma@77.40 relação@77.76 difícil@78.60 com@79.12 Chávez@79.68 e@80.16 enfrentava@80.36 um@80.92 conflito@81.20 armado@81.84 contra@82.12 as@82.60 Forças@83.32 Armadas@84.20 Revolucionárias@84.84 da@85.96 Colômbia,@86.28 as@86.80 FARC.@87.00
+12: E@87.44 foi@87.60 justamente@87.92 esse@88.56 conflito@89.20 que@90.08 colocou@90.32 Lula@91.04 diante@91.52 de@92.00 uma@92.20 situação@92.64 delicada.@93.52
+13: Na@94.08 madrugada@94.48 de@95.20 primeiro@96.40 de@96.72 março@96.92 de@97.28 2008,@97.48 militares@98.60 colombianos@99.12 atacaram@100.24 um@101.00 acampamento@101.52 das@102.24 FARC@102.60 localizado@102.96 em@103.48 território@103.76 equatoriano.@104.32
+14: O@105.24 alvo@105.44 era@105.80 Raúl@106.04 Reyes,@106.40 um@107.00 dos@107.40 principais@107.64 comandantes@108.24 da@108.84 guerrilha.@109.12
+15: A@109.44 operação@109.56 terminou@110.08 com@110.56 a@110.92 morte@111.16 de@111.60 Reyes@111.80 e@112.04 de@112.20 outros@112.36 integrantes@112.64 das@113.16 FARC.@113.44
+16: Para@114.04 Álvaro@114.40 Uribe,@114.84 era@115.20 uma@115.56 vitória@115.88 contra@116.36 um@117.00 dos@117.36 principais@117.72 líderes@118.48 da@119.32 organização.@119.60
+17: Mas@121.08 Rafael@121.44 Correa@121.96 enxergou@122.36 algo@123.16 completamente@123.48 diferente.@124.44
+18: O@126.08 presidente@126.20 equatoriano@126.72 acusou@127.44 a@128.08 Colômbia@128.32 de@128.96 invadir@129.16 seu@129.68 país@130.92 e@131.36 violar@131.68 sua@132.40 soberania.@132.76
+19: E@133.80 não@133.96 demorou@134.20 para@134.84 que@135.08 a@135.32 crise@135.52 chegasse@135.80 ao@136.24 presidente@136.44 brasileiro.@136.92
+20: Lula@137.72 começou@137.92 a@138.44 conversar@138.72 com@139.24 os@139.68 líderes@139.96 envolvidos.@140.48
+21: Seu@141.40 governo@141.68 precisava@142.28 entender@142.84 o@143.52 que@143.60 havia@143.84 acontecido@144.24 e@144.64 impedir@144.76 que@145.08 a@145.60 situação@145.88 se@146.56 transformasse@146.80 em@147.80 um@148.00 conflito@148.32 ainda@149.24 maior.@149.68
+22: O@150.96 ministro@151.32 das@151.92 Relações@152.36 Exteriores,@153.24 Celso@154.24 Amorim,@154.60 passou@155.08 a@155.60 atuar@155.80 diretamente@156.20 nas@157.00 negociações.@157.36
+23: A@158.32 orientação@158.56 brasileira@159.12 era@159.76 clara:@160.04 a@160.64 crise@160.88 precisava@161.64 ser@162.20 resolvida@162.60 pela@163.36 diplomacia,@163.68 e@164.32 não@164.84 pela@165.32 força@165.60 militar.@166.16
+24: Mas@167.16 então@167.76 Hugo@168.12 Chávez@168.84 decidiu@169.24 entrar@169.60 em@170.00 cena.@170.08
+25: O@170.48 presidente@170.60 venezuelano@171.36 ficou@172.00 ao@172.56 lado@172.84 de@173.16 Rafael@173.68 Correa@174.12 e@174.76 reagiu@175.00 duramente@175.64 contra@176.16 Álvaro@176.52 Uribe.@176.96
+26: Chávez@177.64 anunciou@178.08 o@178.36 fechamento@178.48 da@179.12 embaixada@179.28 venezuelana@180.00 na@180.88 Colômbia@181.08 e@181.52 ordenou@181.68 o@182.00 deslocamento@182.20 de@182.84 dez@183.16 batalhões@183.44 militares@183.84 para@184.44 a@184.64 fronteira@184.84 colombiana.@185.44
+27: A@186.40 situação@186.72 ficou@187.88 muito@188.36 mais@188.84 delicada.@189.48
+28: Agora,@190.44 Lula@190.84 não@191.12 estava@191.44 lidando@191.96 apenas@192.44 com@193.32 uma@193.68 discussão@194.00 entre@194.56 dois@194.92 presidentes.@195.44
+29: A@196.16 Venezuela@196.36 havia@196.84 colocado@197.24 forças@198.48 militares@199.04 em@199.64 movimento,@199.80 o@200.32 Equador@200.60 havia@201.12 rompido@201.60 relações@202.12 diplomáticas@202.72 com@203.72 a@204.88 Colômbia@205.16 e@205.84 a@206.12 tensão@206.40 se@207.04 espalhava@207.20 pela@207.76 região.@208.12
+30: E@208.96 o@209.04 presidente@209.20 brasileiro@209.64 teria@210.28 que@210.76 lidar@210.88 com@211.24 um@211.52 problema@211.84 ainda@212.20 mais@212.52 complicado:@212.80 seus@213.32 parceiros@213.60 políticos@214.28 estavam@214.76 envolvidos@215.12 em@216.12 lados@216.44 diferentes@217.44 de@218.24 uma@218.40 disputa@218.72 internacional.@219.36

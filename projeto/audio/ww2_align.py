@@ -2,7 +2,7 @@
 Uso: python3 audio/ww2_align.py public/ww2_narracao.mp3 out/ww2/roteiro.txt out/ww2"""
 import sys, re, subprocess, json, numpy as np
 mp3, txt, outd = sys.argv[1:4]
-NUM = {"1939": "mil novecentos e trinta e nove", "1945": "mil novecentos e quarenta e cinco", "1918": "mil novecentos e dezoito", "1919": "mil novecentos e dezenove",
+NUM = {"2008": "dois mil e oito", "1939": "mil novecentos e trinta e nove", "1945": "mil novecentos e quarenta e cinco", "1918": "mil novecentos e dezoito", "1919": "mil novecentos e dezenove",
        "1933": "mil novecentos e trinta e três", "1938": "mil novecentos e trinta e oito", "1940": "mil novecentos e quarenta", "1941": "mil novecentos e quarenta e um",
        "1942": "mil novecentos e quarenta e dois", "1943": "mil novecentos e quarenta e três", "1944": "mil novecentos e quarenta e quatro", "1º": "primeiro",
        "30": "trinta", "70": "setenta", "85": "oitenta e cinco", "7": "sete", "6": "seis", "8": "oito", "9": "nove", "2": "dois"}
