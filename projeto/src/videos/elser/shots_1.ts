@@ -1,6 +1,6 @@
 // 0 – 153 s: gancho, quem era Elser, o perigo, a decisão, a cervejaria e a tradição do 8 de novembro.
 import type { Shot } from "../ww2/types";
-import { loc, wall, world, ST, clouds, hillL, forest, field, city, skyline, mtn } from "../ww2/places";
+import { loc, wall, world, ST, clouds, hillL, forest, field, city, skyline, mtn } from "./places3";
 import { LAMP, NIGHTFIRE, DAY, GOLD, BACK, GREY, MOON, NOON, COLD } from "../ww2/looks";
 import { walkS, walkF, runS, marchF, marchCol, crowd, tank, plane, planeTop, flag, hl, arrow, pin, calPage, panel, idle, kid, sol, WEH, SA, GESTAPO, SSOFF, civ, v } from "../ww2/kit";
 import { blast, scorch, embers, flutter, lensFlare, birds, dust } from "../ww2/fx";
@@ -11,7 +11,7 @@ import { hall, elserBench, sunbeam, leaders, CX, CZ, PZ } from "./scenes";
 
 import { hand } from "../ww2/kit";
 import { stein } from "./ek";
-import { MX, MY } from "../ww2/places";
+import { MX, MY } from "./places3";
 const MX0 = MX(11.58), MY0 = MY(48.14);
 const GUARD1923: import("../ww2/toon").Outfit = { jacket: "#3a4a3a", pants: "#2e3a2e", boots: "#141414", hat: "stahlhelm", cap: "#3a4436", rifle: true };
 const paperP = (A: import("../ww2/kit").Sc, x: number, y: number, z: number, head: string) => panel(A, z, (w) => { w.rect(-0.22, 0, 0.44, 0.56, "#ece4d0", 2); w.text("MÜNCHNER ZEITUNG", 0, 0.5, 0.035, "#1e1a18"); w.line([[-0.2, 0.47], [0.2, 0.47]], 1.5, "#1e1a18"); w.text(head, 0, 0.4, 0.07, "#8a1a14"); w.rect(-0.16, 0.12, 0.14, 0.2, "#7a6a5a", 1); for (let k = 0; k < 6; k++) w.line([[0.0, 0.3 - k * 0.035], [0.18, 0.3 - k * 0.035]], 1, "#6a6056"); }, { dx: x, dy: y, rot: -0.1, pivot: [0, 0] });

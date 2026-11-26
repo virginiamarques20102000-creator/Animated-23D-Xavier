@@ -3,11 +3,13 @@ import { Sc, crowd, civ, v, idle, walkS, walkF, marchF } from "../ww2/kit";
 import { P, glow, puff, hash, clamp, smooth, lerp, beam, VW, VH } from "../ww2/engine";
 import { tables, podium, column, chandeliers, bench, HIT, PARTY, ELSER, ELSER_W, WAITRESS, WAITER, HIMMLER, GOERING, HESS, mix } from "./ek";
 import type { FO } from "../ww2/kit";
+import { E3 } from "./e3";
 
 /** o salão: fileiras de mesas com o público de pé atrás, púlpito no fundo (x=0, z=14.5) e a coluna logo atrás (x=1.9, z=15.4) */
 export const PZ = 14.5, CX = 1.9, CZ = 15.4;
 export type HallO = { full?: number; dark?: number; hitler?: "speak" | "shout" | "watch" | "leave" | null; leaveAt?: number; T?: number; col?: Parameters<typeof column>[3]; cheer?: number; expr?: FO["expr"]; podium?: boolean; noCrowdRows?: number[]; empty?: boolean; tablesMaxZ?: number };
 export const hall = (A: Sc, lt: number, o: HallO = {}) => {
+  E3.state.hall = { dark: o.dark, empty: o.empty, podium: o.podium, tablesMaxZ: o.tablesMaxZ };
   const d = o.dark ?? 0, full = o.full ?? 1;
   if (d < 0.7) chandeliers(A, 9, [-7, 0, 7], 6.4, 0.45 * (1 - d)); if (d < 0.7) chandeliers(A, 4, [-5, 5], 5.8, 0.35 * (1 - d));
   if (o.podium !== false) podium(A, 0, PZ, { dark: d });

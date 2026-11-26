@@ -1,10 +1,12 @@
 // Kit próprio da história de Georg Elser: elenco, a cervejaria Bürgerbräukeller (salão, mesas, púlpito, a coluna),
 // o mecanismo da bomba, relógios, oficina, fronteira, cela, mapas. Usa o motor 2.5D da WW2 (../ww2).
 import { Sc, panel, v, civ, crowd, HIT_BROWN, GESTAPO, SSOFF, caption, bigText, C, mv, idle } from "../ww2/kit";
-import { loc, wall, banners, city, clouds, skyline, forest, hillL, europe, ST, field, wire, MX, MY, mix, shade } from "../ww2/places";
+import { loc, wall, banners, city, clouds, skyline, forest, hillL, europe, ST, field, wire, MX, MY, mix, shade } from "./places3";
 import { P, glow, puff, VW, VH, clamp, lerp, smooth, easeOut, easeIn, hash, beam, fire, smokeCol, Ctx, Cam, WP, Layer } from "../ww2/engine";
 import { Lr } from "../ww2/paint";
 import { room, street, loc3 } from "./sets3d";
+import { E3 } from "./e3";
+const S3 = <T extends object>(L: T, s3: object) => Object.assign(L, { s3 });
 import type { Outfit } from "../ww2/toon";
 import { INK } from "../ww2/toon";
 import { din, dinT, soco } from "../dinamica";
@@ -31,13 +33,13 @@ export { GESTAPO, SSOFF, v, civ, crowd, idle };
 /** o grande salão da cervejaria: parede do fundo com arcos, galeria, faixas vermelhas (águia abstrata), lustres */
 export const hallL = (K: string, o: { dark?: number; ruin?: boolean; banner?: boolean; full?: boolean } = {}) => {
   const d = o.dark ?? 0, night = d > 0.5;
-  return loc3(undefined, room({ w: 21, h: 7.2, back: 18, floor: "#7a5030", floorKind: "planks", wall: mix("#c8a878", "#2a1c18", d * 0.7), wallKind: "plaster", ceil: mix("#9a7450", "#140c0a", d * 0.6),
+  return S3(loc3(undefined, room({ w: 21, h: 7.2, back: 18, floor: "#7a5030", floorKind: "planks", wall: mix("#c8a878", "#2a1c18", d * 0.7), wallKind: "plaster", ceil: mix("#9a7450", "#140c0a", d * 0.6),
     beams: "#4a2e1c", gallery: "#5a3a22", pilasters: "#d8bc90", winL: 4, winR: 4, winH: [1.2, 2.9], winCol: night ? "#1c2240" : "#ffe6b0", beam: night ? 0 : 1, lamps: night ? 0 : 5, wains: "#5a3a22", dark: d * 0.55, fog: night ? "#0a0810" : "#2a1a12", fogD: 70, seed: 7,
     backDeco: (S) => { if (o.banner === false) return; for (const x of [-9, -4.5, 4.5, 9]) { S.quad([[x - 0.9, 7.0, 17.94], [x + 0.9, 7.0, 17.94], [x + 0.9, 4.0, 17.94], [x - 0.9, 4.0, 17.94]], "#a8201a", 1 - d * 0.5);
-      S.quad([[x - 0.45, 5.9, 17.93], [x + 0.45, 5.9, 17.93], [x + 0.45, 5.0, 17.93], [x - 0.45, 5.0, 17.93]], "#efe6d6", 1 - d * 0.5); } } }));
+      S.quad([[x - 0.45, 5.9, 17.93], [x + 0.45, 5.9, 17.93], [x + 0.45, 5.0, 17.93], [x - 0.45, 5.0, 17.93]], "#efe6d6", 1 - d * 0.5); } } })), { t: "hall", dark: K === "hr" ? 0.2 : d, banner: o.banner, ruin: K === "hr" });
 };
 
-export const hallOutL = (K: string, night = true) => ({ ...loc3(night ? ["#070a18", "#2a2e4a"] : ["#5a7aa6", "#d8d0c0"], street({ w: 8, len: 15, pal: night ? ["#2a2a34", "#30303a", "#26262e"] : ["#b8a88e", "#a89880", "#c8b89c"], night, seed: 12, lamps: false })),
+export const hallOutL = (K: string, night = true) => ({ s3: { t: "plaza", night }, ...loc3(night ? ["#070a18", "#2a2e4a"] : ["#5a7aa6", "#d8d0c0"], street({ w: 8, len: 15, pal: night ? ["#2a2a34", "#30303a", "#26262e"] : ["#b8a88e", "#a89880", "#c8b89c"], night, seed: 12, lamps: false })),
   interior: false, layers: [Lr(K + "fac", 14, -16, 16, -0.5, 14, 40, (w) => {
     const wc = night ? "#5a4e48" : "#c8b49a"; w.rect(-15, 0, 30, 11, w.vgrad(0, 11, shade(wc, 0.85), wc), 3); w.poly([[-15.6, 11], [15.6, 11], [13, 13.4], [-13, 13.4]], night ? "#2a2224" : "#7a3e30", 3);
     for (let i = 0; i < 9; i++) { const x = -13 + i * 3.25; for (const y of [5.6, 8.2]) w.rect(x - 0.6, y, 1.2, 1.7, night ? (hash(i * 3 + y) > 0.35 ? "#ffcf7a" : "#1e1c26") : "#5a6a7a", 2.5); }
@@ -47,25 +49,25 @@ export const hallOutL = (K: string, night = true) => ({ ...loc3(night ? ["#070a1
 export const streetL = (K: string, o: { night?: boolean; dusk?: boolean; banner?: boolean; seed?: number; sepia?: boolean } = {}) => {
   const n = o.night, sky: [string, string] = n ? ["#060914", "#20263e"] : o.dusk ? ["#3a2e5a", "#f0a070"] : o.sepia ? ["#8a7a62", "#e0cca4"] : ["#5e86b8", "#dcd6c6"];
   const pal = n ? ["#3a3640", "#34303a", "#2e2c36"] : o.sepia ? ["#a8946e", "#9a8664", "#b8a27a"] : o.dusk ? ["#c89a80", "#b88a78", "#d8aa88"] : ["#d8c0a0", "#c8ac90", "#e0ccae", "#b89c80", "#c4b4a0"];
-  return { ...loc3(sky, street({ pal, night: n, dusk: o.dusk, sepia: o.sepia, banner: o.banner, seed: o.seed })), interior: false };
+  return { ...loc3(sky, street({ pal, night: n, dusk: o.dusk, sepia: o.sepia, banner: o.banner, seed: o.seed })), interior: false, s3: { t: "street", night: n, dusk: o.dusk, sepia: o.sepia, banner: o.banner, seed: o.seed, pal } };
 };
 
-export const shopL = (K: string, o: { night?: boolean; warm?: boolean } = {}) => loc3(undefined, room({ w: 5.6, h: 3.1, back: 6, floor: "#8a6a44", floorKind: "planks", wall: o.night ? "#4a3424" : "#9a7450", wallKind: "boards", ceil: "#6a4a30", beams: "#3a2414",
+export const shopL = (K: string, o: { night?: boolean; warm?: boolean } = {}) => S3(loc3(undefined, room({ w: 5.6, h: 3.1, back: 6, floor: "#8a6a44", floorKind: "planks", wall: o.night ? "#4a3424" : "#9a7450", wallKind: "boards", ceil: "#6a4a30", beams: "#3a2414",
   winR: 2, winH: [1.2, 2.6], winCol: o.night ? "#1a2038" : "#fff0c8", beam: o.night ? 0 : 1.3, lamps: o.night ? 1 : 0, fog: "#1a120c", fogD: 30, seed: 4,
   backDeco: (S) => { S.quad([[-3.5, 2.0, 5.96], [-0.5, 2.0, 5.96], [-0.5, 2.1, 5.96], [-3.5, 2.1, 5.96]], "#3a2414", 0.8); for (let i = 0; i < 6; i++) S.line([-3.2 + i * 0.45, 3.0, 5.95], [-3.2 + i * 0.45, 2.2, 5.95], i % 2 ? "#6a4a2a" : "#7a7a80", 7);
-    S.quad([[1.0, 0, 5.9], [1.5, 0, 5.9], [1.5, 2.6, 5.9], [1.0, 2.6, 5.9]], "#c8a070", 0.9); S.quad([[1.6, 0, 5.9], [2.0, 0, 5.9], [2.0, 2.3, 5.9], [1.6, 2.3, 5.9]], "#b08a5a", 0.9); S.quad([[2.1, 0, 5.9], [2.5, 0, 5.9], [2.5, 2.8, 5.9], [2.1, 2.8, 5.9]], "#d0a878", 0.9); } }));
+    S.quad([[1.0, 0, 5.9], [1.5, 0, 5.9], [1.5, 2.6, 5.9], [1.0, 2.6, 5.9]], "#c8a070", 0.9); S.quad([[1.6, 0, 5.9], [2.0, 0, 5.9], [2.0, 2.3, 5.9], [1.6, 2.3, 5.9]], "#b08a5a", 0.9); S.quad([[2.1, 0, 5.9], [2.5, 0, 5.9], [2.5, 2.8, 5.9], [2.1, 2.8, 5.9]], "#d0a878", 0.9); } })), { t: "room", kind: "shop", night: o.night });
 
 export const borderL = (K: string) => loc(["#04060e", "#141c30"], { near: "#1e2420", far: "#283028", kind: "grass", seed: 41, zFar: 200 }, [
   clouds(K, 280, ["#2a3450", "#0a0e1c"], 7, 50, 120, 10, 5), hillL(K, 140, "#121a22", 3, 18, 2.5), forest(K, 50, "pine", "#16221c", 24, 4, { blur: 1.5, h: 13 }), wire(K, 9, 26, "#1a1a1a")]);
 /** sala fechada (escritório da alfândega, interrogatório): parede lisa, lâmpada pendurada */
-export const roomL = (K: string, col: string, o: { win?: boolean; dark?: number; map?: boolean; tile?: boolean; frames?: number } = {}) => loc3(undefined, room({ w: 5.8, h: 3.0, back: 4.5, floor: o.tile ? "#8a8478" : "#7a5a3a", floorKind: o.tile ? "tiles" : "planks",
+export const roomL = (K: string, col: string, o: { win?: boolean; dark?: number; map?: boolean; tile?: boolean; frames?: number } = {}) => S3(loc3(undefined, room({ w: 5.8, h: 3.0, back: 4.5, floor: o.tile ? "#8a8478" : "#7a5a3a", floorKind: o.tile ? "tiles" : "planks",
   wall: col, wallKind: (o.dark ?? 0) > 0.3 ? "plaster" : "wallpaper", ceil: mix(col, "#ffffff", 0.15), wains: shade(col, 0.6), winL: o.win ? 1 : 0, winH: [1.1, 2.6], winCol: "#dce8f0", beam: o.win ? 1 : 0, lamps: (o.dark ?? 0) > 0.3 ? 0 : 1, dark: o.dark, fog: "#100c0c", fogD: 25,
   bulb: (o.dark ?? 0) > 0.3 ? [0, 2.7, 2.2] : undefined, seed: 9,
   backDeco: (S) => { if (o.map) { S.quad([[-1.4, 1.4, 4.48], [1.4, 1.4, 4.48], [1.4, 2.9, 4.48], [-1.4, 2.9, 4.48]], "#d8cca0", 1); S.quad([[-1.1, 1.6, 4.47], [0.3, 1.6, 4.47], [0.5, 2.6, 4.47], [-0.8, 2.7, 4.47]], "#b8a878", 1); }
-    for (let i = 0; i < (o.frames ?? 0); i++) { const x = -2.6 + i * 2.2; S.quad([[x - 0.4, 1.6, 4.48], [x + 0.4, 1.6, 4.48], [x + 0.4, 2.6, 4.48], [x - 0.4, 2.6, 4.48]], "#c9a24a", 1); S.quad([[x - 0.3, 1.7, 4.47], [x + 0.3, 1.7, 4.47], [x + 0.3, 2.5, 4.47], [x - 0.3, 2.5, 4.47]], "#6a7a6a", 1); } } }));
+    for (let i = 0; i < (o.frames ?? 0); i++) { const x = -2.6 + i * 2.2; S.quad([[x - 0.4, 1.6, 4.48], [x + 0.4, 1.6, 4.48], [x + 0.4, 2.6, 4.48], [x - 0.4, 2.6, 4.48]], "#c9a24a", 1); S.quad([[x - 0.3, 1.7, 4.47], [x + 0.3, 1.7, 4.47], [x + 0.3, 2.5, 4.47], [x - 0.3, 2.5, 4.47]], "#6a7a6a", 1); } } })), { t: "room", kind: (o.dark ?? 0) > 0.3 ? "inter" : o.map ? "office" : "home", wall: col, dark: o.dark, win: o.win, map: o.map, frames: o.frames, tile: o.tile });
 
-export const cellL = (K: string, sky = "#a8b8c8") => loc3(undefined, room({ w: 3.8, h: 3.2, back: 3.6, floor: "#5a5650", floorKind: "stone", wall: "#6a645a", wallKind: "stone", ceil: "#4a4640",
-  winL: 1, winH: [2.6, 3.3], winCol: sky, beam: 1.4, beamCol: "#c8d8f0", fog: "#0c0c10", fogD: 18, seed: 13 }));
+export const cellL = (K: string, sky = "#a8b8c8") => S3(loc3(undefined, room({ w: 3.8, h: 3.2, back: 3.6, floor: "#5a5650", floorKind: "stone", wall: "#6a645a", wallKind: "stone", ceil: "#4a4640",
+  winL: 1, winH: [2.6, 3.3], winCol: sky, beam: 1.4, beamCol: "#c8d8f0", fog: "#0c0c10", fogD: 18, seed: 13 })), { t: "room", kind: "cell", sky });
 
 export const mapL = (K: string, st: keyof typeof ST = "parch") => europe(K, ST[st]);
 
@@ -77,7 +79,7 @@ export const stein = (w: WP, x: number, y: number, s = 1, foam = 1) => {
   if (foam) w.ell(x, y + 0.2 * s, 0.085 * s, 0.035 * s * foam, "#fbf6ea", 1.2);
 };
 /** fileira de mesas compridas com canecos e toalha (vistas de frente), na profundidade z */
-export const tables = (A: Sc, z: number, x0: number, x1: number, seed = 1, o: { cloth?: string; steins?: number; dark?: number } = {}) => W(A, z, (w) => {
+export const tables = (A: Sc, z: number, x0: number, x1: number, seed = 1, o: { cloth?: string; steins?: number; dark?: number } = {}) => E3.on ? undefined : W(A, z, (w) => {
   const top = 0.76, c = mix("#7a5232", "#0e0808", o.dark ?? 0);
   w.rect(x0, top - 0.06, x1 - x0, 0.08, w.vgrad(top - 0.06, top + 0.02, shade(c, 0.8), c), 2.5);
   if (o.cloth) w.rect(x0 + 0.1, top - 0.3, x1 - x0 - 0.2, 0.28, o.cloth, 2);
@@ -87,17 +89,20 @@ export const tables = (A: Sc, z: number, x0: number, x1: number, seed = 1, o: { 
 });
 /** o púlpito com microfones e uma faixa na frente */
 export const podium = (A: Sc, x: number, z: number, o: { mics?: boolean; dark?: number } = {}) => {
+  if (E3.on) return;
   W(A, z, (w) => { const c = mix("#5a3a24", "#0a0606", o.dark ?? 0); w.rect(-0.75, 0, 1.5, 1.35, w.vgrad(0, 1.35, shade(c, 0.7), c), 3); w.rect(-0.85, 1.3, 1.7, 0.1, shade(c, 0.6), 2.5);
     w.rect(-0.55, 0.3, 1.1, 0.75, mix("#a8241c", "#0a0606", o.dark ?? 0), 2); w.ell(0, 0.68, 0.22, 0.22, mix("#f2ece0", "#1a1010", o.dark ?? 0), 1.6); w.poly([[-0.16, 0.7], [0, 0.82], [0.16, 0.7], [0, 0.5]], "#1a1414", 0); }, { dx: x });
   if (o.mics !== false) { A.sp("mic", x - 0.35, 1.0, z - 0.05, { sc: 0.7 }); A.sp("mic", x + 0.35, 1.0, z - 0.05, { sc: 0.7 }); }
 };
 /** a coluna atrás do púlpito: alvenaria com revestimento de madeira embaixo; `open` 0..1 abre a portinhola do esconderijo;
  *  `bomb` mostra os explosivos e o relógio por dentro; `xray` desenha o corte translúcido; `blast` >0 = idade da explosão (some) */
-export const column = (A: Sc, x: number, z: number, o: { open?: number; bomb?: boolean; xray?: number; dark?: number; lt?: number; dug?: number; h?: number } = {}) => W(A, z, (w, g) => {
+export const column = (A: Sc, x: number, z: number, o: { open?: number; bomb?: boolean; xray?: number; dark?: number; lt?: number; dug?: number; h?: number } = {}) => W(A, E3.on ? z - 0.53 : z, (w, g) => {
   const d = o.dark ?? 0, H = o.h ?? 9, st = mix("#c8b494", "#141010", d * 0.85), wd = mix("#6a4428", "#0c0808", d * 0.8);
+  if (!E3.on) {
   w.rect(-0.75, 0, 1.5, H, w.vgrad(0, H, shade(st, 0.78), st), 3); w.rect(-0.95, H - 0.6, 1.9, 0.6, shade(st, 0.9), 3); w.rect(-0.9, 0, 1.8, 0.3, shade(st, 0.8), 2.5);
   for (let y = 2.6; y < H - 0.6; y += 0.5) w.line([[-0.75, y], [0.75, y]], 0.8, "rgba(0,0,0,0.08)");
   w.rect(-0.78, 0.3, 1.56, 2.2, w.vgrad(0.3, 2.5, shade(wd, 0.8), wd), 3); for (const yy of [0.5, 1.45]) w.rect(-0.6, yy, 1.2, 0.8, null, 1.8);
+  }
   const dug = o.dug ?? 0; if (dug > 0) { w.rect(-0.5, 0.55, 1.0, 1.6 * dug, "#1a120e", 2); for (let k = 0; k < 6 * dug; k++) w.rect(-0.45 + hash(k) * 0.8, 0.6 + hash(k + 9) * 1.4 * dug, 0.12, 0.06, "#8a7a62", 0); }
   const op = o.open ?? 0, xr = o.xray ?? 0;
   if ((op > 0 || xr > 0) && o.bomb) { // a cavidade com a bomba
@@ -197,7 +202,8 @@ export const mapLabel = (A: Sc, lon: number, lat: number, txt: string, t: number
 /** feixe de lanterna (luz de Elser trabalhando à noite) */
 export const torchBeam = (A: Sc, x: number, y: number, z: number, ang: number, len = 2.2, a = 0.3) => A.light((g) => { beam(g, A.cam, x, y, z, ang, len, 0.7, a, "255,236,190"); const [sx, sy, s] = P(A.cam, x, y, z); glow(g, sx, sy, 0.3 * s, "rgba(255,240,200,1)", 0.7); });
 /** luz quente dos lustres */
-export const chandeliers = (A: Sc, z: number, xs: number[], y = 6.2, a = 0.5) => { for (const x of xs) { W(A, z, (w) => { w.line([[0, 3], [0, 0.3]], 2, "#1e1612"); w.ell(0, 0, 0.6, 0.18, "#c9a24a", 2); for (const dx of [-0.45, 0, 0.45]) w.ell(dx, 0.1, 0.07, 0.1, "#fff0c0", 1); }, { dx: x, dy: y });
+export const chandeliers = (A: Sc, z: number, xs: number[], y = 6.2, a = 0.5) => {
+  if (E3.on) return; for (const x of xs) { W(A, z, (w) => { w.line([[0, 3], [0, 0.3]], 2, "#1e1612"); w.ell(0, 0, 0.6, 0.18, "#c9a24a", 2); for (const dx of [-0.45, 0, 0.45]) w.ell(dx, 0.1, 0.07, 0.1, "#fff0c0", 1); }, { dx: x, dy: y });
   A.light((g) => { const [sx, sy, s] = P(A.cam, x, y, z); if (z - A.cam.z < 0.5) return; glow(g, sx, sy, 2.2 * s, "rgba(255,200,120,1)", a); }); } };
 /** destroços caindo do teto (balístico, com poeira) */
 export const ceilingFall = (A: Sc, age: number, x0: number, x1: number, z0: number, z1: number, n = 40, seed = 3) => { if (age < 0) return; for (let i = 0; i < n; i++) { const t0 = hash(seed + i) * 0.6, k = age - t0; if (k < 0) continue;

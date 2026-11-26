@@ -4,6 +4,8 @@ import { Sc } from "../ww2/kit";
 import type { FrontOpts, SideOpts, Outfit } from "../ww2/toon";
 import type { Act } from "../ww2/engine";
 import { drawPerson, Pose } from "./rig";
+import type { ActorRec, PropRec } from "./e3";
+type M3 = { m3?: { actors: ActorRec[]; props: PropRec[] } };
 import { INKK } from "../ww2/engine";
 INKK.k = 0.1; // cenários pintados sem contorno preto (visual próprio deste filme)
 
@@ -16,11 +18,15 @@ proto.a = function (this: Sc, o, id, x, z, f = {}, extra = {}) {
   const pose: Pose = { t, id, view: side ? "side" : "front", dir: (facing || 1) as 1 | -1, expr: f.expr, look: f.look, headTilt: f.headTilt, prop: (f.prop as Pose["prop"]) ?? null,
     armB: f.armB, wave: f.wave, crouch: f.crouch, sit: mode === "sit", gait: walking ? { p: f.phase ?? 0, cyc: mode === "stroll" ? 1.4 : 1.5 } : null };
   if (mode === "fall") pose.crouch = 0.6;
+  const m3 = (this as Sc & M3).m3; if (m3) { m3.actors.push({ o, id, x, z, pose, ex: ex(extra) }); return; }
   this.items.push({ z, d: () => drawPerson(this.g, this.cam, o, x, z, pose, ex(extra)) });
 };
 proto.s = function (this: Sc, o, id, x, z, so = {}, extra = {}) {
   const t = this.t, run = (so.stride ?? 1) > 1.3, walking = (so.mode ?? "march") === "march" && so.phase !== undefined && so.mode !== "stand";
   const pose: Pose = { t, id, view: "side", dir: extra.flip ? -1 : 1, expr: so.expr, gait: walking ? { p: so.phase ?? 0, cyc: run ? 2.4 : 1.5, run } : null, prop: null };
+  const m3 = (this as Sc & M3).m3; if (m3) { m3.actors.push({ o, id, x, z, pose, ex: { ...ex(extra), rot: extra.rot } }); return; }
   this.items.push({ z, d: () => drawPerson(this.g, this.cam, o, x, z, pose, ex(extra)) });
 };
 export const LIVE = true;
+const sp0 = (Sc.prototype as unknown as { sp: (k: string, x: number, y: number, z: number, o?: PropRec["o"]) => void }).sp;
+(Sc.prototype as unknown as { sp: typeof sp0 }).sp = function (this: Sc, k, x, y, z, o = {}) { const m3 = (this as Sc & M3).m3; if (m3) { m3.props.push({ k, x, y, z, o }); return; } sp0.call(this, k, x, y, z, o); };

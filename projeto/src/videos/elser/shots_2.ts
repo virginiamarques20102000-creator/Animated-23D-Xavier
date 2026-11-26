@@ -1,6 +1,6 @@
 // 153 – 305 s: o plano, a pedreira, as 30 noites escondido na coluna, a bomba, o 8 de novembro e a saída antecipada.
 import type { Shot } from "../ww2/types";
-import { loc, wall, clouds, hillL, forest, city, skyline, MX, MY } from "../ww2/places";
+import { loc, wall, clouds, hillL, forest, city, skyline, MX, MY } from "./places3";
 import { LAMP, NIGHTFIRE, DAY, GOLD, BACK, GREY, MOON } from "../ww2/looks";
 import { walkS, walkF, crowd, hl, arrow, pin, calPage, panel, hand, counter, civ, v, GESTAPO, kid } from "../ww2/kit";
 import { blast, dust, rubble } from "../ww2/fx";

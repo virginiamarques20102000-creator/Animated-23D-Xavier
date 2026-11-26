@@ -14,7 +14,7 @@ export type Pose = {
   dir?: 1 | -1; gait?: Gait | null; sit?: boolean; crouch?: number; expr?: Expr; look?: number; lookY?: number; headTilt?: number;
   prop?: null | [string, number]; armB?: number; wave?: number; talk?: boolean; t: number; id: number; lean?: number;
 };
-export type Extra = { y?: number; sc?: number; rot?: number; alpha?: number; dark?: number; darkCol?: string; shadow?: number; noCast?: boolean; flip?: boolean };
+export type Extra = { y?: number; sc?: number; rot?: number; alpha?: number; dark?: number; darkCol?: string; shadow?: number; noCast?: boolean; flip?: boolean; local?: number };
 
 // ---------------- cores ----------------
 const hx = (c: string) => { if (c.startsWith("rgb")) { const m = c.match(/\d+/g)!.map(Number); return [m[0], m[1], m[2]]; } const n = parseInt(c.slice(1, 7), 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255]; };
@@ -75,19 +75,19 @@ class Dr {
 
 // ---------------- o personagem ----------------
 export const drawPerson = (ctx: Ctx, cam: Cam, o: Outfit, x: number, z: number, ps: Pose, ex: Extra = {}) => {
-  if (z - cam.z < 0.35) return;
+  const LOC = ex.local; if (!LOC && z - cam.z < 0.35) return;
   const kid = o.build === "kid", stout = o.build === "stout", S = (ex.sc ?? 1) * (kid ? 0.68 : 1);
-  const [sx, sy, s] = P(cam, x, ex.y ?? 0, z), k = s * S;
-  if (sx < -2 * k || sx > 1920 + 2 * k || sy < -0.2 * k || sy - 2.2 * k > 1080 + 50) return;
+  const [sx, sy, s] = LOC ? [0, 0, LOC] : P(cam, x, ex.y ?? 0, z), k = s * S;
+  if (!LOC && sx < -2 * k || sx > 1920 + 2 * k || sy < -0.2 * k || sy - 2.2 * k > 1080 + 50) return;
   const t = ps.t, id = ps.id, view = ps.view ?? "side", f = view === "front" ? 1 : (ps.dir ?? 1) as number;
   const L = LITE, litLeft = (L.rdx ?? 1) * f < 0 ? 1 : 0;
   const g = ctx; g.save(); g.translate(sx, sy);
   // sombra de contato + sombra projetada suave
-  if ((ex.shadow ?? 1) > 0 && Math.abs(ex.y ?? 0) < 0.6) { const ry = 0.06 * k, fy = clamp((cam.y - (ex.y ?? 0)) / (z - cam.z), 0.08, 0.6);
+  if (!LOC && (ex.shadow ?? 1) > 0 && Math.abs(ex.y ?? 0) < 0.6) { const ry = 0.06 * k, fy = clamp((cam.y - (ex.y ?? 0)) / (z - cam.z), 0.08, 0.6);
     g.fillStyle = `rgba(18,10,22,${0.32 * (ex.shadow ?? 1) * clamp(ex.alpha ?? 1)})`; g.beginPath(); g.ellipse(0, 0, 0.32 * k, 0.32 * k * fy * 1.2 + ry * 0.2, 0, 0, TAU); g.fill();
     if (!ex.noCast && L.sa > 0) { g.save(); g.globalAlpha = L.sa * 0.5 * clamp(ex.alpha ?? 1); g.fillStyle = "rgba(14,8,20,0.55)"; g.filter = `blur(${Math.max(1, 0.03 * k)}px)`; g.beginPath(); g.ellipse(-L.sx * 0.5 * k, 0, 0.55 * k, 0.12 * k * fy * 3, 0, 0, TAU); g.fill(); g.restore(); } }
   if (ex.rot) g.rotate(ex.rot);
-  if (ex.alpha !== undefined) g.globalAlpha = clamp(ex.alpha);
+  if (ex.alpha !== undefined && !LOC) g.globalAlpha = clamp(ex.alpha);
   g.scale(k, -k);  // metros, y para cima, origem entre os pés
   const d = new Dr(g, 1 / k, { lit: litLeft ? 1 : 0, dark: ex.dark ?? 0, darkCol: ex.darkCol ?? "#140f1e", key: L.key ?? "#ffffff", ka: L.ka ?? 0, rim: L.rim });
   if (litLeft === 0 && f < 0) d.L.lit = 1;
@@ -124,7 +124,7 @@ export const drawPerson = (ctx: Ctx, cam: Cam, o: Outfit, x: number, z: number, 
   const neck: V = [chestUp[0] + Math.sin(lean) * 0.05, chestUp[1] + 0.05];
   // cabeça: atraso em mola em relação ao balanço do corpo
   const headLag = gt ? -0.012 * Math.cos(TAU * 2 * gt.p - 0.6) : 0, tilt = ((ps.headTilt ?? 0) * Math.PI) / 180 + 0.04 * Math.sin(t * 1.05 + ph) + 0.025 * Math.sin(t * 2.3 + ph * 2) - lean * 0.5;
-  const HR = kid ? 0.15 : 0.138, head: V = [neck[0] + Math.sin(lean * 0.6) * 0.02, neck[1] + HR * 1.05 + headLag];
+  const HR = kid ? 0.18 : 0.165, head: V = [neck[0] + Math.sin(lean * 0.6) * 0.02, neck[1] + HR * 1.05 + headLag];
   // ---- braços ----
   const shN: V = [chestUp[0] + (view === "front" ? shW * 0.95 : shW * 0.35 * f), chestUp[1] - 0.04], shF: V = [chestUp[0] - (view === "front" ? shW * 0.95 : shW * 0.55 * f), chestUp[1] - 0.03];
   const armLen = UA + FA, prop = ps.prop, pk = prop ? prop[1] : 0, pn = prop ? prop[0] : "";
@@ -235,21 +235,21 @@ const drawHead = (d: Dr, o: Outfit, c: V, R: number, ps: Pose, f: number, view: 
   // bochecha corada leve
   g.fillStyle = "rgba(230,110,100,0.16)"; g.beginPath(); g.ellipse(yaw * 0.06 + 0.06, -0.04, 0.03, 0.02, 0, 0, TAU); g.fill();
   // olhos
-  const ex = (side: number) => yaw * 0.075 + side * 0.048 * (1 - Math.abs(yaw) * 0.35), ey = 0.02, es = (side: number) => (view === "front" ? 1 : side * f > 0 ? 1 : 0.8);
-  for (const side of [-1, 1]) { const x = ex(side), sc = es(side), open = Math.max(0, F.eye * (1 - blink)), rx = 0.026 * sc, ry = 0.03 * open * sc;
-    if (ry > 0.004) { d.ell(x, ey, rx, ry, "#fbf8f2", 0.8, 0, true); const pr = 0.013 * (F.pupil ?? 1) * sc; g.fillStyle = "#1e1612"; g.beginPath(); g.ellipse(x + lookX * 0.011 + yaw * 0.006, ey + lookY * 0.008, pr, Math.min(pr * 1.2, ry), 0, 0, TAU); g.fill(); g.fillStyle = "#fff"; g.beginPath(); g.arc(x + lookX * 0.011 - 0.004, ey + 0.006, pr * 0.35, 0, TAU); g.fill(); }
+  const ex = (side: number) => yaw * 0.085 + side * 0.058 * (1 - Math.abs(yaw) * 0.35), ey = 0.025, es = (side: number) => (view === "front" ? 1 : side * f > 0 ? 1 : 0.8);
+  for (const side of [-1, 1]) { const x = ex(side), sc = es(side), open = Math.max(0, F.eye * (1 - blink)), rx = 0.035 * sc, ry = 0.041 * open * sc;
+    if (ry > 0.004) { d.ell(x, ey, rx, ry, "#fbf8f2", 0.8, 0, true); const pr = 0.0175 * (F.pupil ?? 1) * sc; g.fillStyle = "#1e1612"; g.beginPath(); g.ellipse(x + lookX * 0.015 + yaw * 0.008, ey + lookY * 0.011, pr, Math.min(pr * 1.2, ry), 0, 0, TAU); g.fill(); g.fillStyle = "#fff"; g.beginPath(); g.arc(x + lookX * 0.011 - 0.004, ey + 0.006, pr * 0.35, 0, TAU); g.fill(); }
     else d.line([[x - rx, ey], [x + rx, ey]], 2.2, INKC);
     // pálpebra superior para expressões de olhos semicerrados
     if (F.eye < 0.9 && ry > 0.004) { g.fillStyle = d.col(skin); g.beginPath(); g.ellipse(x, ey + ry * 0.9, rx * 1.15, ry * (0.9 - F.eye) * 1.2, 0, 0, TAU); g.fill(); }
     // sobrancelha
-    const bh = ey + 0.05 + (F.brow + micro) * 0.018, inn = F.browIn * 0.016 * (side > 0 ? 1 : -1) * (view === "front" ? 1 : 1);
-    d.line([[x - 0.028 * sc, bh - (side > 0 ? -inn : inn) * 0.5 - (side < 0 ? inn : 0)], [x + 0.028 * sc, bh + (side > 0 ? -inn : 0) - (side < 0 ? -inn * 0.5 : 0)]], 3.2, o.hair && o.hat !== "bald" ? mulC(o.hair, 0.8) : "#3a2a1e"); }
+    const bh = ey + 0.064 + (F.brow + micro) * 0.026, inn = F.browIn * 0.022 * (side > 0 ? 1 : -1) * (view === "front" ? 1 : 1);
+    d.line([[x - 0.036 * sc, bh - (side > 0 ? -inn : inn) * 0.5 - (side < 0 ? inn : 0)], [x + 0.036 * sc, bh + (side > 0 ? -inn : 0) - (side < 0 ? -inn * 0.5 : 0)]], 4.6, o.hair && o.hat !== "bald" ? mulC(o.hair, 0.8) : "#3a2a1e"); }
   // nariz
   const nx = yaw * 0.105; d.path([[nx - 0.008, 0.0], [nx + 0.03 * Math.sign(f) * (view === "front" ? 0.3 : 1), -0.045], [nx - 0.004, -0.05]], false); g.lineWidth = d.px * 2; g.strokeStyle = mulC(skin, 0.6); g.stroke();
   // boca (larga/aberta/curva por emoção; fala = abre e fecha)
-  const talkOpen = ps.talk ? 0.35 + 0.35 * Math.abs(Math.sin(t * 13 + id)) : 0, op = Math.max(F.open, talkOpen) * (1 + 0.08 * Math.sin(t * 9 + ph)), mw = 0.045 * F.mouthW * 1.6, mx = yaw * 0.085, my = -0.09, cv = F.curve * 0.022;
+  const talkOpen = ps.talk ? 0.35 + 0.35 * Math.abs(Math.sin(t * 13 + id)) : 0, op = Math.max(F.open, talkOpen) * (1 + 0.08 * Math.sin(t * 9 + ph)), mw = 0.058 * F.mouthW * 1.6, mx = yaw * 0.095, my = -0.1, cv = F.curve * 0.03;
   if (op < 0.05) { g.beginPath(); g.moveTo(mx - mw, my + cv); g.quadraticCurveTo(mx, my - cv, mx + mw, my + cv); g.lineWidth = d.px * 2.4; g.strokeStyle = INKC; g.lineCap = "round"; g.stroke(); }
-  else { const oh = 0.04 * op; g.beginPath(); g.moveTo(mx - mw, my + cv); g.quadraticCurveTo(mx, my - cv * 0.4 + 0.004, mx + mw, my + cv); g.quadraticCurveTo(mx, my - oh - cv * 0.6, mx - mw, my + cv); g.closePath();
+  else { const oh = 0.062 * op; g.beginPath(); g.moveTo(mx - mw, my + cv); g.quadraticCurveTo(mx, my - cv * 0.4 + 0.004, mx + mw, my + cv); g.quadraticCurveTo(mx, my - oh - cv * 0.6, mx - mw, my + cv); g.closePath();
     g.fillStyle = "#5a1a1e"; g.fill(); g.save(); g.clip(); if (F.teeth) { g.fillStyle = "#fbf8f2"; g.fillRect(mx - mw, my - 0.012 + cv * 0.3, mw * 2, 0.014); } if (F.tongue || op > 0.6) { g.fillStyle = "#d8606a"; g.beginPath(); g.ellipse(mx, my - oh * 0.9, mw * 0.6, oh * 0.4, 0, 0, TAU); g.fill(); } g.restore();
     g.lineWidth = d.px * 2; g.strokeStyle = INKC; g.stroke(); }
   // bigode / barba / óculos

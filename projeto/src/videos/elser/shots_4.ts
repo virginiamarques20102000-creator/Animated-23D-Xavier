@@ -1,6 +1,6 @@
 // 421 – 571 s: ele agiu sozinho, os anos preso, Dachau, o reconhecimento tardio, a pergunta e o final.
 import type { Shot } from "../ww2/types";
-import { loc, wall, world, clouds, hillL, forest, field, city, skyline, mtn, MX, MY, ST } from "../ww2/places";
+import { loc, wall, world, clouds, hillL, forest, field, city, skyline, mtn, MX, MY, ST } from "./places3";
 import { LAMP, NIGHTFIRE, DAY, GOLD, BACK, GREY, MOON, COLD } from "../ww2/looks";
 import { walkS, walkF, crowd, hl, arrow, pin, calPage, panel, hand, counter, civ, v, kid, GESTAPO, tank, plane, planeTop, idle, HIT_OLD, marchF, sol, WEH } from "../ww2/kit";
 import { blast, embers, flutter, birds, lensFlare } from "../ww2/fx";

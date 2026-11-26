@@ -1,6 +1,6 @@
 // 305 – 421 s: a explosão às 21h20, os escombros, Hitler já longe, a prisão em Constança, a Gestapo e as suspeitas.
 import type { Shot } from "../ww2/types";
-import { loc, wall, clouds, hillL, forest, city, skyline, MX, MY, ST } from "../ww2/places";
+import { loc, wall, clouds, hillL, forest, city, skyline, MX, MY, ST } from "./places3";
 import { LAMP, NIGHTFIRE, DAY, GOLD, BACK, GREY, MOON } from "../ww2/looks";
 import { walkS, walkF, crowd, hl, arrow, pin, calPage, panel, hand, counter, civ, v, GESTAPO, fall, idle } from "../ww2/kit";
 import { blast, dust, rubble, embers, shards } from "../ww2/fx";

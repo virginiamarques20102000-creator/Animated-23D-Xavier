@@ -1,5 +1,6 @@
 // "O homem que quase matou Hitler" (Georg Elser) — 16:9, 571 s, sincronizado palavra a palavra (tempos_palavras.txt).
 import "./live";
+import { E3, worldFor, render3D, ActorRec, PropRec } from "./e3";
 import { HZ, Ctx, VW, VH, drawLayer, drawGround, skyGrad, weather, post, tint, clamp, smooth, mk, setLite } from "../ww2/engine";
 import { Sc } from "../ww2/kit";
 import type { Shot } from "../ww2/types";
@@ -26,6 +27,24 @@ export const drawShot = (g: Ctx, sh: Shot, t: number) => {
   HZ.y = VH / 2 + (cam.shift ?? 0);
   setLite(sh.lite);
   const [kx, ky] = shake(sh, t);
+  const W = E3.enabled ? worldFor(L as never, sh.lite as never) : null;
+  if (W) {
+    E3.on = true; E3.state = { mood: "" };
+    const A = new Sc(g, cam, t) as Sc & { m3: { actors: ActorRec[]; props: PropRec[] } }; A.m3 = { actors: [], props: [] };
+    sh.act?.(A, lt, u, t);
+    const cv = render3D(W, cam, t, A.m3.actors, A.m3.props, [kx * 1.03, ky * 1.03]);
+    g.save(); g.drawImage(cv, 0, 0); g.restore();
+    g.save(); if (kx || ky) { g.translate(VW / 2 + kx, VH / 2 + ky); g.scale(1.03, 1.03); g.translate(-VW / 2, -VH / 2); }
+    A.items.sort((a, b) => b.z - a.z).forEach((it) => it.d());
+    if (sh.wx) weather(g, lt, sh.wx[0], sh.wx[1], sh.wx[2]);
+    A.lights.forEach((d) => d(g));
+    if (sh.mood) tint(g, sh.mood[0], sh.mood[1], "multiply");
+    if (sh.grade) tint(g, sh.grade[0], sh.grade[1], "soft-light");
+    g.restore(); E3.on = false;
+    A.overs.forEach((d) => d(g));
+    return;
+  }
+  E3.on = false;
   g.save(); if (kx || ky) { g.translate(VW / 2 + kx, VH / 2 + ky); g.scale(1.03, 1.03); g.translate(-VW / 2, -VH / 2); }
   if (L.sky) skyGrad(g, cam, L.sky[0], L.sky[1]); else { g.fillStyle = "#120e0c"; g.fillRect(0, 0, VW, VH); }
   const S3 = (L as unknown as { set?: (g: Ctx, c: typeof cam, t: number) => void }).set; if (S3) S3(g, cam, t); else drawGround(g, cam, L.ground);
@@ -43,6 +62,7 @@ export const drawShot = (g: Ctx, sh: Shot, t: number) => {
 // cinematic motion blur: the frame is the average of two sub-frames inside a 180° shutter
 let MB: HTMLCanvasElement | null = null;
 export const renderFrame = (g: Ctx, t: number) => {
+  if (E3.enabled) { renderOne(g, t); return; }
   if (!MB) MB = mk(VW, VH); const m = MB.getContext("2d")!; m.setTransform(1, 0, 0, 1, 0, 0); renderOne(m, t - 1 / 60);
   renderOne(g, t); g.save(); g.globalAlpha = 0.5; g.drawImage(MB, 0, 0); g.restore();
 };
