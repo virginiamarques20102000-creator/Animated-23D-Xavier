@@ -841,6 +841,11 @@ export const bodyFront = (p: Pen, o: Outfit, opts: FrontOpts) => {
       } else if (prop[0] === "shovel") {
         p.band(Rh([[hx, hy + 30 * u], [hx, hy - 60 * u]]), "#8a5a34", 4.5 * u, 1.4 * u, "round");
         p.poly(Rh([[hx - 13 * u, hy + 30 * u], [hx + 13 * u, hy + 30 * u], [hx + 11 * u, hy + 58 * u], [hx, hy + 66 * u], [hx - 11 * u, hy + 58 * u]]), "#7d848c", 2 * u);
+      } else if (prop[0] === "knife") {
+        p.band(Rh([[hx, hy + 13 * u], [hx, hy - 6 * u]]), "#3a2418", 5.5 * u, 1.5 * u, "round");
+        p.band(Rh([[hx - 7 * u, hy - 8 * u], [hx + 7 * u, hy - 8 * u]]), "#8d949c", 2.5 * u, 1.2 * u, "round");
+        p.poly(Rh([[hx - 4 * u, hy - 10 * u], [hx + 4 * u, hy - 10 * u], [hx + 3 * u, hy - 44 * u], [hx - 1 * u, hy - 58 * u], [hx - 4 * u, hy - 42 * u]]), "#e8edf2", 1.6 * u);
+        p.stroke(Rh([[hx + 1 * u, hy - 14 * u], [hx + 0.8 * u, hy - 46 * u]]), 1.1 * u, "#8f99a6");
       } else {
       p.band(Rh([[hx, hy + 12 * u], [hx, hy - 44 * u]]), "#8a5a34", 5 * u, 1.5 * u, "round");
       p.poly(Rh([[hx - 12 * u, hy - 58 * u], [hx + 20 * u, hy - 58 * u], [hx + 20 * u, hy - 42 * u], [hx - 12 * u, hy - 42 * u]]), "#7d848c", 2.2 * u);

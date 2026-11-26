@@ -25,15 +25,18 @@ for k in range(60):
     x = random.uniform(300, 980); y = random.uniform(120, 560); s_ = random.uniform(6, 22); a = random.uniform(0, 6.28)
     pts = [(x + s_ * math.cos(a + j * 2.1) * random.uniform(0.6, 1.2), y + s_ * math.sin(a + j * 2.1)) for j in range(3)]
     ImageDraw.Draw(img).polygon(pts, fill=random.choice([(25, 10, 8), (60, 25, 15), (255, 170, 60)]))
-def char(name, h, x, y, dark=0.0, rim=(255, 90, 20)):
-    c = Image.open(D + "_thumb/" + name + ".png"); c = c.crop(c.getbbox()); s = h / c.height; c = c.resize((int(c.width * s), h), Image.LANCZOS)
+def char(name, h, x, y, dark=0.0, rim=(255, 90, 20), flip=False):
+    c = Image.open(D + "_thumb/" + name + ".png"); c = c.crop(c.getbbox())
+    if flip: c = c.transpose(Image.FLIP_LEFT_RIGHT)
+    s = h / c.height; c = c.resize((int(c.width * s), h), Image.LANCZOS); orig = c.copy()
+    keep = c.convert("RGB").split()[2].point(lambda v: 255 if v > 215 else 0)
     a = c.split()[3]
-    if dark: c = Image.composite(Image.blend(c, Image.new("RGBA", c.size, (15, 4, 4, 255)), dark), c, a); c.putalpha(a)
+    if dark: c = Image.composite(Image.blend(c, Image.new("RGBA", c.size, (15, 4, 4, 255)), dark), c, a); c.putalpha(a); c = Image.composite(orig, c, ImageChops.multiply(keep, a))
     glow = Image.new("RGBA", (c.width + 80, c.height + 80), rim + (0,)); ga = Image.new("L", glow.size, 0); ga.paste(a, (40, 40)); ga = ga.filter(ImageFilter.GaussianBlur(18)).point(lambda v: min(255, v * 2))
     glow.putalpha(ga); img.alpha_composite(glow, (x - 40, y - 40)); img.alpha_composite(c, (x, y))
 # Elser na sombra (direita, atrás), Hitler sorrindo (esquerda, grande, cortado na cintura)
-char("elser_stern", 980, 890, 150, dark=0.62, rim=(255, 30, 0))
-sh = Image.new("RGBA", (W, H), (0, 0, 0, 0)); ImageDraw.Draw(sh).ellipse((880, 150, 1220, 330), fill=(0, 0, 0, 150)); img.alpha_composite(sh.filter(ImageFilter.GaussianBlur(25)))
+char("elser_knife2", 980, 820, 150, dark=0.62, rim=(255, 30, 0), flip=True)
+sh = Image.new("RGBA", (W, H), (0, 0, 0, 0)); ImageDraw.Draw(sh).ellipse((930, 150, 1270, 330), fill=(0, 0, 0, 150)); img.alpha_composite(sh.filter(ImageFilter.GaussianBlur(25)))
 char("hit_grin", 1120, 20, 60, dark=0.1, rim=(255, 110, 20))
 gr = Image.new("L", (1, H)); gr.putdata([int(max(0, (y - 430) / 290) ** 1.3 * 235) for y in range(H)]); gr = gr.resize((W, H))
 img.alpha_composite(Image.merge("RGBA", (*Image.new("RGB", (W, H), (10, 0, 0)).split(), gr)))
