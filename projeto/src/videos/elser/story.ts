@@ -1,4 +1,5 @@
 // "O homem que quase matou Hitler" (Georg Elser) — 16:9, 571 s, sincronizado palavra a palavra (tempos_palavras.txt).
+import "./live";
 import { HZ, Ctx, VW, VH, drawLayer, drawGround, skyGrad, weather, post, tint, clamp, smooth, mk, setLite } from "../ww2/engine";
 import { Sc } from "../ww2/kit";
 import type { Shot } from "../ww2/types";
@@ -27,7 +28,7 @@ export const drawShot = (g: Ctx, sh: Shot, t: number) => {
   const [kx, ky] = shake(sh, t);
   g.save(); if (kx || ky) { g.translate(VW / 2 + kx, VH / 2 + ky); g.scale(1.03, 1.03); g.translate(-VW / 2, -VH / 2); }
   if (L.sky) skyGrad(g, cam, L.sky[0], L.sky[1]); else { g.fillStyle = "#120e0c"; g.fillRect(0, 0, VW, VH); }
-  drawGround(g, cam, L.ground);
+  const S3 = (L as unknown as { set?: (g: Ctx, c: typeof cam, t: number) => void }).set; if (S3) S3(g, cam, t); else drawGround(g, cam, L.ground);
   const A = new Sc(g, cam, t);
   for (const l of L.layers) A.items.push({ z: l.z, d: () => drawLayer(g, cam, l) });
   sh.act?.(A, lt, u, t);
@@ -54,7 +55,7 @@ const renderOne = (g: Ctx, t: number) => {
     if (!BUF) BUF = mk(VW, VH); const b = BUF.getContext("2d")!; b.setTransform(1, 0, 0, 1, 0, 0); drawShot(b, SH[i - 1], t);
     g.save(); g.globalAlpha = 1 - smooth((t - sh.t0) / f); g.drawImage(BUF, 0, 0); g.restore();
   }
-  post(g, t, 0.42, (sh.bloom ?? 0.5) * 0.7, sh.sat ?? 1.18);
+  post(g, t, 0.5, (sh.bloom ?? 0.5) * 0.75, (sh.sat ?? 1.18) * 0.95); tint(g, "#ffb27a", 0.1, "soft-light"); tint(g, "#2a4a5a", 0.06, "soft-light");
   if (t > DUR - 1.2) { g.fillStyle = `rgba(0,0,0,${clamp((t - (DUR - 1.2)) / 1.0)})`; g.fillRect(0, 0, VW, VH); }
   if (t < 0.4) { g.fillStyle = `rgba(0,0,0,${1 - t / 0.4})`; g.fillRect(0, 0, VW, VH); }
 };
