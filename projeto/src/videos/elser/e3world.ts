@@ -43,7 +43,7 @@ export const LIGHTS: Record<string, Light> = {
   gold: { el: 10, az: 55, sun: "#ffb066", sunI: 3.4, hemiS: "#a898b8", hemiG: "#6a4a36", hemiI: 1.0, fog: "#d8a07a", fogN: 40, fogF: 600, top: "#4a5a8a", hor: "#ffc27a", disc: 1, stars: false, tint: "#ffe4c8" },
   back: { el: 7, az: 175, sun: "#ffc08a", sunI: 3.0, hemiS: "#8a88b0", hemiG: "#4a3a36", hemiI: 0.9, fog: "#c8907a", fogN: 30, fogF: 500, top: "#3a3e6a", hor: "#f0a878", disc: 1, stars: false, tint: "#e8d8e0" },
   grey: { el: 40, az: 30, sun: "#e8e4dc", sunI: 1.2, hemiS: "#b0b4bc", hemiG: "#5a5650", hemiI: 1.8, fog: "#9a9ca2", fogN: 25, fogF: 400, top: "#5a6270", hor: "#a8aaae", disc: 0, stars: false, tint: "#e8eaee" },
-  night: { el: 40, az: -35, sun: "#8aa0d0", sunI: 0.8, hemiS: "#2a3456", hemiG: "#141416", hemiI: 0.7, fog: "#141a2a", fogN: 20, fogF: 260, top: "#05070f", hor: "#24304a", disc: 0, stars: true, tint: "#c8d0ea" },
+  night: { el: 40, az: -35, sun: "#a0b4e0", sunI: 1.6, hemiS: "#5a6a9a", hemiG: "#1e1e26", hemiI: 1.5, fog: "#141a2a", fogN: 20, fogF: 260, top: "#05070f", hor: "#24304a", disc: 0, stars: true, tint: "#c8d0ea" },
   fire: { el: 22, az: -60, sun: "#ff9a5a", sunI: 1.8, hemiS: "#8a6a70", hemiG: "#4a3020", hemiI: 1.2, fog: "#4a2a22", fogN: 15, fogF: 260, top: "#0e0a10", hor: "#a44a26", disc: 0, stars: false, tint: "#ffc8a8" },
   lamp: { el: 35, az: 60, sun: "#ffd8a0", sunI: 1.5, hemiS: "#8a7a6a", hemiG: "#3a2a20", hemiI: 0.9, fog: "#2a1a12", fogN: 15, fogF: 90, top: "#0a0a14", hor: "#2a2030", disc: 0, stars: false, tint: "#ffe8d0" },
   cold: { el: 35, az: 40, sun: "#dfe8ff", sunI: 1.6, hemiS: "#a8b8d0", hemiG: "#4a4a50", hemiI: 1.2, fog: "#6a7488", fogN: 15, fogF: 200, top: "#4a5a74", hor: "#a8b4c4", disc: 0, stars: false, tint: "#e0e8f4" },
@@ -183,7 +183,7 @@ export const buildStreet = (p: { night?: boolean; dusk?: boolean; sepia?: boolea
   const postM = dark(), lantM = std({ color: "#fff0c0", emissive: C(p.night ? "#ffcf80" : "#000000"), emissiveIntensity: p.night ? 3 : 0 });
   for (let z = 4; z < 80; z += 9) for (const sg of [-1, 1]) { const g = new THREE.Group(); const pl = mesh(new THREE.CylinderGeometry(0.06, 0.09, 4.2, 8), postM); pl.position.y = 2.1; g.add(pl); const lt = mesh(new THREE.BoxGeometry(0.3, 0.45, 0.3), lantM); lt.position.y = 4.35; g.add(lt); s.add(at(g, sg * (Wd + 0.6), 0.15, z));
     if (p.night && z < 40) lampLight(W, sg * (Wd + 0.3), 4.1, z, "#ffc070", 30, 16); }
-  W.tint = C(L.tint); W.focus.set(0, 0, -8); W.shadowR = 22; const sd = sunDirOf(L);
+  W.tint = C(p.night ? "#e8ecf8" : L.tint); W.focus.set(0, 0, -8); W.shadowR = 22; const sd = sunDirOf(L);
   W.up = (t) => { W.sun.position.copy(W.focus).addScaledVector(sd, 80); W.sun.target.position.copy(W.focus); sky.position.set(0, 0, 0); };
   return W;
 };
