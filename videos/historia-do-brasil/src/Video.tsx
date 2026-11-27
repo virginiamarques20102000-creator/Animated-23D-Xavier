@@ -1,8 +1,9 @@
 import React from 'react';
-import {AbsoluteFill, Img, Audio, staticFile, useCurrentFrame, interpolate, Easing, spring, random, getInputProps} from 'remotion';
+import {AbsoluteFill, Img, Audio, OffthreadVideo, Sequence, staticFile, useCurrentFrame, interpolate, Easing, spring, random, getInputProps} from 'remotion';
 import {cinzel} from './font';
 import {SHOTS, Shot, BEATS, Beat, TOTAL, END_START} from './scenes';
 import {Flag} from './Flag';
+import {MG} from './mg';
 
 const W = 1080, H = 1920, FPS = 30;
 const clamp = {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'} as const;
@@ -31,7 +32,12 @@ const Painting: React.FC<{s: Shot; f: number}> = ({s, f}) => {
   return (
     <AbsoluteFill style={{overflow: 'hidden', perspective: 1400}}>
       <AbsoluteFill style={{transform: `rotateY(${ry}deg) rotateZ(${rz}deg) scale(${1.1 * punch})`, filter: s.grade}}>
-        <Img src={staticFile(`img/${s.img}.jpg`)} style={{position: 'absolute', left, top, width: iw, height: ih}} />
+        {s.mg ? React.createElement(MG[s.mg], {lf: f - s.start + 6, dur: s.end - s.start + 12, v: s.v}) : s.video ? (
+          <Sequence from={s.start - 12} layout="none"><OffthreadVideo src={staticFile(`vid/${s.video}.mp4`)} muted startFrom={Math.max(0, Math.round(s.from ?? 0))}
+            style={{position: 'absolute', left: W / 2 - (cx - 0.5) * W * z * 0.6 - (W * z) / 2, top: H / 2 - (cy - 0.5) * H * z * 0.6 - (H * z) / 2, width: W * z, height: H * z, objectFit: 'cover'}} /></Sequence>
+        ) : (
+          <Img src={staticFile(`img/${s.img}.jpg`)} style={{position: 'absolute', left, top, width: iw, height: ih}} />
+        )}
       </AbsoluteFill>
     </AbsoluteFill>
   );
