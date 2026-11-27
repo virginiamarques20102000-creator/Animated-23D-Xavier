@@ -2,7 +2,7 @@
 // A (#a): metade/metade — aliados ao sol (Lula e Chávez se abraçando) x noite na fronteira (tanque, explosão, Chávez furioso). "LULA NO MEIO"
 // B (#b): Lula no centro, assustado e suando; Chávez e Correa gritando de um lado, Uribe apontando do outro; céu vermelho e explosão. "QUASE GUERRA?"
 import { drawShot } from "./story";
-import { VW, VH, Ctx, mk, glow, post, sun, rays, tint } from "./engine";
+import { VW, VH, Ctx, mk, glow, post, sun, rays, tint, P } from "./engine";
 import { tank, flag } from "./kit";
 import { loc, miraflores, avila, clouds, forest, mtn, hillL, selva, SKY } from "./cenarios";
 import { LULA, CHAVEZ, CORREA, URIBE } from "./elenco";
@@ -72,6 +72,10 @@ export const renderCapa = (g: Ctx, v: string) => {
     mg.drawImage(B, -VW * 0.22, 0); mg.globalCompositeOperation = "destination-in"; mg.fillStyle = gr; mg.fillRect(0, 0, VW, VH); g.drawImage(m, 0, 0);
     post(g, 0, 0.6, 0.55, 1.15);
     g.save(); g.globalCompositeOperation = "multiply"; const vg = g.createLinearGradient(0, VH * 0.55, 0, VH); vg.addColorStop(0, "rgba(0,0,0,0)"); vg.addColorStop(1, "rgba(0,0,0,0.85)"); g.fillStyle = vg; g.fillRect(0, 0, VW, VH); g.restore();
+    { const sx = VW * 0.445, sy = VH * 0.25, r = 165; glow(g, sx, sy, r * 2.4, "rgba(255,30,20,1)", 0.5);
+      g.save(); g.translate(sx, sy); g.rotate(0.1); g.beginPath(); for (let i = 0; i < 10; i++) { const an = -Math.PI / 2 + (i * Math.PI) / 5, rr = i % 2 ? r * 0.42 : r; g.lineTo(Math.cos(an) * rr, Math.sin(an) * rr); } g.closePath();
+      const gr = g.createRadialGradient(0, -r * 0.3, r * 0.1, 0, 0, r); gr.addColorStop(0, "#ff4a36"); gr.addColorStop(1, "#b0000c"); g.fillStyle = gr; g.shadowColor = "rgba(255,40,20,1)"; g.shadowBlur = 50; g.fill(); g.shadowBlur = 0;
+      g.lineJoin = "round"; g.lineWidth = 10; g.strokeStyle = "#ffffff"; g.stroke(); g.fillStyle = "#ffffff"; g.font = `900 ${Math.round(r * 0.6)}px "DejaVu Sans", sans-serif`; g.textAlign = "center"; g.textBaseline = "middle"; g.lineWidth = 12; g.strokeStyle = "#5a0006"; g.strokeText("PT", 0, r * 0.1); g.fillText("PT", 0, r * 0.1); g.restore(); }
     label(g, "QUASE", VW * 0.72, VH * 0.68, 165, "#ffffff"); label(g, "GUERRA", VW * 0.72, VH * 0.85, 185, "#ff2a1a", 0, "#0a0000");
     return;
   }
