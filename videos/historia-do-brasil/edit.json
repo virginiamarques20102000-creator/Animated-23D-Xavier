@@ -1,0 +1,30 @@
+{"end_start":1050,
+"shots":[
+ {"img":"cabral","start":0,"end":66,"cam":[[0.86,0.42,2.4],[0.74,0.45,1.7]],"tilt":[6,-2],"tIn":"cut"},
+ {"img":"cabral","start":66,"end":132,"cam":[[0.12,0.62,1.7],[0.3,0.56,1.25]],"tilt":[-5,3],"tIn":"whipL"},
+ {"img":"cabral","start":132,"end":192,"cam":[[0.57,0.56,2.3],[0.6,0.5,1.6]],"rot":-2,"tIn":"blurzoom"},
+ {"img":"missa","start":192,"end":258,"cam":[[0.33,0.16,2.2],[0.36,0.45,1.55]],"tilt":[4,-3],"tIn":"whipU"},
+ {"img":"missa","start":258,"end":318,"cam":[[0.9,0.5,1.9],[0.76,0.6,1.4]],"tilt":[-6,2],"tIn":"whipL"},
+ {"img":"engenho","start":318,"end":384,"cam":[[0.33,0.86,3.0],[0.4,0.74,2.0]],"grade":"brightness(1.35) contrast(1.05)","tIn":"leak"},
+ {"img":"escravidao","start":384,"end":444,"cam":[[0.3,0.55,2.0],[0.45,0.55,1.5]],"tilt":[5,-3],"tIn":"whipR"},
+ {"img":"escravidao","start":444,"end":510,"cam":[[0.75,0.6,2.4],[0.65,0.55,1.7]],"rot":2,"tIn":"zoom"},
+ {"img":"corte","start":510,"end":576,"cam":[[0.3,0.5,1.4],[0.55,0.5,1.15]],"tilt":[-5,4],"tIn":"whipL"},
+ {"img":"corte","start":576,"end":636,"cam":[[0.6,0.55,2.4],[0.5,0.5,1.7]],"tIn":"blurzoom"},
+ {"img":"independencia","start":636,"end":690,"cam":[[0.5,0.55,1.0],[0.5,0.5,1.2]],"tilt":[0,-4],"tIn":"flash"},
+ {"img":"independencia","start":690,"end":756,"cam":[[0.55,0.4,2.6],[0.55,0.45,2.0]],"rot":-2,"tIn":"flash"},
+ {"img":"independencia","start":756,"end":810,"cam":[[0.2,0.55,2.0],[0.32,0.55,1.5]],"tilt":[5,-2],"tIn":"whipR"},
+ {"img":"abolicao","start":810,"end":876,"cam":[[0.5,0.5,1.1],[0.5,0.5,1.4]],"tIn":"leak"},
+ {"img":"abolicao","start":876,"end":930,"cam":[[0.3,0.6,2.2],[0.45,0.55,1.7]],"tilt":[-4,3],"tIn":"whipL"},
+ {"img":"republica","start":930,"end":996,"cam":[[0.3,0.5,1.4],[0.55,0.5,1.15]],"tilt":[5,-3],"tIn":"whipU"},
+ {"img":"republica","start":996,"end":1056,"cam":[[0.55,0.45,2.5],[0.55,0.5,1.8]],"rot":2,"tIn":"blurzoom"}
+],
+"beats":[
+ {"start":70,"end":190,"year":[1500,1500],"caption":"As caravelas de *Cabral* chegam a uma terra já habitada por *milhões* de indígenas.","tick":"1500","shake":[66]},
+ {"start":196,"end":316,"label":"COLÔNIA","caption":"Começa o *Brasil* *Colônia* de Portugal."},
+ {"start":322,"end":440,"year":[1500,1600],"caption":"Por três séculos, *açúcar* e *ouro* enriquecem Portugal...","tick":"1600"},
+ {"start":444,"end":508,"caption":"...às custas de milhões de pessoas *escravizadas*.","capDelay":2},
+ {"start":514,"end":634,"year":[1600,1808],"caption":"A família real foge de *Napoleão* e chega ao *Rio*.","tick":"1808"},
+ {"start":640,"end":808,"year":[1808,1822],"big":"INDEPENDÊNCIA\nOU MORTE!","bigAt":692,"caption":"Dom Pedro I proclama a *independência*.","capDelay":60,"tick":"1822","shake":[636,690]},
+ {"start":814,"end":928,"year":[1822,1888],"caption":"A *Lei Áurea* acaba com a escravidão.","tick":"1888"},
+ {"start":934,"end":1052,"year":[1888,1889],"caption":"Cai o Império. Nasce a *República*.","tick":"1889","shake":[930]}
+]}
