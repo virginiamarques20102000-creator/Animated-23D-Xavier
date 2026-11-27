@@ -136,7 +136,7 @@ export const tank = (A: Sc, kind: string, x: number, z: number, o: { dir?: 1 | -
   if (vel && o.dustCol !== undefined) A.fx(z + 0.6, (g, c) => dust(g, c, t, x - dir * T.len * 0.45 * sc, z + 0.4, dir, 1.1 * sc, o.dustCol, 3));
   A.fx(z + 0.02, (g, c) => { const [sx, sy, s] = P(c, x, 0, z), fy = clamp(c.y / (z - c.z), 0.06, 0.5); const gr = g.createRadialGradient(sx, sy, 0, sx, sy, T.len * 0.62 * sc * s); gr.addColorStop(0, "rgba(16,10,20,0.55)"); gr.addColorStop(1, "rgba(16,10,20,0)");
     g.save(); g.translate(sx, sy); g.scale(1, fy * 1.4); g.fillStyle = gr; g.beginPath(); g.arc(0, 0, T.len * 0.62 * sc * s, 0, 7); g.fill(); g.restore(); });
-  A.fx(z, (g, c) => {
+  A.fx(z, (g, c) => { g.save(); if (o.dark) g.filter = `brightness(${(1 - o.dark).toFixed(2)})`;
     const S = SPR["tk_" + kind]; drawSprite(g, c, S, x - dir * recoil * 3, y, z, { flip: dir < 0, sc, rot: -dir * recoil });
     const [, gy, s] = P(c, x, y, z), roll = (vel * t) / (T.wr * sc);
     // tracks
@@ -152,6 +152,7 @@ export const tank = (A: Sc, kind: string, x: number, z: number, o: { dir?: 1 | -
     if (fa >= 0 && fa < 2.5) { const [mx, my, ms] = P(c, x + dir * (T.gun[2] + 0.35) * sc, T.gun[1] * sc + y, z - 0.05);
       if (fa < 0.09) { glow(g, mx, my, 4 * ms * sc, "rgba(255,220,140,1)", 1); g.save(); g.translate(mx, my); if (dir < 0) g.scale(-1, 1); g.fillStyle = "#fff3c8"; g.beginPath(); g.moveTo(0, -0.35 * ms); g.lineTo(2.2 * ms * sc, 0); g.lineTo(0, 0.35 * ms); g.fill(); g.restore(); }
       for (let k = 0; k < 7; k++) { const a = fa * (0.6 + k * 0.1); puff(g, mx + dir * (a * 3 + k * 0.4) * ms, my - a * 0.8 * ms, (0.4 + a * 1.3) * ms * sc, [200, 196, 190], 0.6 * clamp(1 - fa / 2.5)); } }
+ g.restore();
   });
 };
 /** side-view aircraft along a pitch angle `ang` (rad, screen), spinning prop disc, optional exhaust and hit smoke */

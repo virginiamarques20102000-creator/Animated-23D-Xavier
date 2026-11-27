@@ -49,8 +49,32 @@ const B_CENA: Shot = { t0: 0, t1: 10, L: () => loc(["#1a0608", "#c8401c"], { nea
     A.light((g) => glow(g, VW / 2, VH * 0.3, 1000, "rgba(255,110,40,1)", 0.4));
   } };
 
+// ---- C (clean): só o Lula, grande, no escuro com luz vermelha | tanques em silhueta contra o clarão ----
+const C_LULA: Shot = { t0: 0, t1: 10, L: () => loc(["#050304", "#1a0606"], { near: "#0a0606", far: "#140808", kind: "none", seed: 70 }, []),
+  cam: fixo([0.0, 1.22, -1.5, 34, 0]), lite: { sx: -0.4, sy: 0.2, sa: 0, scol: "#000", rim: "#ff2a1a", ra: 1, rdx: 1, rdy: -0.3, key: "#ffc0b0", ka: 0.14 }, act: (A) => {
+    A.a({ ...LULA, hair: "#a8a49c", beard: "#b8b4ac", moustache: "#aaa69e" }, 1, 0, 2.6, { expr: "stern", look: 0.35, headTilt: -3, armB: 0 }, { shadow: 0 });
+    A.fx(4, (g, c) => smokeCol(g, c, 2, 0.5, -1, 4, { h: 4, w: 2.5, col: [40, 8, 8], a: 0.5, seed: 9, wind: 0.2 }));
+  } };
+const C_FRONT: Shot = { t0: 0, t1: 10, L: () => loc(["#0a0204", "#8a1a08"], { near: "#080404", far: "#1a0806", kind: "none", seed: 71 }, [hillL("cc2", 160, "#0a0405", 6, 10, 2)]),
+  cam: fixo([0, 1.2, -6, 40, -10]), lite: { sx: 0.2, sy: -0.3, sa: 0, scol: "#000", rim: "#ff7a30", ra: 1, rdx: 0, rdy: -1, key: "#200808", ka: 0.9 }, act: (A) => {
+    A.fx(40, (g, c) => { fire(g, c, 1.2, 0, 0, 40, 6, 3); fire(g, c, 2.1, 7, 0, 46, 5, 8); }); A.light((g) => glow(g, VW * 0.62, VH * 0.48, 700, "rgba(255,110,30,1)", 0.7));
+    A.fx(44, (g, c) => smokeCol(g, c, 4, 4, 0, 44, { h: 40, w: 8, col: [14, 8, 8], a: 0.9, seed: 4, wind: 0.25 }));
+    for (const [x, z, d] of [[-5, 14, 1], [3.5, 18, -1], [10, 24, -1]] as number[][]) tank(A, "amx", x, z, { vel: 0, dark: 1, dir: d as 1 | -1 });
+    A.fx(8, (g, c) => embers(g, c, 2.5, 0, 8, 20, 90, 10, 3));
+  } };
+
 export const renderCapa = (g: Ctx, v: string) => {
   const B = mk(VW, VH), b = B.getContext("2d")!;
+  if (v === "c") {
+    drawShot(g, C_FRONT, 0.8); b.setTransform(1, 0, 0, 1, 0, 0); drawShot(b, C_LULA, 0.8);
+    // os tanques ficam pretos como silhuetas
+    const m = mk(VW, VH), mg = m.getContext("2d")!; const gr = mg.createLinearGradient(VW * 0.42, 0, VW * 0.6, 0); gr.addColorStop(0, "#000"); gr.addColorStop(1, "rgba(0,0,0,0)");
+    mg.drawImage(B, -VW * 0.22, 0); mg.globalCompositeOperation = "destination-in"; mg.fillStyle = gr; mg.fillRect(0, 0, VW, VH); g.drawImage(m, 0, 0);
+    post(g, 0, 0.6, 0.55, 1.15);
+    g.save(); g.globalCompositeOperation = "multiply"; const vg = g.createLinearGradient(0, VH * 0.55, 0, VH); vg.addColorStop(0, "rgba(0,0,0,0)"); vg.addColorStop(1, "rgba(0,0,0,0.85)"); g.fillStyle = vg; g.fillRect(0, 0, VW, VH); g.restore();
+    label(g, "QUASE", VW * 0.72, VH * 0.68, 165, "#ffffff"); label(g, "GUERRA", VW * 0.72, VH * 0.85, 185, "#ff2a1a", 0, "#0a0000");
+    return;
+  }
   if (v === "b") {
     drawShot(g, B_CENA, 0.8); post(g, 0, 0.42, 0.45, 1.3);
     label(g, "2008", 210, 110, 120, "#ffffff"); label(g, "QUASE GUERRA?", VW / 2, VH - 130, 175, "#ffe14a", -0.02);
